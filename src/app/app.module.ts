@@ -71,6 +71,7 @@ import { JadwalLelangComponent } from '@pages/jadwallelang/jadwallelang.componen
 import { TransaksiLelangComponent } from '@pages/transaksilelang/transaksilelang.component'
 import { BeaLelangComponent } from '@pages/bealelang/bealelang.component'
 import { BphLelangComponent } from '@pages/bphlelang/bphlelang.component'
+import { CustomHttpInterceptor } from './custom-http.interceptor'
 
 registerLocaleData(localeEn, 'en-EN')
 
@@ -161,6 +162,11 @@ registerLocaleData(localeEn, 'en-EN')
     {
       provide: HTTP_INTERCEPTORS,
       useClass: LoadingInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: CustomHttpInterceptor,
       multi: true,
     },
     {

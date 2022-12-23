@@ -119,7 +119,7 @@ export class AuthService {
       throw error
     }
   }
-  logout() {
+  public logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('gatekeeper_token')
     this.user = null
