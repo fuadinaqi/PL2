@@ -1,25 +1,24 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { BeadetailComponent } from './beadetail.component';
+import { BeadetailComponent } from './beadetail.component'
 
 describe('BeadetailComponent', () => {
-  let component: BeadetailComponent;
-  let fixture: ComponentFixture<BeadetailComponent>;
+  let component: BeadetailComponent
+  let fixture: ComponentFixture<BeadetailComponent>
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BeadetailComponent ]
-    })
-    .compileComponents();
-  });
+      declarations: [BeadetailComponent],
+    }).compileComponents()
+  })
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(BeadetailComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(BeadetailComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

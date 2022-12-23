@@ -1,78 +1,72 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Transaksi Lelang</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Transaksi Lelang </li>
-                </ol>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Transaksi Lelang</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Transaksi Lelang</li>
+        </ol>
+      </div>
     </div>
-    <!-- /.container-fluid -->
+  </div>
+  <!-- /.container-fluid -->
 </section>
 
 <!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
-         
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                    
-                </div>
-                <div class="card-tools">
-                     
-                </div>
-            </div>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title"></div>
+        <div class="card-tools"></div>
+      </div>
 
-            <div class="card-body table-responsive p-0">
-                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
-                    <thead>
-                        <tr>
-                            <th>Tahun </th>
-                            <th>Bulan </th>
-                            <th>Term </th>
-                            <th>Jumlah Lelang</th>
-                            <th>Laporan Transaksi</th>
-                            <th>Lisan</th>
-                            <th>Tertulis</th>
-                            <th>Email</th>
-                            <th>Closed</th>
-                            <th>Open</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let data of listJadwal" >
-                            <td >{{data.tahun}}</td>
-                            <td>{{months[data.bulan]}}</td>
-                            <td>{{terms[data.term]}}</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>-</td>
-                            <td>
-                            <a href="/transaksi/{{data.id}}" >
-                                <button type="button" class="btn btn-primary btn-block"> <i class="fa fa-info-circle "></i> Detail</button>
-                            </a>
-                        
-                        </td>
-                        </tr>
-                         
-                    </tbody>
-                </table>
-            </div>
-
-        </div>
+      <div class="card-body table-responsive p-0">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+          <thead>
+            <tr>
+              <th>Tahun</th>
+              <th>Bulan</th>
+              <th>Term</th>
+              <th>Jumlah Lelang</th>
+              <th>Laporan Transaksi</th>
+              <th>Lisan</th>
+              <th>Tertulis</th>
+              <th>Email</th>
+              <th>Closed</th>
+              <th>Open</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of listJadwal">
+              <td>{{ data.tahun }}</td>
+              <td>{{ months[data.bulan] }}</td>
+              <td>{{ terms[data.term] }}</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>
+                <a href="/transaksi/{{ data.id }}">
+                  <button type="button" class="btn btn-primary btn-block">
+                    <i class="fa fa-info-circle"></i> Detail
+                  </button>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-    <!-- /.card -->
+  </div>
+  <!-- /.card -->
 </section>
 <!-- /.content -->

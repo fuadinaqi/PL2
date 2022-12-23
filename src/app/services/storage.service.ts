@@ -1,14 +1,11 @@
-import {Observable} from 'rxjs';
-import {Injectable, NgZone} from '@angular/core';
+import { Observable } from 'rxjs'
+import { Injectable, NgZone } from '@angular/core'
 
 @Injectable()
 export class StorageService {
-  private localStorage: Storage = localStorage;
+  private localStorage: Storage = localStorage
 
-  constructor(
-    private _zone: NgZone
-  ) {
-  }
+  constructor(private _zone: NgZone) {}
 
   /**
    * Set given key on browser localStorage
@@ -18,12 +15,12 @@ export class StorageService {
    */
   public set(key, data): Observable<any> {
     return new Observable((observer) => {
-      this.localStorage.setItem(key, JSON.stringify(data));
+      this.localStorage.setItem(key, JSON.stringify(data))
       this._zone.run(() => {
-        observer.next(true);
-        observer.complete();
-      });
-    });
+        observer.next(true)
+        observer.complete()
+      })
+    })
   }
 
   /**
@@ -35,13 +32,11 @@ export class StorageService {
     return this._zone.run(() => {
       return new Observable((observer) => {
         setTimeout(() => {
-          observer.next(
-            JSON.parse(this.localStorage.getItem(key))
-          );
-          observer.complete();
-        }, 0);
-      });
-    });
+          observer.next(JSON.parse(this.localStorage.getItem(key)))
+          observer.complete()
+        }, 0)
+      })
+    })
   }
 
   /**
@@ -51,11 +46,11 @@ export class StorageService {
    */
   public remove(key): Observable<any> {
     return new Observable((observer) => {
-      this.localStorage.removeItem(key);
+      this.localStorage.removeItem(key)
       this._zone.run(() => {
-        observer.next();
-        observer.complete();
-      });
-    });
+        observer.next()
+        observer.complete()
+      })
+    })
   }
 }

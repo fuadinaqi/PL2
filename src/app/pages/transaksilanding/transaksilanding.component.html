@@ -1,87 +1,82 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Transaksi Lelang</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Transaksi Lelang Detail</li>
-                </ol>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Transaksi Lelang</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Transaksi Lelang Detail</li>
+        </ol>
+      </div>
     </div>
-    <!-- /.container-fluid -->
+  </div>
+  <!-- /.container-fluid -->
 </section>
 
 <!-- Main content -->
 <section class="content">
-    <div class="container-fluid">
-         
-        <div class="card">
-            <div class="card-header">
-                <div class="card-title">
-                     Jadwal Lelang : {{tahun}}
-                </div>
-                
-                <div class="card-tools">
-                     
-                </div>
-            </div>
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">Jadwal Lelang : {{ tahun }}</div>
 
-            <div class="card-body table-responsive p-0">
-                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
-                    <thead>
-                        <tr>
-                            <th>No. </th>
-                            <th>No Register </th>
-                            <th>Rencana Tanggal</th>
-                            <th>Penjual</th>
-                            <th>Sifat</th>
-                            <th>Tempat</th>
-                            <th>No. Surat Penetapan</th>
-                            <th>Tgl. Surat Penetapan</th>
-                            <th>Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <div *ngIf="isempty;else other_content">
-                            <tr>
-                                <td></td>
-                                <td colspan="8" align="center"> Jadwal Kosong atau belum dikirim ke Back Office, Silahkan cek kembali di menu Jadwal Lelang</td>
-                            </tr>
-                        </div>
-                        <ng-template #other_content>
-                        <tr  *ngFor="let data of listJadwal; let i = index">
-                            <td>{{i+1}}</td>
-                            <td>{{data.nomerRegistrasi}}</td>
-                            <td>{{data.tanggalLelang.split('T')[0]}}</td> 
-                            <td>{{data.namaPenjual}}</td>
-                            <td>{{data.sifatLelang}}</td>
-                            <td>{{data.tempatLelang}}</td>
-                            <td>{{data.nomorSuratPenetapanJadwalLelang}}</td>
-                            <td>{{data.tanggalSuratPenetapanJadwalLelang.split('T')[0]}}</td>
-                            <td>   
-                                <a href="/transaksidetail/{{data.id}}" > 
-                                    <button type="button" class="btn btn-primary btn-block"> <i class="fa fa-info-circle "></i> Detail</button>
-                                </a>
-                            </td>
-                        </tr>
-                    </ng-template>
-                         
-                    </tbody>
-                </table>
-            </div>
-            <div class="card-footer">
-                <a href="/transaksilist" class="btn btn-s"> 
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </a> 
-            </div>
+        <div class="card-tools"></div>
+      </div>
 
-        </div>
+      <div class="card-body table-responsive p-0">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>No Register</th>
+              <th>Rencana Tanggal</th>
+              <th>Penjual</th>
+              <th>Sifat</th>
+              <th>Tempat</th>
+              <th>No. Surat Penetapan</th>
+              <th>Tgl. Surat Penetapan</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <div *ngIf="isempty; else other_content">
+              <tr>
+                <td></td>
+                <td colspan="8" align="center">
+                  Jadwal Kosong atau belum dikirim ke Back Office, Silahkan cek kembali di menu Jadwal Lelang
+                </td>
+              </tr>
+            </div>
+            <ng-template #other_content>
+              <tr *ngFor="let data of listJadwal; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ data.nomerRegistrasi }}</td>
+                <td>{{ data.tanggalLelang.split('T')[0] }}</td>
+                <td>{{ data.namaPenjual }}</td>
+                <td>{{ data.sifatLelang }}</td>
+                <td>{{ data.tempatLelang }}</td>
+                <td>{{ data.nomorSuratPenetapanJadwalLelang }}</td>
+                <td>{{ data.tanggalSuratPenetapanJadwalLelang.split('T')[0] }}</td>
+                <td>
+                  <a href="/transaksidetail/{{ data.id }}">
+                    <button type="button" class="btn btn-primary btn-block">
+                      <i class="fa fa-info-circle"></i> Detail
+                    </button>
+                  </a>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+      <div class="card-footer">
+        <a href="/transaksilist" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
+      </div>
     </div>
-    <!-- /.card -->
+  </div>
+  <!-- /.card -->
 </section>
 <!-- /.content -->

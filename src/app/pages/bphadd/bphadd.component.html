@@ -1,347 +1,407 @@
- 
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Risalah Lelang untuk Pengenaan BPHTB</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Risalah BPHTB</li>
-                </ol>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Risalah Lelang untuk Pengenaan BPHTB</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Risalah BPHTB</li>
+        </ol>
+      </div>
     </div>
-    <!-- /.container-fluid -->
+  </div>
+  <!-- /.container-fluid -->
 </section>
 
 <!-- Main content -->
 <section class="content">
-    <!-- Default box -->
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-header">
-                <a href="/bphdetail/{{idtrans}}" class="btn btn-s"> 
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </a> 
-
-            </div>
-            <form  [formGroup]="bphForm">
-
-                <div class="card-header p-0 pt-1 border-bottom-0">
-                    <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill"
-                                href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home"
-                                aria-selected="true">Informasi BPHTB </a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill"
-                                href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile"
-                                aria-selected="false">Data Penjual</a>
-                        </li>
-                        <li class="nav-item"  >
-                            <a class="nav-link" id="custom-tabs-three-school-tab" data-toggle="pill"
-                                href="#custom-tabs-three-school" role="tab" aria-controls="custom-tabs-three-school"
-                                aria-selected="false">Data Pembeli</a>
-                        </li>
-
-
-                    </ul>
-                </div>
-                <div class="card-body">
-                    <div class="tab-content" id="custom-tabs-three-tabContent">
-                        <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel"
-                            aria-labelledby="custom-tabs-three-home-tab">
-                            <div class="row">
-                                 
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Tanggal Risalah Lelang</label>
-                                    <input type="text" class="form-control" [value]="trans.tanggalRisalahLelang?trans.tanggalRisalahLelang.split('T')[0]:''" disabled>
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Lattitude Tanah / Bangunan (Contoh Latitude: -6.193125)</label>
-                                    <input type="text" class="form-control"  formControlName="letaktanahBangunanLat" >
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Longitude Tanah / Bangunan (Contoh Longitude: 106.821810)</label>
-                                    <input type="text" class="form-control" formControlName="letaktanahBangunanLong">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Status Hak Atas Tanah
-                                    </label>
-                                    <select class="form-control" formControlName="statusHakAtasTanah">
-                                        <option value="Hak Milik">Hak Milik</option>
-                                        <option value="HGB">HGB</option>
-                                        <option value="HGU">HGU</option>
-                                        <option value="Hak Pakai">Hak Pakai</option>
-                                        <option value="SHRMS">SHRMS</option>
-                                        <option value="Girik">Girik</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Alamat</label>
-                                    <input type="text" class="form-control"  >
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6">
-                                    <label for="provinsi">Provinsi</label>
-                                    <select class="form-control" id="provinsi" 
-                                        (change)="selectProvinsi($event.target.value)">
-                                        <option *ngFor="let order of provinsi; let i = index"  [value]="provinsi[i].id">
-                                            {{provinsi[i].name}}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-xl-6">
-                                    <label for="kab">Kab/Kota</label>
-                                    <select class="form-control" id="kab"  
-                                        (change)="selectKab($event.target.value)">
-                                        <option *ngFor="let order of kab; let i = index" [value]="kab[i].id">
-                                            {{kab[i].name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="kecamatan">Kecamatan</label>
-                                    <select class="form-control"  id="kec"
-                                        (change)="selectKec($event.target.value)">
-                                        <option *ngFor="let order of kec; let i = index" [value]="kec[i].id">
-                                            {{kec[i].name}}
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="kelurahan">Kelurahan</label>
-                                    <select class="form-control" id="kel">
-                                        <option *ngFor="let order of kel; let i = index" [value]="kel[i].id">
-                                            {{kel[i].name}}
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="rt">RT</label>
-                                    <input type="text" class="form-control"
-                                        id="rt" placeholder="">
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="rw">RW</label>
-                                    <input type="text"  class="form-control"
-                                        id="rw" placeholder="RW">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="kodepos">Kode Pos</label>
-                                    <input type="text"  
-                                        class="form-control" id="kodepos">
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Lot</label>
-                                    <input type="text" class="form-control"  formControlName="lot" >
-                                </div>
-                                
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="luasTanah">Luas Tanah (m2)</label>
-                                    <input type="text"  
-                                        class="form-control" id="luasTanah" formControlName="luasTanah"> 
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label >Luas Bangunan (m2)</label>
-                                    <input type="text" class="form-control"  formControlName="luasBangunan">
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label >NJOP/NOP  </label>
-                                    <input type="text" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value=""
-                                        data-type="currency" class="form-control" formControlName="njopnop">
-                                </div>
-                                <div  class="form-group col-xl-6 ">
-                                    <label >Pokok Lelang </label>
-                                    <input type="text" value=""
-                                        data-type="currency" class="form-control" [value]="trans.pokokLelang?trans.pokokLelang:'0'" disabled>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label >Nomor SSB </label>
-                                    <input type="text"   class="form-control" formControlName="nomorSSB">
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label >Tanggal SSB </label>
-                                     
-                                        <input type="date" class="form-control" formControlName="tanggalSSB"> 
-                                </div> 
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label>Nomor SSP </label>
-                                    <input type="text"   class="form-control" formControlName="nomorSSP">
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label >Tanggal SSP </label>
-                                    <input type="date" class="form-control" formControlName="tanggalSSP"> 
-                                </div> 
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label>Tanggal Penyampaian Petikan Risalah Lelang</label>
-                                    <input type="date"    class="form-control" formControlName="tanggalPenyampaianPetikanRisalahRapat">
-                                    
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label>Keterangan
-                                    </label>
-                                    <input type="text" class="form-control" id="keterangan"
-                                        formControlName="keterangan">
-                                </div>
-                            </div>
-
-                             
-
-                        </div>
-
-                        <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel"
-                            aria-labelledby="custom-tabs-three-profile-tab">
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Nama Penjual Lelang</label>
-                                    <input type="text" class="form-control" id="namapenjual" [value]="trans.namaPenjual?trans.namaPenjual:''" disabled >
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Alamat Penjual</label>
-                                    <input type="text" class="form-control" [value]="trans.alamatPenjual?trans.alamatPenjual:''"  disabled >
-                                </div>
-                                 
-                            </div> 
-                            <div class="row">
-                                <div class="form-group col-xl-6">
-                                    <label for="provinsi">Provinsi</label>
-                                    <input type="text" class="form-control"  disabled >
-                                </div>
-                                <div class="form-group col-xl-6">
-                                    <label for="kab">Kab/Kota</label>
-                                    <input type="text" class="form-control"  disabled >
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="kecamatan">Kecamatan</label>
-                                    <input type="text" class="form-control"  disabled >
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="kelurahan">Kelurahan</label>
-                                    <input type="text" class="form-control"  disabled >
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="rt">RT</label>
-                                    <input type="text" class="form-control" [value]="trans.rtPenjual?trans.rtPenjual:''" disabled >
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="rw">RW</label>
-                                    <input type="text" class="form-control"  [value]="trans.rwPenjual?trans.rwPenjual:''" disabled >
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="kodepos">Kode Pos</label>
-                                    <input type="text" class="form-control"  [value]="trans.kodeposPenjual?trans.kodeposPenjual:''"disabled >
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">NPWP Penjual</label>
-                                    <input type="text" class="form-control"  [value]="trans.npwpPenjual?trans.npwpPenjual:''" disabled >
-                                </div>
-                            </div>
-                             
-                        </div>
-                        <div   class="tab-pane fade" id="custom-tabs-three-school" role="tabpanel"
-                            aria-labelledby="custom-tabs-three-school-tab">
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Nama Pembeli</label>
-                                    <input type="text" class="form-control"  [value]="trans.namaPembeli?trans.namaPembeli:''" disabled >
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">Alamat Pembeli</label>
-                                    <input type="text" class="form-control"  [value]="trans.alamatPembeli?trans.alamatPembeli:''" disabled >
-                                </div>
-                                 
-                            </div> 
-                            <div class="row">
-                                <div class="form-group col-xl-6">
-                                    <label for="provinsi">Provinsi</label>
-                                    <input type="text" class="form-control"  disabled >
-                                </div>
-                                <div class="form-group col-xl-6">
-                                    <label for="kab">Kab/Kota</label>
-                                    <input type="text" class="form-control"  disabled >
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="kecamatan">Kecamatan</label>
-                                    <input type="text" class="form-control"  disabled >
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="kelurahan">Kelurahan</label>
-                                    <input type="text" class="form-control"  disabled >
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="rt">RT</label>
-                                    <input type="text" class="form-control"  [value]="trans.rtPembeli?trans.rtPembeli:''"  disabled >
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="rw">RW</label>
-                                    <input type="text" class="form-control"  [value]="trans.rwPembeli?trans.rwPembeli:''"  disabled >
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="form-group col-xl-6 ">
-                                    <label for="kodepos">Kode Pos</label>
-                                    <input type="text" class="form-control"   [value]="trans.kodeposPembeli?trans.kodeposPembeli:''" disabled >
-                                </div>
-                                <div class="form-group col-xl-6 ">
-                                    <label for="exampleInputEmail1">NPWP Pembeli</label>
-                                    <input type="text" class="form-control"   [value]="trans.npwpPembeli?trans.npwpPembeli:''"  disabled >
-                                </div>
-                            </div>
-                             
-                        </div>
-                    </div>
-
-
-
-
-
-                </div>
-            </form>
-            <!-- /.card-body -->
-            <div class="card-footer">
-                <button type="button" *ngIf="!this.isPreview" (click)="savetransaksi()" class="btn btn-primary">Simpan Risalah BPHTB</button>
-            </div>
-            <!-- /.card-footer-->
+  <!-- Default box -->
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <a href="/bphdetail/{{ idtrans }}" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
+      </div>
+      <form [formGroup]="bphForm">
+        <div class="card-header p-0 pt-1 border-bottom-0">
+          <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+            <li class="nav-item">
+              <a
+                class="nav-link active"
+                id="custom-tabs-three-home-tab"
+                data-toggle="pill"
+                href="#custom-tabs-three-home"
+                role="tab"
+                aria-controls="custom-tabs-three-home"
+                aria-selected="true"
+                >Informasi BPHTB
+              </a>
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="custom-tabs-three-profile-tab"
+                data-toggle="pill"
+                href="#custom-tabs-three-profile"
+                role="tab"
+                aria-controls="custom-tabs-three-profile"
+                aria-selected="false"
+                >Data Penjual</a
+              >
+            </li>
+            <li class="nav-item">
+              <a
+                class="nav-link"
+                id="custom-tabs-three-school-tab"
+                data-toggle="pill"
+                href="#custom-tabs-three-school"
+                role="tab"
+                aria-controls="custom-tabs-three-school"
+                aria-selected="false"
+                >Data Pembeli</a
+              >
+            </li>
+          </ul>
         </div>
+        <div class="card-body">
+          <div class="tab-content" id="custom-tabs-three-tabContent">
+            <div
+              class="tab-pane fade active show"
+              id="custom-tabs-three-home"
+              role="tabpanel"
+              aria-labelledby="custom-tabs-three-home-tab"
+            >
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Tanggal Risalah Lelang</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="trans.tanggalRisalahLelang ? trans.tanggalRisalahLelang.split('T')[0] : ''"
+                    disabled
+                  />
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Lattitude Tanah / Bangunan (Contoh Latitude: -6.193125)</label>
+                  <input type="text" class="form-control" formControlName="letaktanahBangunanLat" />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Longitude Tanah / Bangunan (Contoh Longitude: 106.821810)</label>
+                  <input type="text" class="form-control" formControlName="letaktanahBangunanLong" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Status Hak Atas Tanah </label>
+                  <select class="form-control" formControlName="statusHakAtasTanah">
+                    <option value="Hak Milik">Hak Milik</option>
+                    <option value="HGB">HGB</option>
+                    <option value="HGU">HGU</option>
+                    <option value="Hak Pakai">Hak Pakai</option>
+                    <option value="SHRMS">SHRMS</option>
+                    <option value="Girik">Girik</option>
+                  </select>
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Alamat</label>
+                  <input type="text" class="form-control" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="provinsi">Provinsi</label>
+                  <select class="form-control" id="provinsi" (change)="selectProvinsi($event.target.value)">
+                    <option *ngFor="let order of provinsi; let i = index" [value]="provinsi[i].id">
+                      {{ provinsi[i].name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="kab">Kab/Kota</label>
+                  <select class="form-control" id="kab" (change)="selectKab($event.target.value)">
+                    <option *ngFor="let order of kab; let i = index" [value]="kab[i].id">
+                      {{ kab[i].name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="kecamatan">Kecamatan</label>
+                  <select class="form-control" id="kec" (change)="selectKec($event.target.value)">
+                    <option *ngFor="let order of kec; let i = index" [value]="kec[i].id">
+                      {{ kec[i].name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="kelurahan">Kelurahan</label>
+                  <select class="form-control" id="kel">
+                    <option *ngFor="let order of kel; let i = index" [value]="kel[i].id">
+                      {{ kel[i].name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="rt">RT</label>
+                  <input type="text" class="form-control" id="rt" placeholder="" />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="rw">RW</label>
+                  <input type="text" class="form-control" id="rw" placeholder="RW" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="kodepos">Kode Pos</label>
+                  <input type="text" class="form-control" id="kodepos" />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Lot</label>
+                  <input type="text" class="form-control" formControlName="lot" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="luasTanah">Luas Tanah (m2)</label>
+                  <input type="text" class="form-control" id="luasTanah" formControlName="luasTanah" />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label>Luas Bangunan (m2)</label>
+                  <input type="text" class="form-control" formControlName="luasBangunan" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label>NJOP/NOP </label>
+                  <input
+                    type="text"
+                    pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
+                    value=""
+                    data-type="currency"
+                    class="form-control"
+                    formControlName="njopnop"
+                  />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label>Pokok Lelang </label>
+                  <input
+                    type="text"
+                    value=""
+                    data-type="currency"
+                    class="form-control"
+                    [value]="trans.pokokLelang ? trans.pokokLelang : '0'"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label>Nomor SSB </label>
+                  <input type="text" class="form-control" formControlName="nomorSSB" />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label>Tanggal SSB </label>
+
+                  <input type="date" class="form-control" formControlName="tanggalSSB" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label>Nomor SSP </label>
+                  <input type="text" class="form-control" formControlName="nomorSSP" />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label>Tanggal SSP </label>
+                  <input type="date" class="form-control" formControlName="tanggalSSP" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label>Tanggal Penyampaian Petikan Risalah Lelang</label>
+                  <input type="date" class="form-control" formControlName="tanggalPenyampaianPetikanRisalahRapat" />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label>Keterangan </label>
+                  <input type="text" class="form-control" id="keterangan" formControlName="keterangan" />
+                </div>
+              </div>
+            </div>
+
+            <div
+              class="tab-pane fade"
+              id="custom-tabs-three-profile"
+              role="tabpanel"
+              aria-labelledby="custom-tabs-three-profile-tab"
+            >
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Nama Penjual Lelang</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="namapenjual"
+                    [value]="trans.namaPenjual ? trans.namaPenjual : ''"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Alamat Penjual</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="trans.alamatPenjual ? trans.alamatPenjual : ''"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="provinsi">Provinsi</label>
+                  <input type="text" class="form-control" disabled />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="kab">Kab/Kota</label>
+                  <input type="text" class="form-control" disabled />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="kecamatan">Kecamatan</label>
+                  <input type="text" class="form-control" disabled />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="kelurahan">Kelurahan</label>
+                  <input type="text" class="form-control" disabled />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="rt">RT</label>
+                  <input type="text" class="form-control" [value]="trans.rtPenjual ? trans.rtPenjual : ''" disabled />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="rw">RW</label>
+                  <input type="text" class="form-control" [value]="trans.rwPenjual ? trans.rwPenjual : ''" disabled />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="kodepos">Kode Pos</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="trans.kodeposPenjual ? trans.kodeposPenjual : ''"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">NPWP Penjual</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="trans.npwpPenjual ? trans.npwpPenjual : ''"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+            <div
+              class="tab-pane fade"
+              id="custom-tabs-three-school"
+              role="tabpanel"
+              aria-labelledby="custom-tabs-three-school-tab"
+            >
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Nama Pembeli</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="trans.namaPembeli ? trans.namaPembeli : ''"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">Alamat Pembeli</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="trans.alamatPembeli ? trans.alamatPembeli : ''"
+                    disabled
+                  />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="provinsi">Provinsi</label>
+                  <input type="text" class="form-control" disabled />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="kab">Kab/Kota</label>
+                  <input type="text" class="form-control" disabled />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="kecamatan">Kecamatan</label>
+                  <input type="text" class="form-control" disabled />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="kelurahan">Kelurahan</label>
+                  <input type="text" class="form-control" disabled />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="rt">RT</label>
+                  <input type="text" class="form-control" [value]="trans.rtPembeli ? trans.rtPembeli : ''" disabled />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="rw">RW</label>
+                  <input type="text" class="form-control" [value]="trans.rwPembeli ? trans.rwPembeli : ''" disabled />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label for="kodepos">Kode Pos</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="trans.kodeposPembeli ? trans.kodeposPembeli : ''"
+                    disabled
+                  />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label for="exampleInputEmail1">NPWP Pembeli</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    [value]="trans.npwpPembeli ? trans.npwpPembeli : ''"
+                    disabled
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+      <!-- /.card-body -->
+      <div class="card-footer">
+        <button type="button" *ngIf="!this.isPreview" (click)="savetransaksi()" class="btn btn-primary">
+          Simpan Risalah BPHTB
+        </button>
+      </div>
+      <!-- /.card-footer-->
     </div>
-    <!-- /.card -->
+  </div>
+  <!-- /.card -->
 </section>
 <!-- /.content -->

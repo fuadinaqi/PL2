@@ -1,120 +1,154 @@
 <!-- Content Header (Page header) -->
 <section class="content-header">
-    <div class="container-fluid">
-        <div class="row mb-2">
-            <div class="col-sm-6">
-                <h1>Jadwal Lelang</h1>
-            </div>
-            <div class="col-sm-6">
-                <ol class="breadcrumb float-sm-right">
-                    <li class="breadcrumb-item"><a href="#">Home</a></li>
-                    <li class="breadcrumb-item active">Jadwal Lelang</li>
-                </ol>
-            </div>
-        </div>
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Jadwal Lelang</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item active">Jadwal Lelang</li>
+        </ol>
+      </div>
     </div>
-    <!-- /.container-fluid -->
+  </div>
+  <!-- /.container-fluid -->
 </section>
 
 <!-- Main content -->
 <section class="content">
-    <!-- Default box -->
-    <div class="container-fluid">
-        <div class="card">
-            <div class="card-header">
-                <a href="/jadwaldetail/{{idperiode}}" class="btn btn-s"> 
-                    <i class="fas fa-arrow-left"></i> Kembali
-                </a> 
+  <!-- Default box -->
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <a href="/jadwaldetail/{{ idperiode }}" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
+      </div>
+      <form [formGroup]="jadwalForm">
+        <div class="card-body">
+          <div class="row">
+            <div class="form-group col-xl-6">
+              <label for="nomerRegistrasi">Nomor Register</label>
+              <input
+                type="text"
+                [ngClass]="isValid('nomerRegistrasi') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="nomerRegistrasi"
+              />
             </div>
-            <form [formGroup]="jadwalForm">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="form-group col-xl-6 ">
-                            <label for="nomerRegistrasi">Nomor Register</label>
-                            <input type="text" [ngClass]="isValid('nomerRegistrasi')?'form-control is-invalid':'form-control '"  
-                            formControlName="nomerRegistrasi">
-                             
-                        </div>
-                        <div class="form-group col-xl-6">
-                            <label for="tanggalLelang">Rencana Tanggal Lelang</label>
-                            <input type="date" placeholder="dd-mm-yyyy" 
-                            [ngClass]="isValid('tanggalLelang')?'form-control is-invalid':'form-control '" formControlName="tanggalLelang">
-
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-xl-6 ">
-                            <label for="namaPenjual">Nama Penjual Lelang</label>
-                            <input type="text" [ngClass]="isValid('namaPenjual')?'form-control is-invalid':'form-control '"  formControlName="namaPenjual">
-                        </div>
-                        <div class="form-group col-xl-6 ">
-                            <label for="klasifikasiPenjual">Klasifikasi Penjual </label>
-                            <select  [ngClass]="isValid('klasifikasiPenjual')?'form-control is-invalid':'form-control '"  formControlName="klasifikasiPenjual">
-                                <option value="">- Pilih -</option>
-                                <option value="BUMN/D">BUMN/D</option>
-                                <option value="Bank">Bank</option>
-                                <option value="Perwakilan Negara Asing">Perwakilan Negara Asing</option>
-                                <option value="Perseorangan">Perseorangan</option>
-                                <option value="Swasta">Swasta</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-xl-6 ">
-                            <label for="nomorSuratPermohonan">Nomor Surat Permohonan </label>
-                            <input type="text" [ngClass]="isValid('nomorSuratPermohonan')?'form-control is-invalid':'form-control '"    formControlName="nomorSuratPermohonan">
-                        </div>
-                        <div class="form-group col-xl-6 ">
-                            <label for="tanggalSuratPermohonan">Tanggal Surat Permohonan </label>
-                            <input type="date" [ngClass]="isValid('tanggalSuratPermohonan')?'form-control is-invalid':'form-control '"  formControlName="tanggalSuratPermohonan">
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-xl-6 ">
-                            <label for="tempatLelang">Tempat Lelang </label>
-
-                            <select [ngClass]="isValid('tempatLelang')?'form-control is-invalid':'form-control '"  formControlName="tempatLelang">
-                                <option value="">- Pilih -</option>
-                                <option value="Balai Lelang">Balai Lelang</option>
-                                <option value="Kantor PL II">Kantor PL II</option>
-                                <option value="Aplikasi">Aplikasi</option>
-                            </select>
-                        </div>
-                        <div class="form-group col-xl-6 ">
-                            <label for="sifatLelang">Sifat Lelang
-                            </label>
-                            <select  [ngClass]="isValid('sifatLelang')?'form-control is-invalid':'form-control '" formControlName="sifatLelang">
-                                <option value="Lisan">Lisan</option>
-                                <option value="Tertulis dengan Kehadiran">Tertulis dengan Kehadiran</option>
-                                <option value="Surat Elektronik">Surat Elektronik</option>
-                                <option value="Closed Bidding">Closed Bidding</option>
-                                <option value="Open Bidding">Open Bidding</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="form-group col-xl-6 ">
-                            <label for="nomorSuratPenetapanJadwalLelang">Nomor Surat Penetapan Jadwal </label>
-                            <input type="text"  [ngClass]="isValid('nomorSuratPenetapanJadwalLelang')?'form-control is-invalid':'form-control '" formControlName="nomorSuratPenetapanJadwalLelang">
-                        </div>
-                        <div class="form-group col-xl-6 ">
-                            <label for="tanggalSuratPenetapanJadwalLelang">Tanggal Surat Penetapan Jadwal </label>
-                            <input type="date" [ngClass]="isValid('tanggalSuratPenetapanJadwalLelang')?'form-control is-invalid':'form-control '" formControlName="tanggalSuratPenetapanJadwalLelang">
-                        </div>
-                    </div>
-                    <button *ngIf="!isPreview" [disabled]="!jadwalForm.valid" type="button" (click)="onSubmit()" class="btn btn-primary">Simpan Jadwal
-                        Lelang</button>
-
-                </div>
-
-            </form>
-            <!-- /.card-body -->
-            <div class="card-footer">
-
+            <div class="form-group col-xl-6">
+              <label for="tanggalLelang">Rencana Tanggal Lelang</label>
+              <input
+                type="date"
+                placeholder="dd-mm-yyyy"
+                [ngClass]="isValid('tanggalLelang') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="tanggalLelang"
+              />
             </div>
-            <!-- /.card-footer-->
+          </div>
+          <div class="row">
+            <div class="form-group col-xl-6">
+              <label for="namaPenjual">Nama Penjual Lelang</label>
+              <input
+                type="text"
+                [ngClass]="isValid('namaPenjual') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="namaPenjual"
+              />
+            </div>
+            <div class="form-group col-xl-6">
+              <label for="klasifikasiPenjual">Klasifikasi Penjual </label>
+              <select
+                [ngClass]="isValid('klasifikasiPenjual') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="klasifikasiPenjual"
+              >
+                <option value="">- Pilih -</option>
+                <option value="BUMN/D">BUMN/D</option>
+                <option value="Bank">Bank</option>
+                <option value="Perwakilan Negara Asing">Perwakilan Negara Asing</option>
+                <option value="Perseorangan">Perseorangan</option>
+                <option value="Swasta">Swasta</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xl-6">
+              <label for="nomorSuratPermohonan">Nomor Surat Permohonan </label>
+              <input
+                type="text"
+                [ngClass]="isValid('nomorSuratPermohonan') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="nomorSuratPermohonan"
+              />
+            </div>
+            <div class="form-group col-xl-6">
+              <label for="tanggalSuratPermohonan">Tanggal Surat Permohonan </label>
+              <input
+                type="date"
+                [ngClass]="isValid('tanggalSuratPermohonan') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="tanggalSuratPermohonan"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xl-6">
+              <label for="tempatLelang">Tempat Lelang </label>
+
+              <select
+                [ngClass]="isValid('tempatLelang') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="tempatLelang"
+              >
+                <option value="">- Pilih -</option>
+                <option value="Balai Lelang">Balai Lelang</option>
+                <option value="Kantor PL II">Kantor PL II</option>
+                <option value="Aplikasi">Aplikasi</option>
+              </select>
+            </div>
+            <div class="form-group col-xl-6">
+              <label for="sifatLelang">Sifat Lelang </label>
+              <select
+                [ngClass]="isValid('sifatLelang') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="sifatLelang"
+              >
+                <option value="Lisan">Lisan</option>
+                <option value="Tertulis dengan Kehadiran">Tertulis dengan Kehadiran</option>
+                <option value="Surat Elektronik">Surat Elektronik</option>
+                <option value="Closed Bidding">Closed Bidding</option>
+                <option value="Open Bidding">Open Bidding</option>
+              </select>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xl-6">
+              <label for="nomorSuratPenetapanJadwalLelang">Nomor Surat Penetapan Jadwal </label>
+              <input
+                type="text"
+                [ngClass]="isValid('nomorSuratPenetapanJadwalLelang') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="nomorSuratPenetapanJadwalLelang"
+              />
+            </div>
+            <div class="form-group col-xl-6">
+              <label for="tanggalSuratPenetapanJadwalLelang">Tanggal Surat Penetapan Jadwal </label>
+              <input
+                type="date"
+                [ngClass]="isValid('tanggalSuratPenetapanJadwalLelang') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="tanggalSuratPenetapanJadwalLelang"
+              />
+            </div>
+          </div>
+          <button
+            *ngIf="!isPreview"
+            [disabled]="!jadwalForm.valid"
+            type="button"
+            (click)="onSubmit()"
+            class="btn btn-primary"
+          >
+            Simpan Jadwal Lelang
+          </button>
         </div>
+      </form>
+      <!-- /.card-body -->
+      <div class="card-footer"></div>
+      <!-- /.card-footer-->
     </div>
-    <!-- /.card -->
+  </div>
+  <!-- /.card -->
 </section>
 <!-- /.content -->
