@@ -1,0 +1,95 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Penggunaan Kertas Sekuriti</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Penggunaan Kertas Sekuriti</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+         
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <a href="/ksadd/periode/{{idperiode}}" >
+                    <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false"
+                        [icon]="'blank'">
+                        Tambah Penggunaan Kertas Sekuriti
+                    </app-button>
+                </a>
+                </div>
+                <div class="card-tools">
+                    <div class="input-group input-group-sm" style="width: 150px;">
+                        <input type="text" name="table_search" class="form-control float-right" placeholder="Cari">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-default">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-body table-responsive p-0">
+                <table class="table table-hover text-nowrap">
+                    <thead>
+                        <tr>
+                            <th>No. </th>
+                            <th>Status</th>
+                            <th>No Register </th> 
+                            <th>No. Risalah</th> 
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <div *ngIf="isempty;else other_content">
+                            <tr>
+                                <td colspan="9" align="center"> Data  kosong silahkan tambah data kertas sekuriti</td>
+                            </tr>
+                        </div>
+                        <ng-template #other_content>
+                        <tr *ngFor="let data of listTrans; let i = index" >
+                            <td>{{i+1}}</td>
+                            <td>{{data.status}}</td>
+                            <td>{{data.nomerRegistrasi}}</td> 
+                            <td>{{data.nomorRisalahLelang}}</td>  
+                            <td>{{data.tanggalLelang}}</td>
+                            <td> 
+                            <a *ngIf="data.statusPengiriman=='Draft Permohonan'" class="btn  btn-s"
+                                        href="/ksadd/{{data.id}}">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a *ngIf="data.statusPengiriman=='Draft Permohonan'" class="btn btn-s"
+                                        (click)="onKirim(data.id)">
+                                        <i class="fas fa-envelope"></i> Kirim
+                                    </a>
+
+                                    <a href="/ks/preview/{{data.id}}" class="btn btn-s">
+                                        <i class="fas fa-inbox"></i> Detail
+                                    </a>
+                        
+                        
+                        </td>
+                        </tr>
+                    </ng-template>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->

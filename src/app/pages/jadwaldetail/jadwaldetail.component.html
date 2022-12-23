@@ -1,0 +1,93 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Jadwal Lelang periode : {{tahun}}</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Jadwal Lelang Detail :{{tahun}}</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    <a href="/jadwaladd/periode/{{idperiode}}">
+                         
+                        <button type="button" class="btn btn-primary btn-block"><i class="fa fa-plus-circle"></i> Tambah Jadwal</button>
+                    </a>
+                </div>
+                <div class="card-tools">
+                     
+                </div>
+            </div>
+
+            <div class="card-body table-responsive p-0">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+                    <thead>
+                        <tr>
+                            <th>No. </th>
+                            <th>No Register </th>
+                            <th>Rencana Tanggal</th>
+                            <th>Penjual</th>
+                            <th>Sifat</th>
+                            <th>Tempat</th>
+                            <th>No. Surat Penetapan</th>
+                            <th>Tgl. Surat Penetapan</th>
+                            <th>Status</th>
+                            <th>Tgl. Submit</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <div *ngIf="isempty;else other_content">
+                            <tr>
+                                <td colspan="7" align="center"> Jadwal kosong silahkan tambah jadwal</td>
+                            </tr>
+                        </div>
+                        <ng-template #other_content>
+                            <tr *ngFor="let data of listJadwal; let i = index">
+                                <td>{{i+1}}</td>
+                                <td>{{data.nomerRegistrasi}}</td>
+                                <td>{{data.tanggalLelang.split('T')[0]}}</td>
+                                <td>{{data.namaPenjual}}</td>
+                                <td>{{data.sifatLelang}}</td>
+                                <td>{{data.tempatLelang}}</td>
+                                <td>{{data.nomorSuratPenetapanJadwalLelang}}</td>
+                                <td>{{data.tanggalSuratPenetapanJadwalLelang.split('T')[0]}}</td>
+                                <td>{{formatStatus(data.statusPengiriman)}}</td>
+                                <td>{{data.recInsert.split('T')[0]}}</td>
+                                <td><a *ngIf="data.statusPengiriman=='Draft Permohonan'" class="btn  btn-s" href="/jadwaladd/{{data.id}}">
+                                        <i class="fas fa-edit"></i> Edit
+                                    </a>
+                                    <a *ngIf="data.statusPengiriman=='Draft Permohonan'" class="btn btn-s" (click)="onKirim(data.id)">
+                                        <i class="fas fa-envelope"></i> Kirim
+                                    </a>
+
+                                    <a href="/jadwaladd/preview/{{data.id}}" class="btn btn-s"> 
+                                        <i class="fas fa-inbox"></i> Detail
+                                    </a>  
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->

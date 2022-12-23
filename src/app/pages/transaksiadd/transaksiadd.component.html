@@ -1,0 +1,449 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Tambah Transaksi Lelang</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Transaksi Lelang</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Default box -->
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Transaksi Lelang </h3>
+
+            </div>
+            <form [formGroup]="transaksiForm">
+
+                <div class="card-header p-0 pt-1 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill"
+                                href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home"
+                                aria-selected="true">Informasi Lelang </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-three-profile-tab" data-toggle="pill"
+                                href="#custom-tabs-three-profile" role="tab" aria-controls="custom-tabs-three-profile"
+                                aria-selected="false">Data Penjual</a>
+                        </li>
+                        <li class="nav-item"  *ngIf="!isBatal">
+                            <a class="nav-link" id="custom-tabs-three-school-tab" data-toggle="pill"
+                                href="#custom-tabs-three-school" role="tab" aria-controls="custom-tabs-three-school"
+                                aria-selected="false">Data Pembeli</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-three-tabContent">
+                        <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel"
+                            aria-labelledby="custom-tabs-three-home-tab">
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Status
+                                    </label>
+                                    <select class="form-control" (change)="onBatal($event.target.value)"
+                                        formControlName="status">
+                                        <option value="" selected>Pilih</option>
+                                        <option value="TAP">TAP</option>
+                                        <option value="Laku">Laku</option>
+                                        <option value="Ditahan">Ditahan</option>
+                                        <option value="Wan Prestasi">Wan Prestasi</option>
+                                        <option value="Batal">Batal</option>
+                                    </select>
+                                </div>
+                                
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Tanggal Register Lelang</label>
+                                    <input type="text" class="form-control" 
+                                        [value]="jadwal.tanggalLelang?formatDate(jadwal.tanggalLelang):''" disabled>
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Nomor Risalah Lelang</label>
+                                    <input type="text" class="form-control" formControlName="nomorRisalahLelang">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Tanggal Risalah Lelang</label>
+                                    <input type="date" class="form-control" formControlName="tanggalRisalahLelang"
+                                        >
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Tanggal Lelang</label>
+                                    <input type="text" class="form-control" id="namapenjual"
+                                          disabled
+                                        [value]="jadwal.tanggalLelang?formatDate(jadwal.tanggalLelang):''">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Tempat Lelang </label>
+                                    <input type="text" class="form-control" id="namapenjual" disabled
+                                        [value]="jadwal.tempatLelang?jadwal.tempatLelang:''">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Jumlah Peserta Lelang</label>
+                                    <input type="text" class="form-control" formControlName="jumlahPesertaLelang"
+                                        placeholder="Masukkan Jumlah Peserta Lelang">
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Sifat Lelang
+                                    </label>
+                                    <input type="text" class="form-control" id="namapenjual" disabled
+                                        [value]="jadwal.sifatLelang?jadwal.sifatLelang:''">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Sifat Barang</label>
+                                    <select class="form-control" formControlName="sifatBarang">
+                                        <option value="">- Pilih -</option>
+                                        <option value="bergerak">Bergerak</option>
+                                        <option value="tidak bergerak">Tidak Bergerak</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                
+
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Tipe Barang
+                                    </label>
+                                    <select class="form-control" formControlName="tipeBarang">
+                                        <option value="">- Pilih -</option>
+                                        <option value="Tanah">Tanah</option>
+                                        <option value="Tanah dan Bangunan">Tanah dan Bangunan</option>
+                                        <option value="Apartemen/ Rusun">Apartemen/ Rusun</option>
+                                        <option value="Kapal">Kapal</option>
+                                        <option value="Alat Berat">Alat Berat</option>
+                                        <option value="Kendaraan Roda 4">Kendaraan Roda 4</option>
+                                        <option value="Kendaraan Roda 2">Kendaraan Roda 2</option>
+                                        <option value="Barang Inventari">Barang Inventaris</option>
+                                        <option value="Benda Seni">Benda Seni</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Uraian Barang
+
+                                    </label>
+                                    <input type="text" class="form-control" formControlName="uraianBarang">
+                                </div>
+                            </div>
+                            <div class="row">
+                               
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Jaminan Lelang
+                                    </label>
+                                    <select class="form-control" formControlName="jaminanLelang"  (change)="onJaminan($event.target.value)">
+                                        <option value="">- Pilih -</option>
+                                        <option value="Uang Jaminan">Uang Jaminan</option>
+                                        <option value="Bank Garansi Jaminan">Bank Garansi </option>
+                                    </select>
+                                </div>
+                                <div  *ngIf="isUangJaminan" class="form-group col-xl-3 ">
+                                    <label for="exampleInputEmail1">Uang Jaminan
+                                    </label>
+                                    <input type="text" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value=""
+                                        data-type="currency" class="form-control" formControlName="jaminanLelangBerupaUang">
+                                </div>
+                                <div *ngIf="!isUangJaminan" class="form-group col-xl-3 ">
+                                    <label for="exampleInputEmail1">Nama Bank Penyedia
+                                    </label>
+                                    <input type="text" class="form-control" formControlName="jaminanLelangBerupaUang">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Nilai Limit
+                                    </label>
+                                    <input type="text" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value=""
+                                        data-type="currency" class="form-control" formControlName="nilaiLimit">
+                                </div>
+                                <div *ngIf="!isBatal" class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Pokok Lelang
+                                    </label>
+                                    <input type="text" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value=""
+                                        data-type="currency" class="form-control" formControlName="pokokLelang">
+                                </div>
+                            </div>
+                            <div *ngIf="!isBatal" class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Bea Lelang Penjual
+                                    </label>
+                                    <input type="text" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value=""
+                                        data-type="currency" class="form-control" formControlName="beaLelangPenjual">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Bea Lelang Pembeli
+                                    </label>
+                                    <input type="text" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value=""
+                                        data-type="currency" class="form-control" formControlName="beaLelangPembeli">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Tanggal Penyerahan Kutipan Risalah Lelang
+                                    </label>
+                                    <input type="date" class="form-control" id="tglsuratttp" formControlName="tanggalPenyerahanKutipanRisalahLelang">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Imbalan Jasa
+                                    </label>
+                                    <input type="text" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" data-type="currency"
+                                        class="form-control" formControlName="imbalanJasa">
+                                </div>
+                            </div>
+                            <div *ngIf="isBatal" class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Nomor register pembatalan
+                                    </label>
+                                    <input type="text" class="form-control" formControlName="nomorRegisterPembatalan">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Bea Lelang Batal
+                                    </label>
+                                    <input type="text" pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$" value=""
+                                        data-type="currency" class="form-control" formControlName="beaLelangBatal">
+                                </div>
+                            </div>
+                            <div *ngIf="isBatal" class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Alasan Pembatalan
+                                    </label>
+                                    <input type="text" value="" class="form-control" formControlName="alasanPembatalan">
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Keterangan
+                                    </label>
+                                    <input type="text" class="form-control" id="tglsuratttp"
+                                        formControlName="keterangan">
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tab-pane fade" id="custom-tabs-three-profile" role="tabpanel"
+                            aria-labelledby="custom-tabs-three-profile-tab">
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Nama Penjual Lelang</label>
+                                    <input type="text" class="form-control" id="namapenjual" disabled
+                                        [value]="jadwal.namaPenjual?jadwal.namaPenjual:''">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Nomor Identitas Penjual</label>
+                                    <input type="text" class="form-control" formControlName="nikPenjual"
+                                        placeholder="Masukkan identitas penjual lelang">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Kategori Penjual</label>
+                                    <input type="text" class="form-control" id="namapenjual" disabled
+                                        [value]="jadwal.klasifikasiPenjual">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Alamat Penjual</label>
+                                    <input type="text" class="form-control" formControlName="alamatPenjual"
+                                        placeholder="Masukkan alamat penjual lelang">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6">
+                                    <label for="provinsi">Provinsi</label>
+                                    <select class="form-control" id="provinsi" formControlName="provinsiPenjual"  
+                                        (change)="selectProvinsi($event.target.value)">
+                                        <option value="">- Pilih -</option>
+                                        <option *ngFor="let order of provinsi; let i = index"  [value]="provinsi[i].id">
+                                            {{provinsi[i].name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-xl-6">
+                                    <label for="kab">Kab/Kota</label>
+                                    <select class="form-control" id="kab" formControlName="kabupatenKotaPenjual"
+                                        (change)="selectKab($event.target.value)">
+                                        <option value="">- Pilih -</option>
+                                        <option *ngFor="let order of kab; let i = index" [value]="kab[i].id">
+                                            {{kab[i].name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="kecamatan">Kecamatan</label>
+                                    <select class="form-control" formControlName="kecamatanPenjual" id="kec"
+                                        (change)="selectKec($event.target.value)">
+                                        <option value="">- Pilih -</option>
+                                        <option *ngFor="let order of kec; let i = index" [value]="kec[i].id">
+                                            {{kec[i].name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="kelurahan">Kelurahan</label>
+                                    <select class="form-control" formControlName="kelurahanPenjual" id="kel">
+                                        <option value="">- Pilih -</option>
+                                        <option *ngFor="let order of kel; let i = index" [value]="kel[i].id">
+                                            {{kel[i].name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="rt">RT</label>
+                                    <input type="text" formControlName="rtPenjual"   class="form-control"
+                                        id="rt" placeholder="">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="rw">RW</label>
+                                    <input type="text" formControlName="rwPenjual"  class="form-control"
+                                        id="rw" placeholder="RW">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="kodepos">Kode Pos</label>
+                                    <input type="text" formControlName="kodeposPenjual" 
+                                        class="form-control" id="kodepos" placeholder="Masukkan kode pos">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">NPWP Penjual</label>
+                                    <input type="text" class="form-control" formControlName="npwpPenjual"
+                                        placeholder="Masukkan NPWP Penjual">
+                                </div>
+                            </div>
+                        </div>
+                        <div  *ngIf="!isBatal" class="tab-pane fade" id="custom-tabs-three-school" role="tabpanel"
+                            aria-labelledby="custom-tabs-three-school-tab">
+                            <div class="row">
+                                <div *ngIf="!isBatal" class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Nama Pembeli</label>
+                                    <input type="text" class="form-control" formControlName="namaPembeli"
+                                        placeholder="Masukkan Nama Pembeli">
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="!isBatal">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Nomor Identitas Pembeli</label>
+                                    <input type="text" class="form-control" formControlName="nikPembeli"
+                                        placeholder="Masukkan Nomor Identitas Pembeli">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="exampleInputEmail1">Alamat Pembeli</label>
+                                    <input type="text" class="form-control" formControlName="alamatPembeli"
+                                        placeholder="Masukkan Alamat Pembeli">
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="!isBatal">
+                                <div class="form-group col-xl-6">
+                                    <label for="provinsi">Provinsi</label>
+                                    <select class="form-control" id="provinsi" formControlName="provinsiPembeli"  
+                                        (change)="selectProvinsi($event.target.value)">
+                                        <option value="">- Pilih -</option>
+                                        <option *ngFor="let order of provinsi1; let i = index"  [value]="provinsi1[i].id">
+                                            {{provinsi[i].name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-xl-6">
+                                    <label for="kab">Kab/Kota</label>
+                                    <select class="form-control" id="kab" formControlName="kabupatenKotaPembeli"
+                                        (change)="selectKab($event.target.value)">
+                                        <option value="">- Pilih -</option>
+                                        <option *ngFor="let order of kab1; let i = index" [value]="kab1[i].id">
+                                            {{kab[i].name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="!isBatal">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="kecamatan">Kecamatan</label>
+                                    <select class="form-control" formControlName="kecamatanPembeli" id="kec1"
+                                        (change)="selectKec($event.target.value)">
+                                        <option value="">- Pilih -</option>
+                                        <option *ngFor="let order of kec1; let i = index" [value]="kec[i].id">
+                                            {{kec[i].name}}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="kelurahan">Kelurahan</label>
+                                    <select class="form-control" formControlName="kelurahanPembeli" id="kel1">
+                                        <option value="">- Pilih -</option>
+                                        <option *ngFor="let order of kel1; let i = index" [value]="kel[i].id">
+                                            {{kel[i].name}}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="!isBatal">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="rt">RT</label>
+                                    <input type="text" formControlName="rtPembeli"   class="form-control"
+                                        id="rt" placeholder="">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="rw">RW</label>
+                                    <input type="text" formControlName="rwPembeli"  class="form-control"
+                                        id="rw" placeholder="RW">
+                                </div>
+                            </div>
+                            <div class="row" *ngIf="!isBatal">
+                                <div class="form-group col-xl-6 ">
+                                    <label for="kodepos">Kode Pos</label>
+                                    <input type="text" formControlName="kodeposPembeli" 
+                                        class="form-control" id="kodepos" placeholder="Masukkan kode pos">
+                                </div>
+                                <div class="form-group col-xl-6 " *ngIf="!isBatal">
+                                    <label for="exampleInputEmail1">NPWP Pembeli</label>
+                                    <input type="text" class="form-control" formControlName="npwpPembeli"
+                                        placeholder="Masukkan NPWP Penjual">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </form>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="button" (click)="savetransaksi()" class="btn btn-primary"> <i class="fa fa-floppy-o"></i> Simpan Transaksi Lelang</button>
+                
+            </div>
+            <!-- /.card-footer-->
+        </div>
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->

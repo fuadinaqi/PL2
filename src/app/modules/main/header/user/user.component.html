@@ -1,0 +1,36 @@
+<app-dropdown class="user-menu">
+    <ng-container dropdown-button>
+        <img
+            [src]="user.Gravatar || 'assets/img/default-profile.png'"
+            class="user-image img-circle elevation-2"
+            alt="User Image"
+        />
+    </ng-container>
+    <ng-container dropdown-menu>
+        <li class="user-header bg-primary">
+            <img
+                [src]="user.Gravatar || 'assets/img/default-profile.png'"
+                class="img-circle elevation-2"
+                alt="User Image"
+            />
+
+            <p>
+                <span>{{ user.NIP }}</span>
+                <small>
+                    <span>Welcome, </span>
+                    <span>{{ user.NamaLengkapTanpaGelar }}</span>
+                </small>
+            </p>
+        </li>
+         
+        <!-- Menu Footer-->
+        <li class="user-footer">
+            <a [routerLink]="['/profile']" class="btn btn-default btn-flat">
+                Profile
+            </a>
+            <a (click)="logout()" class="btn btn-default btn-flat float-right"
+                >Sign out</a
+            >
+        </li>
+    </ng-container>
+</app-dropdown>

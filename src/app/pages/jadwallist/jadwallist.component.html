@@ -1,0 +1,70 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Jadwal Lelang</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Jadwal Lelang</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+         
+        <div class="card">
+            <div class="card-header">
+                <div class="card-title">
+                    
+                </div>
+                 
+            </div>
+
+            <div class="card-body table-responsive p-0">
+                <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+                    <thead>
+                        <tr>
+                            <th>Tahun </th>
+                            <th>Bulan </th>
+                            <th>Term </th>
+                            <th>Mendatang</th>
+                            <th>Terlaksana</th>
+                            <th>Batal</th>
+                            <th>Total</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let data of listJadwal">  
+                            <td>{{data.tahun}}</td>
+                            <td>{{months[data.bulan]}}</td>
+                            <td>{{terms[data.term]}}</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td>-</td>
+                            <td><a href="/jadwaldetail/{{data.id}}" >
+                                <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false"
+                                    [icon]="'blank'">
+                                    Detail
+                                </app-button>
+                            </a></td>
+                        </tr>
+                         
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->

@@ -1,0 +1,163 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1>Penggunaan Kertas Sekuriti</h1>
+            </div>
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active">Penggunaan Kertas Sekuriti</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+    <!-- Default box -->
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Penggunaan Kertas Sekuriti</h3>
+
+            </div>
+            <form [formGroup]="ksForm">
+
+                <div class="card-header p-0 pt-1 border-bottom-0">
+                    <ul class="nav nav-tabs" id="custom-tabs-three-tab" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active" id="custom-tabs-three-home-tab" data-toggle="pill"
+                                href="#custom-tabs-three-home" role="tab" aria-controls="custom-tabs-three-home"
+                                aria-selected="true">Informasi Kertas Sekuriti </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-three-0-tab" data-toggle="pill"
+                                href="#custom-tabs-three-0" role="tab" aria-controls="custom-tabs-three-0"
+                                aria-selected="false">Penambahan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-three-1-tab" data-toggle="pill"
+                                href="#custom-tabs-three-1" role="tab" aria-controls="custom-tabs-three-1"
+                                aria-selected="false">Penggunaan</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-three-2-tab" data-toggle="pill"
+                                href="#custom-tabs-three-2" role="tab" aria-controls="custom-tabs-three-2"
+                                aria-selected="false">Pengganti</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-three-3-tab" data-toggle="pill"
+                                href="#custom-tabs-three-3" role="tab" aria-controls="custom-tabs-three-3"
+                                aria-selected="false">Rusak</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="custom-tabs-three-4-tab" data-toggle="pill"
+                                href="#custom-tabs-three-4" role="tab" aria-controls="custom-tabs-three-4"
+                                aria-selected="false">Hilang</a>
+                        </li>
+
+
+                    </ul>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content" id="custom-tabs-three-tabContent">
+                        <div class="tab-pane fade active show" id="custom-tabs-three-home" role="tabpanel"
+                            aria-labelledby="custom-tabs-three-home-tab">
+
+
+                            <div class="row">
+                                <div class="form-group col-xl-6 ">
+                                    <label>Triwulan </label>
+                                    <select class="form-control" formControlName="triwulan">
+                                        <option value="1">Pertama</option>
+                                        <option value="2">Kedua</option>
+                                        <option value="3">Ketiga</option>
+                                        <option value="4">Keempat </option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="">Jumlah Awal</label>
+                                    <input type="text" class="form-control" formControlName="jumlahAwal">
+                                </div>
+                                <div class="form-group col-xl-6 ">
+                                    <label for="">Jumlah Akhir</label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+
+
+
+
+                        </div>
+                        <div formArrayName="ksdetail">
+                            <div [formGroupName]="i" *ngFor="let product of this.ksForm.get('ksdetail')['controls']; let i = index;">
+                                <div class="tab-pane fade" id="custom-tabs-three-{{i}}" role="tabpanel"
+                                    aria-labelledby="custom-tabs-three-profile-tab">
+                                    <div class="row">
+                                        <div class="form-group col-xl-6 ">
+                                            <label for="exampleInputEmail1">Nomor Risalah Lelang</label>
+                                            <select class="form-control" id="sifat" formControlName="nomorRisalahLelang"
+                                                (change)="onSelectRegister($event.target.value)">
+                                                <option>-Pilih-</option>
+                                                <option *ngFor="let data of listTrans; let i = index" [value]="data.nomorRisalahLelang">
+                                                    {{data.nomorRisalahLelang}} - {{data.namaPenjual}}
+                                                </option>
+                        
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-xl-6 ">
+                                            <label for="exampleInputEmail1">Lot</label>
+                                            <input type="text" class="form-control" formControlName="nomorLotRisalahLelang">
+                                        </div>
+                        
+                                    </div>
+                        
+                                    <div class="row">
+                                        <div class="form-group col-xl-6 ">
+                                            <label for="exampleInputEmail1">No. Kertas Sekuriti Mulai</label>
+                                            <input type="text" class="form-control" formControlName="nomorKertasSekuriti">
+                                        </div>
+                                        <div class="form-group col-xl-6 ">
+                                            <label for="exampleInputEmail1">No. Kertas Sekuriti Akhir</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="form-group col-xl-6 ">
+                                            <label for="exampleInputEmail1">Tanggal Mutasi</label>
+                                            <input type="date" class="form-control" formControlName="tanggalMutasi">
+                                        </div>
+                                        <div class="form-group col-xl-6 ">
+                                            <label for="exampleInputEmail1">Jumlah Mutasi</label>
+                                            <input type="text" class="form-control">
+                                        </div>
+                                    </div>
+                        
+                                </div>
+                            </div>
+
+                            
+                        </div>
+                    </div>
+
+
+
+
+
+                </div>
+            </form>
+            <!-- /.card-body -->
+            <div class="card-footer">
+                <button type="button" (click)="savetransaksi()" class="btn btn-primary">Simpan Penggunaan Kertas
+                    Sekuriti</button>
+            </div>
+            <!-- /.card-footer-->
+        </div>
+    </div>
+    <!-- /.card -->
+</section>
+<!-- /.content -->
