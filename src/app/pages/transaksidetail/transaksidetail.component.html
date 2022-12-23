@@ -3,12 +3,20 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Transaksi Lelang</h1>
+        <h1>Transaksi Lelang : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }} - Detail</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Transaksi Detail</li>
+          <li class="breadcrumb-item"><a [routerLink]="['/transaksilelang']">Transaksi Lelang</a></li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/transaksilist']" [queryParams]="{tahun}">{{ tahun }}</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/transaksi', parentId]" [queryParams]="{ tahun, bulan, term }"
+              >{{ bulan | numberToMonth }} - {{ term | termToLabel }}</a
+            >
+          </li>
+          <li class="breadcrumb-item active">Detail</li>
         </ol>
       </div>
     </div>
@@ -21,8 +29,13 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
+        <div class="card-title">
+          <a [routerLink]="['/transaksi', parentId]" [queryParams]="{ tahun, bulan, term, parentId }" class="btn btn-s">
+            <i class="fas fa-arrow-left"></i> Kembali
+          </a>
+        </div>
         <div *ngIf="!isP2pk" class="card-title">
-          <a href="/transaksiadd/jadwal/{{ idjadwal }}">
+          <a [routerLink]="['/transaksiadd', 'jadwal', idjadwal]" [queryParams]="{ tahun, bulan, term, parentId }">
             <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
               Tambah Transaksi
             </app-button>
@@ -78,7 +91,8 @@
                   <a
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"
                     class="btn btn-s"
-                    href="/transaksiadd/{{ data.id }}"
+                    [routerLink]="['/transaksiadd', data.id]"
+                    [queryParams]="{ tahun, bulan, term, parentId, idjadwal }"
                   >
                     <i class="fas fa-edit"></i> Edit
                   </a>
@@ -86,7 +100,11 @@
                     <i class="fas fa-envelope"></i> Kirim
                   </a>
 
-                  <a href="/transaksiadd/preview/{{ data.id }}" class="btn btn-s">
+                  <a
+                    [routerLink]="['/transaksiadd', 'preview', data.id]"
+                    [queryParams]="{ tahun, bulan, term, parentId, idjadwal }"
+                    class="btn btn-s"
+                  >
                     <i class="fas fa-inbox"></i> Detail
                   </a>
                   <a

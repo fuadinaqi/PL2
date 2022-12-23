@@ -2,12 +2,13 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Home</h1>
+        <h1 class="m-0 text-dark">Periode {{ tahun }}</h1>
       </div>
       <!-- /.col -->
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
+          <li class="breadcrumb-item"><a [routerLink]="'/'">Home</a></li>
+          <li class="breadcrumb-item">{{ tahun }}</li>
           <li class="breadcrumb-item active">Pelaporan</li>
         </ol>
       </div>
@@ -24,13 +25,14 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <div class="card-title">
-          <a [routerLink]="['/periode']">
+        <a [routerLink]="''" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
+        <!-- <div class="card-title">
+          <a href="/periode">
             <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
               Tambah Periode
             </app-button>
           </a>
-        </div>
+        </div> -->
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px">
             <input type="text" name="table_search" class="form-control float-right" placeholder="Cari" />
@@ -47,16 +49,43 @@
         <table class="table table-hover text-nowrap">
           <thead>
             <tr>
-              <th>Tahun</th>
-              <th class="text-right">Aksi</th>
+              <th>Bulan</th>
+              <th>Term</th>
+              <th colspan="2">Jadwal Lelang</th>
+              <th colspan="2">Transaksi Lelang</th>
+              <th colspan="2">Bea Lelang</th>
+              <th colspan="2">BPHTB</th>
+              <th colspan="2">Kertas Sekuriti</th>
+            </tr>
+            <tr>
+              <th></th>
+              <th></th>
+              <th>Tersimpan</th>
+              <th>Terkirim</th>
+              <th>Tersimpan</th>
+              <th>Terkirim</th>
+              <th>Tersimpan</th>
+              <th>Terkirim</th>
+              <th>Tersimpan</th>
+              <th>Terkirim</th>
+              <th>Tersimpan</th>
+              <th>Terkirim</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of listPeriode">
-              <td>{{ data.tahun }}</td>
-              <td class="text-right">
-                <button class="btn btn-sm btn-primary" (click)="clickDetail(data.tahun)">Detail</button>
-              </td>
+              <td>{{ data.bulan | numberToMonth }}</td>
+              <td>{{ data.term | termToLabel }}</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
             </tr>
           </tbody>
         </table>

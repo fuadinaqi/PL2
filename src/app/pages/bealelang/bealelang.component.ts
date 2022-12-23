@@ -7,11 +7,10 @@ import { Router } from '@angular/router'
 import { compareFromHighest } from '@/helpers/compare'
 
 @Component({
-  selector: 'app-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss'],
+  selector: 'app-bealelang',
+  templateUrl: './bealelang.component.html',
 })
-export class DashboardComponent {
+export class BeaLelangComponent {
   public listPeriode: Array<any>
   ngOnInit(): void {
     this.listPeriode = JSON.parse(localStorage.getItem('periode'))
@@ -35,7 +34,7 @@ export class DashboardComponent {
   }
 
   clickDetail(tahun: number) {
-    this.router.navigateByUrl(`/detail?tahun=${tahun}`)
+    this.router.navigateByUrl(`/bealist?tahun=${tahun}`)
   }
 
   constructor(

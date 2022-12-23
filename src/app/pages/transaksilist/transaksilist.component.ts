@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { Subject } from 'rxjs'
+import { compareFromLowest } from '@/helpers/compare'
 
 @Component({
   selector: 'app-transaksilist',
@@ -12,6 +13,7 @@ import { Subject } from 'rxjs'
   styleUrls: ['./transaksilist.component.scss'],
 })
 export class TransaksilistComponent implements OnInit, OnDestroy {
+  public tahun = this.activatedRoute.snapshot.queryParams.tahun || ''
   public listJadwal: Array<any>
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<any> = new Subject<any>()
@@ -33,7 +35,7 @@ export class TransaksilistComponent implements OnInit, OnDestroy {
   public terms = ['', 'Awal', 'Akhir']
   constructor(
     private toastr: ToastrService,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private api: ApiService,
@@ -49,13 +51,14 @@ export class TransaksilistComponent implements OnInit, OnDestroy {
       pageLength: 10,
     }
 
-    this.http.get(this.config.apiBaseUrl + 'api/PeriodePelaporan', this.api.generateHeader()).subscribe(
-      (result: any) => {
-        this.listJadwal = result.data
-        console.log(result)
-        this.dtTrigger.next()
-      },
-      (error) => {}
-    )
+    this.http
+      .get(this.config.apiBaseUrl + `api/PeriodePelaporan/byTahun/${this.tahun}`, this.api.generateHeader())
+      .subscribe(
+        (result: any) => {
+          this.listJadwal = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
+          this.dtTrigger.next()
+        },
+        (error) => {}
+      )
   }
 }

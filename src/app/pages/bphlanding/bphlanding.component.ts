@@ -11,6 +11,10 @@ import { AppConfigService } from '@/app-config.service'
   styleUrls: ['./bphlanding.component.scss'],
 })
 export class BphlandingComponent implements OnInit {
+  public tahun = this.route.snapshot.queryParams.tahun
+  public bulan = this.route.snapshot.queryParams.bulan
+  public term = this.route.snapshot.queryParams.term
+
   public listTrans: Array<any>
   public idperiode: String
   public isempty: boolean = true

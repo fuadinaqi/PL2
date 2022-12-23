@@ -3,12 +3,15 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Risalah Lelang untuk Pengenaan BPHTB</h1>
+        <h1>Transaksi Lelang : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }}</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Detail BPHTB</li>
+          <li class="breadcrumb-item"><a [routerLink]="['/bphlelang']">BPHTB</a></li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/bphlist']" [queryParams]="{tahun}">{{ tahun }}</a>
+          </li>
+          <li class="breadcrumb-item active">{{ bulan | numberToMonth }} - {{ term | termToLabel }}</li>
         </ol>
       </div>
     </div>
@@ -21,7 +24,12 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <div class="card-title">Daftar Transaksi Lelang Tanah atau Tanah dan Bangunan</div>
+        <div class="card-title mb-1">
+          <a [routerLink]="['/bphlist']" [queryParams]="{tahun}" class="btn btn-s">
+            <i class="fas fa-arrow-left"></i> Kembali
+          </a>
+        </div>
+        <div class="card-title mt-1">Daftar Transaksi Lelang Tanah atau Tanah dan Bangunan</div>
         <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px">
             <input type="text" name="table_search" class="form-control float-right" placeholder="Cari" />
@@ -50,11 +58,11 @@
             </tr>
           </thead>
           <tbody>
-            <div *ngIf="isempty; else other_content">
+            <ng-container *ngIf="isempty; else other_content">
               <tr>
-                <td colspan="9" align="center">Data Transaksi kosong silahkan tambah risalah BPHTB</td>
+                <td colspan="9" class="text-center">Data Transaksi kosong silahkan tambah risalah BPHTB</td>
               </tr>
-            </div>
+            </ng-container>
             <ng-template #other_content>
               <tr *ngFor="let data of listTrans; let i = index">
                 <td>{{ i + 1 }}</td>
@@ -66,7 +74,13 @@
                 <td>{{ data.namaPenjual }}</td>
                 <td>{{ data.tanggalLelang.split('T')[0] }}</td>
                 <td>
-                  <a href="/bphdetail/{{ data.id }}" class="btn btn-s"> <i class="fas fa-inbox"></i> Detail </a>
+                  <a
+                    [routerLink]="['/bphdetail', data.id]"
+                    [queryParams]="{ tahun, bulan, term, idperiode }"
+                    class="btn btn-s"
+                  >
+                    <i class="fas fa-inbox"></i> Detail
+                  </a>
                 </td>
               </tr>
             </ng-template>

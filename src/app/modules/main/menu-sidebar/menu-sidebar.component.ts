@@ -38,23 +38,23 @@ export class MenuSidebarComponent implements OnInit {
         {
           name: 'Jadwal Lelang',
           iconClasses: 'fas fa-calendar',
-          path: ['/jadwallist'],
+          path: ['/jadwallelang'],
         },
 
         {
           name: 'Transaksi Lelang',
           iconClasses: 'fas fa-book',
-          path: ['/transaksilist'],
+          path: ['/transaksilelang'],
         },
         {
           name: 'Penyetoran Bea',
           iconClasses: 'fas fa-credit-card',
-          path: ['/bealist'],
+          path: ['/bealelang'],
         },
         {
           name: 'Penyetoran BPHTB',
           iconClasses: 'fas fa-building',
-          path: ['/bphlist'],
+          path: ['/bphlelang'],
         },
         {
           name: 'Kertas Sekuriti',

@@ -12,6 +12,11 @@ import { AuthService } from '@services/auth.service'
   styleUrls: ['./beadetail.component.scss'],
 })
 export class BeadetailComponent implements OnInit {
+  public tahun = this.route.snapshot.queryParams.tahun
+  public bulan = this.route.snapshot.queryParams.bulan
+  public term = this.route.snapshot.queryParams.term
+  public idperiode = this.route.snapshot.queryParams.idperiode
+
   public listTrans: Array<any>
   public idtrans: String
   public isempty: boolean = true

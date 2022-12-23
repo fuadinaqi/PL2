@@ -14,12 +14,17 @@ import { AppConfigService } from '@/app-config.service'
   styleUrls: ['./beatambah.component.scss'],
 })
 export class BeatambahComponent implements OnInit {
+  public tahun = this.route.snapshot.queryParams.tahun
+  public bulan = this.route.snapshot.queryParams.bulan
+  public term = this.route.snapshot.queryParams.term
+  public idperiode = this.route.snapshot.queryParams.idperiode
+  public idtrans: any
+
   public id: string
   public isAddMode: boolean
   public isEditMode: boolean
   public isPreview: boolean
   public beaForm: UntypedFormGroup
-  public idtrans: any
   public idpreview: any
   public bea: any
   public listTrans: Array<any>
@@ -29,7 +34,7 @@ export class BeatambahComponent implements OnInit {
   public responseUpload: any
   constructor(
     private toastr: ToastrService,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private uploadService: FileUploadService,
@@ -115,7 +120,9 @@ export class BeatambahComponent implements OnInit {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info('Data Tersimpan')
-            this.router.navigate(['/beadetail/' + this.idtrans])
+            this.router.navigate(['/beadetail/' + this.idtrans], {
+              queryParams: { ...this.route.snapshot.queryParams },
+            })
           },
           (error) => {
             this.toastr.error('Tidak dapat menyimpan Bea lelang, Periksa kembali isian Anda')

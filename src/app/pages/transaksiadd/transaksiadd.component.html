@@ -3,12 +3,23 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Tambah Transaksi Lelang</h1>
+        <h1>Tambah Transaksi Lelang : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }} - Detail</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Transaksi Lelang</li>
+          <li class="breadcrumb-item"><a [routerLink]="['/transaksilelang']">Transaksi Lelang</a></li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/transaksilist']" [queryParams]="{tahun}">{{ tahun }}</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/transaksi', parentId]" [queryParams]="{ tahun, bulan, term }"
+              >{{ bulan | numberToMonth }} - {{ term | termToLabel }}</a
+            >
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/transaksidetail', idjadwal]" [queryParams]="{ tahun, bulan, term, parentId }">Detail</a>
+          </li>
+          <li class="breadcrumb-item active">Tambah</li>
         </ol>
       </div>
     </div>
@@ -22,7 +33,15 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <h3 class="card-title">Transaksi Lelang</h3>
+        <div class="card-title">
+          <a
+            [routerLink]="['/transaksidetail', idjadwal]"
+            [queryParams]="{ tahun, bulan, term, parentId }"
+            class="btn btn-s"
+          >
+            <i class="fas fa-arrow-left"></i> Kembali
+          </a>
+        </div>
       </div>
       <form [formGroup]="transaksiForm">
         <div class="card-header p-0 pt-1 border-bottom-0">

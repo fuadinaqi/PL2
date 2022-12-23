@@ -64,6 +64,13 @@ import { BphlandingComponent } from './pages/bphlanding/bphlanding.component'
 import { BoperiodeComponent } from './pages/bo/boperiode/boperiode.component'
 import { AppConfigService } from './app-config.service'
 import { PeriodelistComponent } from './pages/periodelist/periodelist.component'
+import { DashboardDetailComponent } from '@pages/dashboarddetail/dashboarddetail.component'
+import { NumberToMonthPipe } from './pipes/month-pipe'
+import { TermToLabelPipe } from './pipes/term-pipe'
+import { JadwalLelangComponent } from '@pages/jadwallelang/jadwallelang.component'
+import { TransaksiLelangComponent } from '@pages/transaksilelang/transaksilelang.component'
+import { BeaLelangComponent } from '@pages/bealelang/bealelang.component'
+import { BphLelangComponent } from '@pages/bphlelang/bphlelang.component'
 
 registerLocaleData(localeEn, 'en-EN')
 
@@ -79,6 +86,7 @@ registerLocaleData(localeEn, 'en-EN')
     ProfileComponent,
     RegisterComponent,
     DashboardComponent,
+    DashboardDetailComponent,
     MessagesComponent,
     NotificationsComponent,
     ButtonComponent,
@@ -95,22 +103,34 @@ registerLocaleData(localeEn, 'en-EN')
     ControlSidebarComponent,
     SelectComponent,
     CheckboxComponent,
+
+    JadwalLelangComponent,
     JadwallistComponent,
+
     PeriodeComponent,
     JadwalDetailComponent,
+
+    TransaksiLelangComponent,
     TransaksilistComponent,
     TransaksidetailComponent,
     TransaksiaddComponent,
+
     JadwaladdComponent,
+
+    BeaLelangComponent,
     BealistComponent,
     BeadetailComponent,
     BeatambahComponent,
+
     SpinnerComponent,
     TransaksilandingComponent,
+
+    BphLelangComponent,
     BphlistComponent,
     BphdetailComponent,
     BphaddComponent,
     BealandingComponent,
+
     KslandingComponent,
     KslistComponent,
     KsdetailComponent,
@@ -119,6 +139,9 @@ registerLocaleData(localeEn, 'en-EN')
     BphlandingComponent,
     BoperiodeComponent,
     PeriodelistComponent,
+
+    NumberToMonthPipe,
+    TermToLabelPipe,
   ],
   imports: [
     BrowserModule,

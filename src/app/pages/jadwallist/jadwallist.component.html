@@ -3,12 +3,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Jadwal Lelang</h1>
+        <h1>Jadwal Lelang Periode {{ tahun }}</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Jadwal Lelang</li>
+          <li class="breadcrumb-item"><a [routerLink]="['/jadwallelang']">Jadwal Lelang</a></li>
+          <li class="breadcrumb-item active">{{ tahun }}</li>
         </ol>
       </div>
     </div>
@@ -21,14 +21,15 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <div class="card-title"></div>
+        <a [routerLink]="['/jadwallelang']" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
+        <!-- <div class="card-title"></div> -->
       </div>
 
       <div class="card-body table-responsive p-0">
         <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
           <thead>
             <tr>
-              <th>Tahun</th>
+              <th>No.</th>
               <th>Bulan</th>
               <th>Term</th>
               <th>Mendatang</th>
@@ -39,16 +40,19 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let data of listJadwal">
-              <td>{{ data.tahun }}</td>
-              <td>{{ months[data.bulan] }}</td>
-              <td>{{ terms[data.term] }}</td>
+            <tr *ngFor="let data of listJadwal; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ data.bulan | numberToMonth }}</td>
+              <td>{{ data.term | termToLabel }}</td>
               <td>-</td>
               <td>-</td>
               <td>-</td>
               <td>-</td>
               <td>
-                <a href="/jadwaldetail/{{ data.id }}">
+                <a
+                  [routerLink]="['/jadwaldetail', data.id]"
+                  [queryParams]="{ tahun: data.tahun, bulan: data.bulan, term: data.term }"
+                >
                   <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
                     Detail
                   </app-button>

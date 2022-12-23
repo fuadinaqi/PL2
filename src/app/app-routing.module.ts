@@ -36,6 +36,11 @@ import { BphlandingComponent } from '@pages/bphlanding/bphlanding.component'
 import { BoperiodeComponent } from '@pages/bo/boperiode/boperiode.component'
 import { KslandingComponent } from '@pages/kslanding/kslanding.component'
 import { PeriodelistComponent } from '@pages/periodelist/periodelist.component'
+import { DashboardDetailComponent } from '@pages/dashboarddetail/dashboarddetail.component'
+import { JadwalLelangComponent } from '@pages/jadwallelang/jadwallelang.component'
+import { TransaksiLelangComponent } from '@pages/transaksilelang/transaksilelang.component'
+import { BeaLelangComponent } from '@pages/bealelang/bealelang.component'
+import { BphLelangComponent } from '@pages/bphlelang/bphlelang.component'
 
 const routes: Routes = [
   {
@@ -65,12 +70,20 @@ const routes: Routes = [
         component: DashboardComponent,
       },
       {
+        path: 'detail',
+        component: DashboardDetailComponent,
+      },
+      {
         path: 'periode',
         component: PeriodeComponent,
       },
       {
         path: 'periodelist',
         component: PeriodelistComponent,
+      },
+      {
+        path: 'jadwallelang',
+        component: JadwalLelangComponent,
       },
       {
         path: 'jadwallist',
@@ -95,6 +108,11 @@ const routes: Routes = [
       {
         path: 'transaksi/:idperiode',
         component: TransaksilandingComponent,
+      },
+
+      {
+        path: 'transaksilelang',
+        component: TransaksiLelangComponent,
       },
 
       {
@@ -124,6 +142,10 @@ const routes: Routes = [
         component: BealandingComponent,
       },
       {
+        path: 'bealelang',
+        component: BeaLelangComponent,
+      },
+      {
         path: 'bealist',
         component: BealistComponent,
       },
@@ -142,6 +164,10 @@ const routes: Routes = [
       {
         path: 'beatambah/preview/:idpreview',
         component: BeatambahComponent,
+      },
+      {
+        path: 'bphlelang',
+        component: BphLelangComponent,
       },
       {
         path: 'bphlist',

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
+import { compareFromLowest } from '@/helpers/compare'
 
 @Component({
   selector: 'app-bphlist',
@@ -11,6 +12,7 @@ import { AppConfigService } from '@/app-config.service'
   styleUrls: ['./bphlist.component.scss'],
 })
 export class BphlistComponent implements OnInit {
+  public tahun = this.activatedRoute.snapshot.queryParams.tahun || ''
   public listJadwal: Array<any>
   public months = [
     '',
@@ -30,7 +32,7 @@ export class BphlistComponent implements OnInit {
   public terms = ['', 'Awal', 'Akhir']
   constructor(
     private toastr: ToastrService,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private api: ApiService,
@@ -38,12 +40,13 @@ export class BphlistComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.http.get(this.config.apiBaseUrl + 'api/PeriodePelaporan', this.api.generateHeader()).subscribe(
-      (result: any) => {
-        this.listJadwal = result.data
-        console.log(result)
-      },
-      (error) => {}
-    )
+    this.http
+      .get(this.config.apiBaseUrl + `api/PeriodePelaporan/byTahun/${this.tahun}`, this.api.generateHeader())
+      .subscribe(
+        (result: any) => {
+          this.listJadwal = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
+        },
+        (error) => {}
+      )
   }
 }

@@ -13,12 +13,17 @@ import { AppConfigService } from '@/app-config.service'
   styleUrls: ['./bphadd.component.scss'],
 })
 export class BphaddComponent implements OnInit {
+  public tahun = this.route.snapshot.queryParams.tahun
+  public bulan = this.route.snapshot.queryParams.bulan
+  public term = this.route.snapshot.queryParams.term
+  public idperiode = this.route.snapshot.queryParams.idperiode
+  public idtrans: any
+
   public id: string
   public isAddMode: boolean
   public isEditMode: boolean
   public isPreview: boolean
   public bphForm: UntypedFormGroup
-  public idtrans: any
   public idpreview: any
   public bph: any
   public listTrans: Array<any>
@@ -113,7 +118,9 @@ export class BphaddComponent implements OnInit {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info('Data Tersimpan')
-            this.router.navigate(['/bphdetail/' + this.idtrans])
+            this.router.navigate(['/bphdetail/' + this.idtrans], {
+              queryParams: { ...this.route.snapshot.queryParams },
+            })
           },
           (error) => {
             this.toastr.error('Tidak dapat menyimpan BPHTB, Periksa kembali isian Anda')

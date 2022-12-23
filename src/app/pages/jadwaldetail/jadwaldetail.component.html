@@ -3,12 +3,15 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Jadwal Lelang periode : {{ tahun }}</h1>
+        <h1>Jadwal Lelang : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }}</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Jadwal Lelang Detail :{{ tahun }}</li>
+          <li class="breadcrumb-item"><a [routerLink]="['/jadwallelang']">Jadwal Lelang</a></li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/jadwallist']" [queryParams]="{tahun}">{{ tahun }}</a>
+          </li>
+          <li class="breadcrumb-item active">{{ bulan | numberToMonth }} - {{ term | termToLabel }}</li>
         </ol>
       </div>
     </div>
@@ -22,7 +25,12 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title">
-          <a href="/jadwaladd/periode/{{ idperiode }}">
+          <a [routerLink]="['/jadwallist']" [queryParams]="{ tahun: tahun }" class="btn btn-s">
+            <i class="fas fa-arrow-left"></i> Kembali
+          </a>
+        </div>
+        <div class="card-title">
+          <a [routerLink]="['/jadwaladd', 'periode', idperiode]" [queryParams]="{ tahun, bulan, term }">
             <button type="button" class="btn btn-primary btn-block">
               <i class="fa fa-plus-circle"></i> Tambah Jadwal
             </button>
@@ -49,11 +57,13 @@
             </tr>
           </thead>
           <tbody>
-            <div *ngIf="isempty; else other_content">
+            <ng-container *ngIf="isempty; else other_content">
               <tr>
-                <td colspan="7" align="center">Jadwal kosong silahkan tambah jadwal</td>
+                <td [colSpan]="11" class="text-center">
+                  Jadwal kosong atau belum terkirim, silahkan cek kembali di menu Jadwal Lelang
+                </td>
               </tr>
-            </div>
+            </ng-container>
             <ng-template #other_content>
               <tr *ngFor="let data of listJadwal; let i = index">
                 <td>{{ i + 1 }}</td>
@@ -70,7 +80,8 @@
                   <a
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"
                     class="btn btn-s"
-                    href="/jadwaladd/{{ data.id }}"
+                    [routerLink]="['/jadwaladd', data.id]"
+                    [queryParams]="{ tahun, bulan, term, idperiode }"
                   >
                     <i class="fas fa-edit"></i> Edit
                   </a>
@@ -78,7 +89,13 @@
                     <i class="fas fa-envelope"></i> Kirim
                   </a>
 
-                  <a href="/jadwaladd/preview/{{ data.id }}" class="btn btn-s"> <i class="fas fa-inbox"></i> Detail </a>
+                  <a
+                    [routerLink]="['/jadwaladd', 'preview', data.id]"
+                    [queryParams]="{ tahun, bulan, term, idperiode }"
+                    class="btn btn-s"
+                  >
+                    <i class="fas fa-inbox"></i> Detail
+                  </a>
                 </td>
               </tr>
             </ng-template>

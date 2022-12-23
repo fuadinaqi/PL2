@@ -11,6 +11,11 @@ import { AppConfigService } from '@/app-config.service'
   styleUrls: ['./bealanding.component.scss'],
 })
 export class BealandingComponent implements OnInit {
+  public tahun = this.route.snapshot.queryParams.tahun
+  public bulan = this.route.snapshot.queryParams.bulan
+  public term = this.route.snapshot.queryParams.term
+  // public parentId = this.route.snapshot.queryParams.parentId
+
   public listTrans: Array<any>
   public idperiode: String
   public isempty: boolean = true

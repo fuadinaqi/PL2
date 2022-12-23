@@ -12,6 +12,8 @@ import { Subject } from 'rxjs'
   styleUrls: ['./jadwaldetail.component.scss'],
 })
 export class JadwalDetailComponent {
+  public bulan = this.route.snapshot.queryParams.bulan
+  public term = this.route.snapshot.queryParams.term
   public listJadwal: Array<any>
   public idperiode: String
   public tahun: String
@@ -86,7 +88,9 @@ export class JadwalDetailComponent {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info('Jadwal Terkirim ke P2PK')
-            this.router.navigate(['/jadwaldetail/' + this.idperiode])
+            this.router.navigate(['/jadwaldetail/' + this.idperiode], {
+              queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term },
+            })
             this.loadJadwal()
           },
           (error) => {

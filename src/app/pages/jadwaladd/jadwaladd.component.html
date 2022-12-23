@@ -3,12 +3,20 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Jadwal Lelang</h1>
+        <h1>Tambah Jadwal Lelang : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }}</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Jadwal Lelang</li>
+          <li class="breadcrumb-item"><a [routerLink]="['/jadwallelang']">Jadwal Lelang</a></li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/jadwallist']" [queryParams]="{tahun}">{{ tahun }}</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/jadwaldetail', idperiode]" [queryParams]="{ tahun, bulan, term }">
+              {{ bulan | numberToMonth }} - {{ term | termToLabel }}
+            </a>
+          </li>
+          <li class="breadcrumb-item active">Tambah</li>
         </ol>
       </div>
     </div>
@@ -22,7 +30,9 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <a href="/jadwaldetail/{{ idperiode }}" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
+        <a [routerLink]="['/jadwaldetail', idperiode]" [queryParams]="{ tahun, bulan, term }" class="btn btn-s">
+          <i class="fas fa-arrow-left"></i> Kembali
+        </a>
       </div>
       <form [formGroup]="jadwalForm">
         <div class="card-body">
@@ -102,7 +112,7 @@
               </select>
             </div>
             <div class="form-group col-xl-6">
-              <label for="sifatLelang">Sifat Lelang </label>
+              <label for="sifatLelang">Jenis Penawaran lelang </label>
               <select
                 [ngClass]="isValid('sifatLelang') ? 'form-control is-invalid' : 'form-control '"
                 formControlName="sifatLelang"

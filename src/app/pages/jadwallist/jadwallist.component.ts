@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { Subject } from 'rxjs'
+import { compareFromLowest } from '@/helpers/compare'
 
 @Component({
   selector: 'app-jadwallist',
@@ -12,6 +13,7 @@ import { Subject } from 'rxjs'
   styleUrls: ['./jadwallist.component.scss'],
 })
 export class JadwallistComponent {
+  public tahun = this.activatedRoute.snapshot.queryParams.tahun || ''
   public listJadwal: Array<any>
   public months = [
     '',
@@ -33,7 +35,7 @@ export class JadwallistComponent {
   dtTrigger: Subject<any> = new Subject<any>()
   constructor(
     private toastr: ToastrService,
-    private route: ActivatedRoute,
+    private activatedRoute: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private api: ApiService,
@@ -45,14 +47,15 @@ export class JadwallistComponent {
       pageLength: 10,
     }
 
-    this.http.get(this.config.apiBaseUrl + 'api/PeriodePelaporan', this.api.generateHeader()).subscribe(
-      (result: any) => {
-        this.listJadwal = result.data
-        console.log(result)
-        this.dtTrigger.next()
-      },
-      (error) => {}
-    )
+    this.http
+      .get(this.config.apiBaseUrl + `api/PeriodePelaporan/byTahun/${this.tahun}`, this.api.generateHeader())
+      .subscribe(
+        (result: any) => {
+          this.listJadwal = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
+          this.dtTrigger.next()
+        },
+        (error) => {}
+      )
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event

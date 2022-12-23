@@ -12,6 +12,10 @@ import { Subject } from 'rxjs'
   styleUrls: ['./transaksilanding.component.scss'],
 })
 export class TransaksilandingComponent implements OnInit, OnDestroy {
+  public bulan = this.route.snapshot.queryParams.bulan
+  public term = this.route.snapshot.queryParams.term
+  public parentId = this.route.snapshot.queryParams.parentId
+
   public listJadwal: Array<any>
   public idperiode: String
   public isempty: boolean = true

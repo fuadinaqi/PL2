@@ -132,7 +132,7 @@ export class JadwaladdComponent implements OnInit {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info('Data Tersimpan')
-            this.router.navigate(['/jadwaldetail/' + this.idperiode])
+            this.onBack()
           },
           (error) => {
             this.toastr.error('Tidak dapat menyimpan jadwal, Periksa kembali isian Anda')
@@ -144,7 +144,7 @@ export class JadwaladdComponent implements OnInit {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info('Data Dirubah')
-            this.router.navigate(['/jadwaldetail/' + this.idperiode])
+            this.onBack()
           },
           (error) => {
             this.toastr.error('Tidak dapat menyimpan jadwal, Periksa kembali isian Anda')
@@ -153,5 +153,11 @@ export class JadwaladdComponent implements OnInit {
         )
       }
     }
+  }
+
+  onBack() {
+    this.router.navigate(['/jadwaldetail/' + this.idperiode], {
+      queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term },
+    })
   }
 }

@@ -3,12 +3,18 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Risalah Lelang untuk Pengenaan BPHTB</h1>
+        <h1>Laporan Penyetoran BPHTB Lelang : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }}</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Detail BPHTB</li>
+          <li class="breadcrumb-item"><a [routerLink]="['/bphlelang']">BPHTB</a></li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/bphlist']" [queryParams]="{tahun}">{{ tahun }}</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/bphlanding', idperiode]" [queryParams]="{ tahun, bulan, term }"> Transaksi Lelang </a>
+          </li>
+          <li class="breadcrumb-item active">{{ bulan | numberToMonth }} - {{ term | termToLabel }}</li>
         </ol>
       </div>
     </div>
@@ -21,8 +27,13 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
+        <div class="card-title">
+          <a [routerLink]="['/bphlanding', idperiode]" [queryParams]="{ tahun, bulan, term }" class="btn btn-s">
+            <i class="fas fa-arrow-left"></i> Kembali
+          </a>
+        </div>
         <div class="card-title" *ngIf="!isP2pk">
-          <a href="/bphadd/trans/{{ idtrans }}">
+          <a [routerLink]="['/bphadd', 'trans', idtrans]" [queryParams]="{ tahun, bulan, term, idperiode }">
             <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
               Tambah BPHTB
             </app-button>
@@ -56,11 +67,11 @@
             </tr>
           </thead>
           <tbody>
-            <div *ngIf="isempty; else other_content">
+            <ng-container *ngIf="isempty; else other_content">
               <tr>
-                <td colspan="9" align="center">Data Transaksi kosong silahkan tambah risalah BPHTB</td>
+                <td colspan="9" class="text-center">Data Transaksi kosong silahkan tambah risalah BPHTB</td>
               </tr>
-            </div>
+            </ng-container>
             <ng-template #other_content>
               <tr *ngFor="let data of listTrans; let i = index">
                 <td>{{ i + 1 }}</td>
@@ -72,14 +83,25 @@
                 <td>{{ data.luasBangunan }}</td>
                 <td>{{ data.njopnop }}</td>
                 <td>
-                  <a *ngIf="data.statusPengiriman == 'Draft Permohonan'" class="btn btn-s" href="/bphadd/{{ data.id }}">
+                  <a
+                    *ngIf="data.statusPengiriman == 'Draft Permohonan'"
+                    class="btn btn-s"
+                    [routerLink]="['/bphadd', data.id]"
+                    [queryParams]="{ tahun, bulan, term, idtrans, idperiode }"
+                  >
                     <i class="fas fa-edit"></i> Edit
                   </a>
                   <a *ngIf="data.statusPengiriman == 'Draft Permohonan'" class="btn btn-s" (click)="onKirim(data.id)">
                     <i class="fas fa-envelope"></i> Kirim
                   </a>
 
-                  <a href="/bphadd/preview/{{ data.id }}" class="btn btn-s"> <i class="fas fa-inbox"></i> Detail </a>
+                  <a
+                    [routerLink]="['/bphadd', 'preview', data.id]"
+                    [queryParams]="{ tahun, bulan, term, idtrans, idperiode }"
+                    class="btn btn-s"
+                  >
+                    <i class="fas fa-inbox"></i> Detail
+                  </a>
                   <a
                     *ngIf="isP2pk && data.statusPengiriman != 'Draft Permohonan'"
                     class="btn btn-s"

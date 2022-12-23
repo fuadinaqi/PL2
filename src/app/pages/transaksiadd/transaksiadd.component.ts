@@ -16,6 +16,11 @@ import { AppConfigService } from '@/app-config.service'
   styleUrls: ['./transaksiadd.component.scss'],
 })
 export class TransaksiaddComponent implements OnInit {
+  public tahun = this.route.snapshot.queryParams.tahun
+  public bulan = this.route.snapshot.queryParams.bulan
+  public term = this.route.snapshot.queryParams.term
+  public parentId = this.route.snapshot.queryParams.parentId
+
   public jadwal: any = {}
 
   public isAddMode: boolean
@@ -213,6 +218,12 @@ export class TransaksiaddComponent implements OnInit {
     this.isUangJaminan = value == 'Uang Jaminan' ? true : false
   }
 
+  onBack() {
+    this.router.navigate(['/transaksidetail/' + this.idjadwal], {
+      queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term, parentId: this.parentId },
+    })
+  }
+
   savetransaksi() {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       let url = this.config.apiBaseUrl + 'api/TransaksiLelang/'
@@ -221,7 +232,7 @@ export class TransaksiaddComponent implements OnInit {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info('Data Tersimpan')
-            this.router.navigate(['/transaksidetail/' + this.idjadwal])
+            this.onBack()
           },
           (error) => {
             this.toastr.error('Tidak dapat menyimpan transaksi, Periksa kembali isian Anda')
@@ -235,7 +246,7 @@ export class TransaksiaddComponent implements OnInit {
             (data) => {
               console.log('post ressult ', data)
               this.toastr.info('Data Dirubah')
-              this.router.navigate(['/transaksidetail/' + this.idjadwal])
+              this.onBack()
             },
             (error) => {
               this.toastr.error('Tidak dapat menyimpan transaksi, Periksa kembali isian Anda')
