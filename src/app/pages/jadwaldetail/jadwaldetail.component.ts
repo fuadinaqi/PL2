@@ -18,6 +18,7 @@ export class JadwalDetailComponent {
   public idperiode: String
   public tahun: String
   public isempty: boolean = true
+  public nihil: boolean = true
 
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<any> = new Subject<any>()
@@ -61,6 +62,7 @@ export class JadwalDetailComponent {
       .subscribe(
         (result: any) => {
           this.tahun = result.data.tahun
+          this.nihil = result.data.nihil
         },
         (error) => {}
       )
@@ -77,6 +79,12 @@ export class JadwalDetailComponent {
     }
   }
 
+  onLoadSamePage() {
+    this.router.navigate(['/jadwaldetail/' + this.idperiode], {
+      queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term },
+    })
+  }
+
   onKirim(idjadwal) {
     console.log(idjadwal)
     if (confirm('Apakah anda yakin ingin mengirim data ke PPPK?')) {
@@ -88,9 +96,7 @@ export class JadwalDetailComponent {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info('Jadwal Terkirim ke P2PK')
-            this.router.navigate(['/jadwaldetail/' + this.idperiode], {
-              queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term },
-            })
+            this.onLoadSamePage()
             this.loadJadwal()
           },
           (error) => {
@@ -98,6 +104,35 @@ export class JadwalDetailComponent {
             console.log(error)
           }
         )
+    }
+  }
+
+  onChangeNihil(event) {
+    this.nihil = event.target.checked
+  }
+
+  onSubmitNihil() {
+    const CONFIRM_MSG = this.nihil
+      ? 'Apakah Anda yakin ingin membuat periode ini Nihil?'
+      : 'Apakah Anda yakin ingin membuat periode ini tidak Nihil?'
+    if (confirm(CONFIRM_MSG)) {
+      const bodyreq = { id: this.idperiode, nihil: this.nihil }
+      this.http.post(this.config.apiBaseUrl + 'api/PeriodePelaporan/nihil', bodyreq).subscribe((data) => {
+        const SUCCESS_MSG = this.nihil ? 'Berhasil membuat periode Nihil' : 'Berhasil membuat periode tidak Nihil'
+        this.toastr.info(SUCCESS_MSG)
+        this.onLoadSamePage()
+        this.loadJadwal()
+      })
+    }
+  }
+
+  onHapus(id) {
+    const API_URL = 'api/JadwalLelang/' + id
+    if (confirm('Apakah Anda yakin ingin mehapus data ini')) {
+      this.http.delete(this.config.apiBaseUrl + API_URL).subscribe((data) => {
+        this.toastr.info('Berhasil menghapus data')
+        window.location.reload()
+      })
     }
   }
 }

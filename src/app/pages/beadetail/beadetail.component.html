@@ -91,6 +91,9 @@
                   >
                     <i class="fas fa-edit"></i> Edit
                   </a>
+                  <a *ngIf="data.statusPengiriman == 'Draft Permohonan'" class="btn btn-s" (click)="onHapus(data.id)">
+                    <i class="fas fa-trash"></i> Hapus
+                  </a>
                   <a *ngIf="data.statusPengiriman == 'Draft Permohonan'" class="btn btn-s" (click)="onKirim(data.id)">
                     <i class="fas fa-envelope"></i> Kirim
                   </a>

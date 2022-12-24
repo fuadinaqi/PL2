@@ -103,4 +103,14 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
       )
     }
   }
+
+  onHapus(id) {
+    const API_URL = 'api/TransaksiLelang/' + id
+    if (confirm('Apakah Anda yakin ingin mehapus data ini')) {
+      this.http.delete(this.config.apiBaseUrl + API_URL).subscribe((data) => {
+        this.toastr.info('Berhasil menghapus data')
+        window.location.reload()
+      })
+    }
+  }
 }
