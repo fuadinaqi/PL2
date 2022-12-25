@@ -73,4 +73,8 @@ export class BoperiodeComponent implements OnInit {
         )
     }
   }
+
+  onBack() {
+    this.router.navigate(['/bojadwal/'])
+  }
 }
