@@ -160,7 +160,8 @@ export class JadwaladdComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['/jadwaldetail/' + this.idperiode], {
+    const id = this.idperiode || this.id || this.idpreview
+    this.router.navigate(['/jadwaldetail/' + id], {
       queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term },
     })
   }

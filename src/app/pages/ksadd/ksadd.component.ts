@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormArray } from '@angular/forms'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
+import { AuthService } from '@services/auth.service'
 
 @Component({
   selector: 'app-ksadd',
@@ -78,6 +79,7 @@ export class KsaddComponent implements OnInit {
       },
     ],
   }
+  public isP2pk: boolean
 
   constructor(
     private toastr: ToastrService,
@@ -85,90 +87,110 @@ export class KsaddComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private api: ApiService,
-    private config: AppConfigService
+    private config: AppConfigService,
+    private AuthService: AuthService
   ) {}
 
   ngOnInit(): void {
+    let role = this.AuthService.getRole()
+    if (role.toString() == 'UserPLII') {
+      this.isP2pk = false
+    } else {
+      this.isP2pk = true
+    }
+
     this.id = this.route.snapshot.params['id']
     this.idperiode = this.route.snapshot.params['idperiode']
     this.idpreview = this.route.snapshot.params['idpreview']
     this.isAddMode = this.idperiode ? true : false
     this.isPreview = this.idpreview ? true : false
     this.isEditMode = this.id ? true : false
-    this.http
-      .get(this.config.apiBaseUrl + 'api/TransaksiLelang', this.api.generateHeader())
-      .subscribe((result: any) => {
-        this.listTrans = result.data.map((x) => ({ ...x, nomorRisalahLelang: String(x.nomorRisalahLelang) }))
 
-        if (this.isEditMode || this.isPreview) {
-          const selectedId = this.isEditMode ? this.id : this.idpreview
-          this.http
-            .get(this.config.apiBaseUrl + 'api/KertasSekuriti/' + selectedId, this.api.generateHeader())
-            .subscribe((res: any) => {
-              const penambahan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penambahan') || {}
-              const penggunaan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penggunaan') || {}
-              const kutipanPengganti =
-                res.data.isiKertasSekuritiModels.find((el) => el.status === 'Kutipan Pengganti') || {}
-              const rusak = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Rusak') || {}
-              const hilang = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Hilang') || {}
+    const urlTrans = this.isP2pk ? 'api/TransaksiLelang/P2PK' : 'api/TransaksiLelang'
 
-              this.data = {
-                id: this.id,
-                triwulan: res.data.triwulan,
-                jumlahAwal: res.data.jumlahAwal,
-                isiKertasSekuritiModels: [
-                  {
-                    id: penambahan.id,
-                    status: 'Penambahan',
-                    nomorKertasSekuriti: penambahan.nomorKertasSekuriti,
-                    nomorRisalahLelang: penambahan.nomorRisalahLelang,
-                    nomorLotRisalahLelang: penambahan.nomorLotRisalahLelang,
-                    tanggalMutasi: penambahan.tanggalMutasi.split('T')[0],
-                    jumlahMutasi: penambahan.jumlahMutasi,
-                  },
-                  {
-                    id: penggunaan.id,
-                    status: 'Penggunaan',
-                    nomorKertasSekuriti: penggunaan.nomorKertasSekuriti,
-                    nomorRisalahLelang: penggunaan.nomorRisalahLelang,
-                    nomorLotRisalahLelang: penggunaan.nomorLotRisalahLelang,
-                    tanggalMutasi: penggunaan.tanggalMutasi.split('T')[0],
-                    jumlahMutasi: penggunaan.jumlahMutasi,
-                  },
-                  {
-                    id: kutipanPengganti.id,
-                    status: 'Kutipan Pengganti',
-                    nomorKertasSekuriti: kutipanPengganti.nomorKertasSekuriti,
-                    nomorRisalahLelang: kutipanPengganti.nomorRisalahLelang,
-                    nomorLotRisalahLelang: kutipanPengganti.nomorLotRisalahLelang,
-                    tanggalMutasi: kutipanPengganti.tanggalMutasi.split('T')[0],
-                    jumlahMutasi: kutipanPengganti.jumlahMutasi,
-                  },
-                  {
-                    id: rusak.id,
-                    status: 'Rusak',
-                    nomorKertasSekuriti: rusak.nomorKertasSekuriti,
-                    nomorRisalahLelang: rusak.nomorRisalahLelang,
-                    nomorLotRisalahLelang: rusak.nomorLotRisalahLelang,
-                    tanggalMutasi: rusak.tanggalMutasi.split('T')[0],
-                    jumlahMutasi: rusak.jumlahMutasi,
-                  },
-                  {
-                    id: hilang.id,
-                    status: 'Hilang',
-                    nomorKertasSekuriti: hilang.nomorKertasSekuriti,
-                    nomorRisalahLelang: hilang.nomorRisalahLelang,
-                    nomorLotRisalahLelang: hilang.nomorLotRisalahLelang,
-                    tanggalMutasi: hilang.tanggalMutasi.split('T')[0],
-                    jumlahMutasi: hilang.jumlahMutasi,
-                  },
-                ],
-              }
-              console.log(this.data)
-            })
-        }
-      })
+    this.http.get(this.config.apiBaseUrl + urlTrans, this.api.generateHeader()).subscribe((result: any) => {
+      this.listTrans = result.data.map((x) => ({ ...x, nomorRisalahLelang: String(x.nomorRisalahLelang) }))
+
+      if (this.isEditMode || this.isPreview) {
+        const selectedId = this.isEditMode ? this.id : this.idpreview
+        const urlKs = this.isP2pk ? 'api/KertasSekuriti/P2PK/' : 'api/KertasSekuriti/'
+        this.http.get(this.config.apiBaseUrl + urlKs + selectedId, this.api.generateHeader()).subscribe((res: any) => {
+          const penambahan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penambahan') || {}
+          const penggunaan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penggunaan') || {}
+          const kutipanPengganti =
+            res.data.isiKertasSekuritiModels.find((el) => el.status === 'Kutipan Pengganti') || {}
+          const rusak = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Rusak') || {}
+          const hilang = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Hilang') || {}
+
+          this.data = {
+            id: this.id,
+            triwulan: res.data.triwulan,
+            jumlahAwal: res.data.jumlahAwal,
+            isiKertasSekuritiModels: [
+              {
+                id: penambahan.id,
+                status: 'Penambahan',
+                nomorKertasSekuriti: penambahan.nomorKertasSekuriti,
+                nomorRisalahLelang: penambahan.nomorRisalahLelang,
+                nomorLotRisalahLelang: penambahan.nomorLotRisalahLelang,
+                tanggalMutasi: penambahan.tanggalMutasi.split('T')[0],
+                jumlahMutasi: penambahan.jumlahMutasi,
+              },
+              {
+                id: penggunaan.id,
+                status: 'Penggunaan',
+                nomorKertasSekuriti: penggunaan.nomorKertasSekuriti,
+                nomorRisalahLelang: penggunaan.nomorRisalahLelang,
+                nomorLotRisalahLelang: penggunaan.nomorLotRisalahLelang,
+                tanggalMutasi: penggunaan.tanggalMutasi.split('T')[0],
+                jumlahMutasi: penggunaan.jumlahMutasi,
+              },
+              {
+                id: kutipanPengganti.id,
+                status: 'Kutipan Pengganti',
+                nomorKertasSekuriti: kutipanPengganti.nomorKertasSekuriti,
+                nomorRisalahLelang: kutipanPengganti.nomorRisalahLelang,
+                nomorLotRisalahLelang: kutipanPengganti.nomorLotRisalahLelang,
+                tanggalMutasi: kutipanPengganti.tanggalMutasi.split('T')[0],
+                jumlahMutasi: kutipanPengganti.jumlahMutasi,
+              },
+              {
+                id: rusak.id,
+                status: 'Rusak',
+                nomorKertasSekuriti: rusak.nomorKertasSekuriti,
+                nomorRisalahLelang: rusak.nomorRisalahLelang,
+                nomorLotRisalahLelang: rusak.nomorLotRisalahLelang,
+                tanggalMutasi: rusak.tanggalMutasi.split('T')[0],
+                jumlahMutasi: rusak.jumlahMutasi,
+              },
+              {
+                id: hilang.id,
+                status: 'Hilang',
+                nomorKertasSekuriti: hilang.nomorKertasSekuriti,
+                nomorRisalahLelang: hilang.nomorRisalahLelang,
+                nomorLotRisalahLelang: hilang.nomorLotRisalahLelang,
+                tanggalMutasi: hilang.tanggalMutasi.split('T')[0],
+                jumlahMutasi: hilang.jumlahMutasi,
+              },
+            ],
+          }
+          console.log(this.data)
+        })
+      }
+    })
   }
+
+  onBack() {
+    if (this.isP2pk) {
+      this.router.navigate(['/boks/'])
+    } else {
+      const id = this.idperiode || this.id || this.idpreview
+      this.router.navigate(['/ksdetail/' + id], {
+        queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term, parentId: this.parentId },
+      })
+    }
+  }
+
   savetransaksi() {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       const method = this.isEditMode ? 'put' : 'post'
@@ -177,7 +199,7 @@ export class KsaddComponent implements OnInit {
         (data) => {
           console.log('post ressult ', data)
           this.toastr.info('Data Tersimpan')
-          this.router.navigate(['/ksdetail/' + this.idperiode], { queryParams: { ...this.route.snapshot.queryParams } })
+          this.onBack()
         },
         (error) => {
           this.toastr.error('Tidak dapat menyimpan Kertas Sekuriti, Periksa kembali isian Anda')

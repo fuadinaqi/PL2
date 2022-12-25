@@ -24,11 +24,7 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title">
-          <a
-            [routerLink]="['/ksdetail', idperiode || id || idpreview]"
-            [queryParams]="{ tahun, bulan, term, parentId }"
-            class="btn btn-s"
-          >
+          <a (click)="onBack()" class="btn btn-s">
             <!-- <a
             [routerLink]="['/transaksidetail', idjadwal]"
             [queryParams]="{ tahun, bulan, term, parentId }"

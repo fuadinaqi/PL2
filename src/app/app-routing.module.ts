@@ -244,6 +244,10 @@ const routes: Routes = [
         component: BphdetailComponent,
       },
       {
+        path: 'boks',
+        component: KsdetailComponent,
+      },
+      {
         path: 'bojadwal',
         component: BolandingComponent,
       },

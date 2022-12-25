@@ -123,7 +123,8 @@ export class BeatambahComponent implements OnInit {
     if (this.isP2pk) {
       this.router.navigate(['/bobea/'])
     } else {
-      this.router.navigate(['/beadetail/' + this.idtrans || this.id || this.idpreview], {
+      const id = this.idtrans || this.id || this.idpreview
+      this.router.navigate(['/beadetail/' + id], {
         queryParams: { ...this.route.snapshot.queryParams },
       })
     }

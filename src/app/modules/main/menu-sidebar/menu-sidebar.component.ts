@@ -90,6 +90,11 @@ export class MenuSidebarComponent implements OnInit {
           iconClasses: 'fas fa-building',
           path: ['/bobph'],
         },
+        {
+          name: 'Kertas Sekuriti',
+          iconClasses: 'fas fa-lock',
+          path: ['/boks'],
+        },
       ]
     }
   }

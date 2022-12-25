@@ -123,7 +123,8 @@ export class BphaddComponent implements OnInit {
     if (this.isP2pk) {
       this.router.navigate(['/bobph/'])
     } else {
-      this.router.navigate(['/bphdetail/' + this.idtrans || this.id || this.idpreview], {
+      const id = this.idtrans || this.id || this.idpreview
+      this.router.navigate(['/bphdetail/' + id], {
         queryParams: { ...this.route.snapshot.queryParams },
       })
     }

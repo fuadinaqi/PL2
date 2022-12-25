@@ -30,7 +30,12 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title">
-          <a [routerLink]="['/kslanding', parentId]" [queryParams]="{ tahun, bulan, term, parentId }" class="btn btn-s">
+          <a
+            *ngIf="!isP2pk"
+            [routerLink]="['/kslanding', parentId]"
+            [queryParams]="{ tahun, bulan, term, parentId }"
+            class="btn btn-s"
+          >
             <i class="fas fa-arrow-left"></i> Kembali
           </a>
         </div>

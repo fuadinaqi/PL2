@@ -22,9 +22,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <a [routerLink]="['/jadwaldetail', idperiode]" [queryParams]="{ tahun, bulan, term }" class="btn btn-s">
-          <i class="fas fa-arrow-left"></i> Kembali
-        </a>
+        <a (click)="onBack()" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
       </div>
       <form [formGroup]="jadwalForm">
         <div class="card-body">
