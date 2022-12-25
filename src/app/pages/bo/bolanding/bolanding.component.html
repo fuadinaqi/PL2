@@ -41,11 +41,11 @@
             </tr>
           </thead>
           <tbody>
-            <div *ngIf="isempty; else other_content">
+            <ng-container *ngIf="isempty; else other_content">
               <tr>
-                <td colspan="7" align="center">Jadwal kosong belum ada pengiriman data dari FO</td>
+                <td colspan="10" class="text-center">Jadwal kosong belum ada pengiriman data dari FO</td>
               </tr>
-            </div>
+            </ng-container>
             <ng-template #other_content>
               <tr *ngFor="let data of listJadwal; let i = index">
                 <td>{{ i + 1 }}</td>

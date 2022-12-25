@@ -3,14 +3,22 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Penggunaan Kertas Sekuriti</h1>
+        <h1>Penggunaan Kertas Sekuriti : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }} - Detail</h1>
       </div>
-      <div class="col-sm-6">
+      <!-- <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active">Penggunaan Kertas Sekuriti</li>
+          <li class="breadcrumb-item"><a [routerLink]="['/kslelang']">Transaksi Lelang</a></li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/kslist']" [queryParams]="{tahun}">{{ tahun }}</a>
+          </li>
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/kslanding', parentId]" [queryParams]="{ tahun, bulan, term }"
+              >{{ bulan | numberToMonth }} - {{ term | termToLabel }}</a
+            >
+          </li>
+          <li class="breadcrumb-item active">Detail</li>
         </ol>
-      </div>
+      </div> -->
     </div>
   </div>
   <!-- /.container-fluid -->
@@ -22,13 +30,24 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title">
-          <a href="/ksadd/periode/{{ idperiode }}">
+          <a [routerLink]="['/kslanding', parentId]" [queryParams]="{ tahun, bulan, term, parentId }" class="btn btn-s">
+            <i class="fas fa-arrow-left"></i> Kembali
+          </a>
+        </div>
+        <div *ngIf="!isP2pk" class="card-title">
+          <a [routerLink]="['/ksadd', 'periode', idjadwal]" [queryParams]="{ tahun, bulan, term, parentId }">
             <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
-              Tambah Penggunaan Kertas Sekuriti
+              Tambah Kertas Sekuriti
             </app-button>
           </a>
         </div>
-        <div class="card-tools">
+
+        <div class="card-title ml-2">
+          <button type="button" class="btn btn-primary btn-block" (click)="exportExcel()">
+            <i class="fa fa-download"></i> Download
+          </button>
+        </div>
+        <!-- <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px">
             <input type="text" name="table_search" class="form-control float-right" placeholder="Cari" />
             <div class="input-group-append">
@@ -37,42 +56,78 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
+        <table
+          id="table-download"
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="table row-border hover"
+        >
           <thead>
             <tr>
               <th>No.</th>
-              <th>Status</th>
-              <th>No Register</th>
-              <th>No. Risalah</th>
-              <th>Aksi</th>
+              <th>Triwulan</th>
+              <th>Jumlah Awal</th>
+              <th>Status Data</th>
+              <th>Tanggal Kirim</th>
+              <th *ngIf="!isWillDownload">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            <div *ngIf="isempty; else other_content">
+            <ng-container *ngIf="isempty; else other_content">
               <tr>
-                <td colspan="9" align="center">Data kosong silahkan tambah data kertas sekuriti</td>
+                <td colspan="10" align="center">Data Kertas Sekuriti kosong silahkan tambah kertas sekuriti</td>
               </tr>
-            </div>
+            </ng-container>
             <ng-template #other_content>
               <tr *ngFor="let data of listTrans; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td>{{ data.status }}</td>
-                <td>{{ data.nomerRegistrasi }}</td>
-                <td>{{ data.nomorRisalahLelang }}</td>
-                <td>{{ data.tanggalLelang }}</td>
-                <td>
-                  <a *ngIf="data.statusPengiriman == 'Draft Permohonan'" class="btn btn-s" href="/ksadd/{{ data.id }}">
+                <td>{{ data.triwulan }}</td>
+                <td>{{ data.jumlahAwal }}</td>
+                <td>{{ formatStatus(data.statusPengiriman) }}</td>
+                <td>{{ data.tanggalKirim?.split('T')[0] || '' }}</td>
+                <td *ngIf="!isWillDownload">
+                  <a
+                    *ngIf="data.statusPengiriman == 'Draft Permohonan'"
+                    class="btn btn-s"
+                    [routerLink]="['/ksadd', data.id]"
+                    [queryParams]="{ tahun, bulan, term, parentId, idjadwal }"
+                  >
                     <i class="fas fa-edit"></i> Edit
+                  </a>
+                  <a *ngIf="data.statusPengiriman == 'Draft Permohonan'" class="btn btn-s" (click)="onHapus(data.id)">
+                    <i class="fas fa-trash"></i> Hapus
                   </a>
                   <a *ngIf="data.statusPengiriman == 'Draft Permohonan'" class="btn btn-s" (click)="onKirim(data.id)">
                     <i class="fas fa-envelope"></i> Kirim
                   </a>
 
-                  <a href="/ks/preview/{{ data.id }}" class="btn btn-s"> <i class="fas fa-inbox"></i> Detail </a>
+                  <a
+                    *ngIf="data.statusPengiriman != 'Draft Permohonan'"
+                    class="btn btn-s"
+                    (click)="hanldeCetakTandaTerima(data)"
+                  >
+                    <i class="fas fa-print"></i> Cetak
+                  </a>
+
+                  <a
+                    [routerLink]="['/ksadd', 'preview', data.id]"
+                    [queryParams]="{ tahun, bulan, term, parentId, idjadwal }"
+                    class="btn btn-s"
+                  >
+                    <i class="fas fa-inbox"></i> Detail
+                  </a>
+                  <a
+                    *ngIf="isP2pk && data.statusPengiriman != 'Draft Permohonan'"
+                    class="btn btn-s"
+                    (click)="onKirim(data.id)"
+                  >
+                    <i class="fas fa-envelope"></i> Buka Akses
+                  </a>
                 </td>
               </tr>
             </ng-template>
@@ -84,3 +139,13 @@
   <!-- /.card -->
 </section>
 <!-- /.content -->
+
+<div style="display: none; z-index: -1" [class.d-flex]="isWillDownloadTandaTerima">
+  <div style="height: 500px"></div>
+  <app-tanda-terima type="Penatausahaan Kertas Sekuriti" [data]="dataTandaTerima"></app-tanda-terima>
+</div>
+
+<!-- <div style="display: block; z-index: -1" [class.d-flex]="isWillDownloadTandaTerima">
+  <div style="height: 500px"></div>
+  <app-tanda-terima type="Jadwal Lelang" [data]="dataTandaTerima"></app-tanda-terima>
+</div> -->

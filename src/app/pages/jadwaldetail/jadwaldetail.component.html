@@ -8,9 +8,6 @@
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a [routerLink]="['/jadwallelang']">Jadwal Lelang</a></li>
-          <li class="breadcrumb-item">
-            <a [routerLink]="['/jadwallist']" [queryParams]="{tahun}">{{ tahun }}</a>
-          </li>
           <li class="breadcrumb-item active">{{ bulan | numberToMonth }} - {{ term | termToLabel }}</li>
         </ol>
       </div>
@@ -37,6 +34,12 @@
           </a>
         </div>
 
+        <div class="card-title ml-2" *ngIf="!nihil">
+          <button type="button" class="btn btn-primary btn-block" (click)="exportExcel()">
+            <i class="fa fa-download"></i> Download
+          </button>
+        </div>
+
         <ng-container *ngIf="!listJadwal?.length">
           <div class="card-title ml-4 mt-1">
             <div class="d-flex align-items-center">
@@ -54,7 +57,13 @@
       </div>
 
       <div class="card-body table-responsive p-0">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+        <table
+          id="table-download"
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="table row-border hover"
+        >
           <thead>
             <tr>
               <th>No.</th>
@@ -67,7 +76,7 @@
               <th>Tgl. Surat Penetapan</th>
               <th>Status</th>
               <th>Tgl. Submit</th>
-              <th>Aksi</th>
+              <th *ngIf="!isWillDownload">Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -90,7 +99,7 @@
                 <td>{{ data.tanggalSuratPenetapanJadwalLelang.split('T')[0] }}</td>
                 <td>{{ formatStatus(data.statusPengiriman) }}</td>
                 <td>{{ data.recInsert.split('T')[0] }}</td>
-                <td>
+                <td *ngIf="!isWillDownload">
                   <a
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"
                     class="btn btn-s"
@@ -104,6 +113,13 @@
                   </a>
                   <a *ngIf="data.statusPengiriman == 'Draft Permohonan'" class="btn btn-s" (click)="onKirim(data.id)">
                     <i class="fas fa-envelope"></i> Kirim
+                  </a>
+                  <a
+                    *ngIf="data.statusPengiriman != 'Draft Permohonan'"
+                    class="btn btn-s"
+                    (click)="hanldeCetakTandaTerima(data)"
+                  >
+                    <i class="fas fa-print"></i> Cetak
                   </a>
 
                   <a
@@ -124,3 +140,13 @@
   <!-- /.card -->
 </section>
 <!-- /.content -->
+
+<div style="display: none; z-index: -1" [class.d-flex]="isWillDownloadTandaTerima">
+  <div style="height: 500px"></div>
+  <app-tanda-terima type="Jadwal Lelang" [data]="dataTandaTerima"></app-tanda-terima>
+</div>
+
+<!-- <div style="display: block; z-index: -1" [class.d-flex]="isWillDownloadTandaTerima">
+  <div style="height: 500px"></div>
+  <app-tanda-terima type="Jadwal Lelang" [data]="dataTandaTerima"></app-tanda-terima>
+</div> -->

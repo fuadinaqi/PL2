@@ -5,7 +5,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { Subject } from 'rxjs'
-
+import * as XLSX from 'xlsx'
+import { AuthService } from '@/services/auth.service'
+import jsPDF from 'jspdf'
 @Component({
   selector: 'app-jadwaldetail',
   templateUrl: './jadwaldetail.component.html',
@@ -23,13 +25,24 @@ export class JadwalDetailComponent {
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<any> = new Subject<any>()
 
+  isWillDownload = false
+
+  dataTandaTerima = {
+    nomorTandaTerima: 'LJL-0001/PLII/2022',
+    nama: this.authService.user.NamaLengkapTanpaGelar,
+    nomorIzin: '',
+    tanggalSubmit: new Date(),
+  }
+  isWillDownloadTandaTerima = false
+
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
     private api: ApiService,
-    private config: AppConfigService
+    private config: AppConfigService,
+    private authService: AuthService
   ) {}
   ngOnInit(): void {
     this.dtOptions = {
@@ -134,5 +147,48 @@ export class JadwalDetailComponent {
         window.location.reload()
       })
     }
+  }
+
+  exportExcel(): void {
+    this.isWillDownload = true
+
+    setTimeout(() => {
+      const TITLE = `Jadwal Lelang ${this.bulan} ${this.tahun} - ${this.term}`
+      /* pass here the table id */
+      let element = document.getElementById('table-download')
+      const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element)
+
+      /* generate workbook and add the worksheet */
+      const wb: XLSX.WorkBook = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
+
+      /* save to file */
+      XLSX.writeFile(wb, `${TITLE}.xlsx`)
+      this.isWillDownload = false
+      window.location.reload()
+    }, 100)
+  }
+
+  hanldeCetakTandaTerima(data) {
+    const doc = new jsPDF('l', 'mm', [297, 210])
+    this.isWillDownloadTandaTerima = true
+    setTimeout(() => {
+      var elementHTML: any = document.querySelector('#tanda-terima')
+
+      doc.html(elementHTML, {
+        callback: (doc) => {
+          // Save the PDF
+          doc.save(`Tanda Terima Laporan Jadwal Lelang.pdf`)
+        },
+        margin: [10, 10, 0, 10],
+        autoPaging: 'text',
+        x: 0,
+        y: 0,
+        width: 277, //target width in the PDF document
+        windowWidth: 675, //window width in CSS pixels
+      })
+
+      this.isWillDownloadTandaTerima = false
+    }, 0)
   }
 }

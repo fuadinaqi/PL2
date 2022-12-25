@@ -10,7 +10,7 @@ import { HeaderComponent } from '@modules/main/header/header.component'
 import { FooterComponent } from '@modules/main/footer/footer.component'
 import { MenuSidebarComponent } from '@modules/main/menu-sidebar/menu-sidebar.component'
 import { BlankComponent } from '@pages/blank/blank.component'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { ProfileComponent } from '@pages/profile/profile.component'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { RegisterComponent } from '@modules/register/register.component'
@@ -72,6 +72,9 @@ import { TransaksiLelangComponent } from '@pages/transaksilelang/transaksilelang
 import { BeaLelangComponent } from '@pages/bealelang/bealelang.component'
 import { BphLelangComponent } from '@pages/bphlelang/bphlelang.component'
 import { CustomHttpInterceptor } from './custom-http.interceptor'
+import { BolelangComponent } from '@pages/bo/bolelang/bolelang.component'
+import { KslelangComponent } from '@pages/kslelang/kslelang.component'
+import { TandaTerimaComponent } from '@components/tanda-terima/tanda-terima.component'
 
 registerLocaleData(localeEn, 'en-EN')
 
@@ -132,23 +135,29 @@ registerLocaleData(localeEn, 'en-EN')
     BphaddComponent,
     BealandingComponent,
 
+    KslelangComponent,
     KslandingComponent,
     KslistComponent,
     KsdetailComponent,
     KsaddComponent,
-    BolandingComponent,
     BphlandingComponent,
+
+    BolelangComponent,
+    BolandingComponent,
     BoperiodeComponent,
     PeriodelistComponent,
 
     NumberToMonthPipe,
     TermToLabelPipe,
+
+    TandaTerimaComponent,
   ],
   imports: [
     BrowserModule,
     StoreModule.forRoot({ auth: authReducer, ui: uiReducer }),
     HttpClientModule,
     AppRoutingModule,
+    FormsModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
     ToastrModule.forRoot({

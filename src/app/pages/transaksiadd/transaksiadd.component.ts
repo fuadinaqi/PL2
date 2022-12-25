@@ -9,6 +9,8 @@ import { v4 as uuidv4 } from 'uuid'
 import { AlamatService } from '@services/alamat.service'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
+import { Location } from '@angular/common'
+import { AuthService } from '@services/auth.service'
 
 @Component({
   selector: 'app-transaksiadd',
@@ -23,6 +25,7 @@ export class TransaksiaddComponent implements OnInit {
 
   public jadwal: any = {}
 
+  public isP2pk: boolean
   public isAddMode: boolean
   public isEditMode: boolean
   public isPreview: boolean
@@ -48,10 +51,19 @@ export class TransaksiaddComponent implements OnInit {
     private alamatService: AlamatService,
     private http: HttpClient,
     private api: ApiService,
-    private config: AppConfigService
+    private config: AppConfigService,
+    private location: Location,
+    private AuthService: AuthService
   ) {}
 
   ngOnInit(): void {
+    let role = this.AuthService.getRole()
+    if (role.toString() == 'UserPLII') {
+      this.isP2pk = false
+    } else {
+      this.isP2pk = true
+    }
+
     this.id = this.route.snapshot.params['id']
     this.idjadwal = this.route.snapshot.params['idjadwal']
     this.idpreview = this.route.snapshot.params['idpreview']
@@ -107,16 +119,21 @@ export class TransaksiaddComponent implements OnInit {
       beaLelangBatal: new UntypedFormControl(null, Validators.required),
       alasanPembatalan: new UntypedFormControl(null, Validators.required),
     })
-    this.http.get(this.config.apiBaseUrl + 'api/JadwalLelang/' + this.idjadwal, this.api.generateHeader()).subscribe(
-      (result: any) => {
-        this.jadwal = result.data
-        console.log(this.jadwal)
-      },
-      (error) => {}
-    )
+    if (this.idjadwal) {
+      this.http.get(this.config.apiBaseUrl + 'api/JadwalLelang/' + this.idjadwal, this.api.generateHeader()).subscribe(
+        (result: any) => {
+          this.jadwal = result.data
+          console.log(this.jadwal)
+        },
+        (error) => {}
+      )
+    }
     if (this.isEditMode || this.isPreview) {
       const idperiode = this.isEditMode ? this.id : this.idpreview
-      this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang/' + idperiode, this.api.generateHeader()).subscribe(
+
+      const URL = this.isP2pk ? 'api/TransaksiLelang/P2PK/' : 'api/TransaksiLelang/'
+
+      this.http.get(this.config.apiBaseUrl + URL + idperiode, this.api.generateHeader()).subscribe(
         (result: any) => {
           this.jadwal = result.data
           console.log(result)
@@ -219,9 +236,13 @@ export class TransaksiaddComponent implements OnInit {
   }
 
   onBack() {
-    this.router.navigate(['/transaksidetail/' + this.idjadwal], {
-      queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term, parentId: this.parentId },
-    })
+    if (this.isP2pk) {
+      this.router.navigate(['/botrans/'])
+    } else {
+      this.router.navigate(['/transaksidetail/' + this.idjadwal || this.id || this.idpreview], {
+        queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term, parentId: this.parentId },
+      })
+    }
   }
 
   savetransaksi() {

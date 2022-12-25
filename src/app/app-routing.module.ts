@@ -41,6 +41,8 @@ import { JadwalLelangComponent } from '@pages/jadwallelang/jadwallelang.componen
 import { TransaksiLelangComponent } from '@pages/transaksilelang/transaksilelang.component'
 import { BeaLelangComponent } from '@pages/bealelang/bealelang.component'
 import { BphLelangComponent } from '@pages/bphlelang/bphlelang.component'
+import { BolelangComponent } from '@pages/bo/bolelang/bolelang.component'
+import { KslelangComponent } from '@pages/kslelang/kslelang.component'
 
 const routes: Routes = [
   {
@@ -194,6 +196,10 @@ const routes: Routes = [
         component: BphlandingComponent,
       },
       {
+        path: 'kslelang',
+        component: KslelangComponent,
+      },
+      {
         path: 'kslist',
         component: KslistComponent,
       },
@@ -204,6 +210,14 @@ const routes: Routes = [
       {
         path: 'ksdetail/:idtrans',
         component: KsdetailComponent,
+      },
+      {
+        path: 'ksadd/preview/:idpreview',
+        component: KsaddComponent,
+      },
+      {
+        path: 'ksadd/:id',
+        component: KsaddComponent,
       },
       {
         path: 'ksadd/periode/:idperiode',
@@ -232,6 +246,10 @@ const routes: Routes = [
       {
         path: 'bojadwal',
         component: BolandingComponent,
+      },
+      {
+        path: 'bolelang',
+        component: BolelangComponent,
       },
     ],
   },

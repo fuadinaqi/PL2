@@ -8,14 +8,6 @@
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a [routerLink]="['/jadwallelang']">Jadwal Lelang</a></li>
-          <li class="breadcrumb-item">
-            <a [routerLink]="['/jadwallist']" [queryParams]="{tahun}">{{ tahun }}</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a [routerLink]="['/jadwaldetail', idperiode]" [queryParams]="{ tahun, bulan, term }">
-              {{ bulan | numberToMonth }} - {{ term | termToLabel }}
-            </a>
-          </li>
           <li class="breadcrumb-item active">Tambah</li>
         </ol>
       </div>

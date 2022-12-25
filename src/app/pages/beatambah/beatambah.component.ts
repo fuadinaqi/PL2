@@ -7,6 +7,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { FileUploadService } from '@services/fileupload.service'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
+import { AuthService } from '@services/auth.service'
 
 @Component({
   selector: 'app-beatambah',
@@ -19,6 +20,7 @@ export class BeatambahComponent implements OnInit {
   public term = this.route.snapshot.queryParams.term
   public idperiode = this.route.snapshot.queryParams.idperiode
   public idtrans: any
+  public isP2pk: boolean
 
   public id: string
   public isAddMode: boolean
@@ -39,10 +41,18 @@ export class BeatambahComponent implements OnInit {
     private http: HttpClient,
     private uploadService: FileUploadService,
     private api: ApiService,
-    private config: AppConfigService
+    private config: AppConfigService,
+    private AuthService: AuthService
   ) {}
 
   ngOnInit(): void {
+    let role = this.AuthService.getRole()
+    if (role.toString() == 'UserPLII') {
+      this.isP2pk = false
+    } else {
+      this.isP2pk = true
+    }
+
     this.id = this.route.snapshot.params['id']
     this.idtrans = this.route.snapshot.params['idtrans']
     this.idpreview = this.route.snapshot.params['idpreview']
@@ -68,28 +78,27 @@ export class BeatambahComponent implements OnInit {
 
     if (this.isEditMode || this.isPreview) {
       const id = this.isEditMode ? this.id : this.idpreview
-      this.http
-        .get(this.config.apiBaseUrl + 'api/LaporanPenyetoranBeaLelang/' + id, this.api.generateHeader())
-        .subscribe(
-          (result: any) => {
-            this.bea = result.data
-            console.log('bea', this.bea)
-            this.idtrans = this.bea.transaksiLelangId
-            this.beaForm.patchValue({
-              transaksiLelangId: this.bea.transaksiLelangId,
-              pokokLelang: this.bea.pokokLelang,
-              jenisTransaksi: this.bea.jenisTransaksi,
-              nomorTransaksi: this.bea.nomorTransaksi,
-              //fileJenisTransaksi: this.bea.fileJenisTransaksi,
-              nomorBPN: this.bea.nomorBPN,
-              kodeMAP: this.bea.kodeMAP,
-              tanggalPenyetoran: this.bea.tanggalPenyetoran.split('T')[0],
-              keterangan: this.bea.keterangan,
-            })
-            this.responseUpload = { data: this.bea.fileJenisTransaksi }
-          },
-          (error) => {}
-        )
+      const url = this.isP2pk ? 'api/LaporanPenyetoranBeaLelang/P2PK/' : 'api/LaporanPenyetoranBeaLelang/'
+      this.http.get(this.config.apiBaseUrl + url + id, this.api.generateHeader()).subscribe(
+        (result: any) => {
+          this.bea = result.data
+          console.log('bea', this.bea)
+          this.idtrans = this.bea.transaksiLelangId
+          this.beaForm.patchValue({
+            transaksiLelangId: this.bea.transaksiLelangId,
+            pokokLelang: this.bea.pokokLelang,
+            jenisTransaksi: this.bea.jenisTransaksi,
+            nomorTransaksi: this.bea.nomorTransaksi,
+            //fileJenisTransaksi: this.bea.fileJenisTransaksi,
+            nomorBPN: this.bea.nomorBPN,
+            kodeMAP: this.bea.kodeMAP,
+            tanggalPenyetoran: this.bea.tanggalPenyetoran.split('T')[0],
+            keterangan: this.bea.keterangan,
+          })
+          this.responseUpload = { data: this.bea.fileJenisTransaksi }
+        },
+        (error) => {}
+      )
 
       if (this.isPreview) {
         this.beaForm.disable()
@@ -100,6 +109,7 @@ export class BeatambahComponent implements OnInit {
   }
 
   loadTrans() {
+    if (!this.idtrans) return
     this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang/' + this.idtrans, this.api.generateHeader()).subscribe(
       (result: any) => {
         this.trans = result.data
@@ -108,6 +118,17 @@ export class BeatambahComponent implements OnInit {
       (error) => {}
     )
   }
+
+  onBack() {
+    if (this.isP2pk) {
+      this.router.navigate(['/bobea/'])
+    } else {
+      this.router.navigate(['/beadetail/' + this.idtrans || this.id || this.idpreview], {
+        queryParams: { ...this.route.snapshot.queryParams },
+      })
+    }
+  }
+
   savetransaksi() {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       this.http
@@ -120,9 +141,7 @@ export class BeatambahComponent implements OnInit {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info('Data Tersimpan')
-            this.router.navigate(['/beadetail/' + this.idtrans], {
-              queryParams: { ...this.route.snapshot.queryParams },
-            })
+            this.onBack()
           },
           (error) => {
             this.toastr.error('Tidak dapat menyimpan Bea lelang, Periksa kembali isian Anda')

@@ -8,14 +8,14 @@
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a [routerLink]="['/transaksilelang']">Transaksi Lelang</a></li>
-          <li class="breadcrumb-item">
+          <!-- <li class="breadcrumb-item">
             <a [routerLink]="['/transaksilist']" [queryParams]="{tahun}">{{ tahun }}</a>
           </li>
           <li class="breadcrumb-item">
             <a [routerLink]="['/transaksi', parentId]" [queryParams]="{ tahun, bulan, term }"
               >{{ bulan | numberToMonth }} - {{ term | termToLabel }}</a
             >
-          </li>
+          </li> -->
           <li class="breadcrumb-item active">Detail</li>
         </ol>
       </div>
@@ -30,7 +30,12 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title">
-          <a [routerLink]="['/transaksi', parentId]" [queryParams]="{ tahun, bulan, term, parentId }" class="btn btn-s">
+          <a
+            *ngIf="!isP2pk"
+            [routerLink]="['/transaksi', parentId]"
+            [queryParams]="{ tahun, bulan, term, parentId }"
+            class="btn btn-s"
+          >
             <i class="fas fa-arrow-left"></i> Kembali
           </a>
         </div>
@@ -41,7 +46,13 @@
             </app-button>
           </a>
         </div>
-        <div class="card-tools">
+
+        <div class="card-title ml-2">
+          <button type="button" class="btn btn-primary btn-block" (click)="exportExcel()">
+            <i class="fa fa-download"></i> Download
+          </button>
+        </div>
+        <!-- <div class="card-tools">
           <div class="input-group input-group-sm" style="width: 150px">
             <input type="text" name="table_search" class="form-control float-right" placeholder="Cari" />
             <div class="input-group-append">
@@ -50,11 +61,17 @@
               </button>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
 
       <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
+        <table
+          id="table-download"
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="table row-border hover"
+        >
           <thead>
             <tr>
               <th>No.</th>
@@ -67,15 +84,15 @@
               <th>Penjual</th>
               <th>Tgl. Surat Penetapan</th>
               <th>Tgl. Lelang</th>
-              <th>Aksi</th>
+              <th *ngIf="!isWillDownload">Aksi</th>
             </tr>
           </thead>
           <tbody>
-            <div *ngIf="isempty; else other_content">
+            <ng-container *ngIf="isempty; else other_content">
               <tr>
                 <td colspan="9" align="center">Data Transaksi kosong silahkan tambah transaksi</td>
               </tr>
-            </div>
+            </ng-container>
             <ng-template #other_content>
               <tr *ngFor="let data of listTrans; let i = index">
                 <td>{{ i + 1 }}</td>
@@ -87,7 +104,7 @@
                 <td>{{ data.namaPenjual }}</td>
                 <td>{{ data.tanggalLelang.split('T')[0] }}</td>
                 <td>{{ data.tanggalPenyerahanKutipanRisalahLelang.split('T')[0] }}</td>
-                <td>
+                <td *ngIf="!isWillDownload">
                   <a
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"
                     class="btn btn-s"
@@ -101,6 +118,14 @@
                   </a>
                   <a *ngIf="data.statusPengiriman == 'Draft Permohonan'" class="btn btn-s" (click)="onKirim(data.id)">
                     <i class="fas fa-envelope"></i> Kirim
+                  </a>
+
+                  <a
+                    *ngIf="data.statusPengiriman != 'Draft Permohonan'"
+                    class="btn btn-s"
+                    (click)="hanldeCetakTandaTerima(data)"
+                  >
+                    <i class="fas fa-print"></i> Cetak
                   </a>
 
                   <a
@@ -128,3 +153,13 @@
   <!-- /.card -->
 </section>
 <!-- /.content -->
+
+<div style="display: none; z-index: -1" [class.d-flex]="isWillDownloadTandaTerima">
+  <div style="height: 500px"></div>
+  <app-tanda-terima type="Transaksi Lelang" [data]="dataTandaTerima"></app-tanda-terima>
+</div>
+
+<!-- <div style="display: block; z-index: -1" [class.d-flex]="isWillDownloadTandaTerima">
+  <div style="height: 500px"></div>
+  <app-tanda-terima type="Jadwal Lelang" [data]="dataTandaTerima"></app-tanda-terima>
+</div> -->

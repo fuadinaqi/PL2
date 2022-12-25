@@ -7,6 +7,8 @@ import { AlamatService } from '@services/alamat.service'
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
+import { AuthService } from '@services/auth.service'
+
 @Component({
   selector: 'app-bphadd',
   templateUrl: './bphadd.component.html',
@@ -18,6 +20,7 @@ export class BphaddComponent implements OnInit {
   public term = this.route.snapshot.queryParams.term
   public idperiode = this.route.snapshot.queryParams.idperiode
   public idtrans: any
+  public isP2pk: boolean
 
   public id: string
   public isAddMode: boolean
@@ -40,10 +43,18 @@ export class BphaddComponent implements OnInit {
     private http: HttpClient,
     private alamatService: AlamatService,
     private api: ApiService,
-    private config: AppConfigService
+    private config: AppConfigService,
+    private AuthService: AuthService
   ) {}
 
   ngOnInit(): void {
+    let role = this.AuthService.getRole()
+    if (role.toString() == 'UserPLII') {
+      this.isP2pk = false
+    } else {
+      this.isP2pk = true
+    }
+
     this.id = this.route.snapshot.params['id']
     this.idtrans = this.route.snapshot.params['idtrans']
     this.idpreview = this.route.snapshot.params['idpreview']
@@ -74,38 +85,50 @@ export class BphaddComponent implements OnInit {
 
     if (this.isEditMode || this.isPreview) {
       const id = this.isEditMode ? this.id : this.idpreview
-      this.http
-        .get(this.config.apiBaseUrl + 'api/LaporanRisalahLelangPengenaanBPHTB/' + id, this.api.generateHeader())
-        .subscribe(
-          (result: any) => {
-            this.bph = result.data
-            console.log('bph', this.bph)
-            this.idtrans = this.bph.transaksiLelangId
-            this.bphForm.patchValue({
-              lot: this.bph.lot,
-              letaktanahBangunanLong: this.bph.letaktanahBangunanLong,
-              letaktanahBangunanLat: this.bph.letaktanahBangunanLat,
-              statusHakAtasTanah: this.bph.statusHakAtasTanah,
-              luasTanah: this.bph.luasTanah,
-              luasBangunan: this.bph.luasBangunan,
-              njopnop: this.bph.njopnop,
-              pokokLelang: this.bph.pokokLelang,
-              nomorSSB: this.bph.nomorSSB,
-              tanggalSSB: this.bph.tanggalSSB.split('T')[0],
-              nomorSSP: this.bph.nomorSSP,
-              tanggalSSP: this.bph.tanggalSSP.split('T')[0],
-              tanggalPenyampaianPetikanRisalahRapat: this.bph.tanggalPenyampaianPetikanRisalahRapat.split('T')[0],
-              keterangan: this.bph.keterangan,
-            })
-          },
-          (error) => {}
-        )
+      const url = this.isP2pk
+        ? 'api/LaporanRisalahLelangPengenaanBPHTB/P2PK/'
+        : 'api/LaporanRisalahLelangPengenaanBPHTB/'
+      this.http.get(this.config.apiBaseUrl + url + id, this.api.generateHeader()).subscribe(
+        (result: any) => {
+          this.bph = result.data
+          console.log('bph', this.bph)
+          this.idtrans = this.bph.transaksiLelangId
+          this.bphForm.patchValue({
+            lot: this.bph.lot,
+            letaktanahBangunanLong: this.bph.letaktanahBangunanLong,
+            letaktanahBangunanLat: this.bph.letaktanahBangunanLat,
+            statusHakAtasTanah: this.bph.statusHakAtasTanah,
+            luasTanah: this.bph.luasTanah,
+            luasBangunan: this.bph.luasBangunan,
+            njopnop: this.bph.njopnop,
+            pokokLelang: this.bph.pokokLelang,
+            nomorSSB: this.bph.nomorSSB,
+            tanggalSSB: this.bph.tanggalSSB.split('T')[0],
+            nomorSSP: this.bph.nomorSSP,
+            tanggalSSP: this.bph.tanggalSSP.split('T')[0],
+            tanggalPenyampaianPetikanRisalahRapat: this.bph.tanggalPenyampaianPetikanRisalahRapat.split('T')[0],
+            keterangan: this.bph.keterangan,
+          })
+        },
+        (error) => {}
+      )
 
       if (this.isPreview) {
         this.bphForm.disable()
       }
     }
   }
+
+  onBack() {
+    if (this.isP2pk) {
+      this.router.navigate(['/bobph/'])
+    } else {
+      this.router.navigate(['/bphdetail/' + this.idtrans || this.id || this.idpreview], {
+        queryParams: { ...this.route.snapshot.queryParams },
+      })
+    }
+  }
+
   savetransaksi() {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       this.http
@@ -118,9 +141,7 @@ export class BphaddComponent implements OnInit {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info('Data Tersimpan')
-            this.router.navigate(['/bphdetail/' + this.idtrans], {
-              queryParams: { ...this.route.snapshot.queryParams },
-            })
+            this.onBack()
           },
           (error) => {
             this.toastr.error('Tidak dapat menyimpan BPHTB, Periksa kembali isian Anda')
@@ -149,6 +170,7 @@ export class BphaddComponent implements OnInit {
   }
 
   onSelectRegister(id) {
+    if (!id) return
     this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang/' + id, this.api.generateHeader()).subscribe(
       (result: any) => {
         this.trans = result.data

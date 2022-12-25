@@ -13,6 +13,11 @@ import { AppConfigService } from '@/app-config.service'
   styleUrls: ['./ksadd.component.scss'],
 })
 export class KsaddComponent implements OnInit {
+  public tahun = this.route.snapshot.queryParams.tahun
+  public bulan = this.route.snapshot.queryParams.bulan
+  public term = this.route.snapshot.queryParams.term
+  public parentId = this.route.snapshot.queryParams.parentId
+
   public id: string
   public isAddMode: boolean
   public isEditMode: boolean
@@ -23,6 +28,57 @@ export class KsaddComponent implements OnInit {
   public bph: any
   public listTrans: Array<any>
   public trans: any = {}
+
+  public data: any = {
+    tahun: this.tahun,
+    bulan: this.bulan,
+    term: this.term,
+    triwulan: '1',
+    jumlahAwal: null,
+    isiKertasSekuritiModels: [
+      {
+        status: 'Penambahan',
+        nomorKertasSekuriti: '',
+        nomorRisalahLelang: '',
+        nomorLotRisalahLelang: '',
+        tanggalMutasi: null,
+        jumlahMutasi: 0,
+      },
+      {
+        status: 'Penggunaan',
+        nomorKertasSekuriti: '',
+        nomorRisalahLelang: '',
+        nomorLotRisalahLelang: '',
+        tanggalMutasi: null,
+        jumlahMutasi: 0,
+      },
+      {
+        status: 'Kutipan Pengganti',
+        nomorKertasSekuriti: '',
+        nomorRisalahLelang: '',
+        nomorLotRisalahLelang: '',
+        tanggalMutasi: null,
+        jumlahMutasi: 0,
+      },
+      {
+        status: 'Rusak',
+        nomorKertasSekuriti: '',
+        nomorRisalahLelang: '',
+        nomorLotRisalahLelang: '',
+        tanggalMutasi: null,
+        jumlahMutasi: 0,
+      },
+      {
+        status: 'Hilang',
+        nomorKertasSekuriti: '',
+        nomorRisalahLelang: '',
+        nomorLotRisalahLelang: '',
+        tanggalMutasi: null,
+        jumlahMutasi: 0,
+      },
+    ],
+  }
+
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -39,118 +95,103 @@ export class KsaddComponent implements OnInit {
     this.isAddMode = this.idperiode ? true : false
     this.isPreview = this.idpreview ? true : false
     this.isEditMode = this.id ? true : false
-    this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang', this.api.generateHeader()).subscribe(
-      (result: any) => {
-        this.listTrans = result.data
-        console.log(result)
-      },
-      (error) => {}
-    )
-    this.ksForm = new UntypedFormGroup({
-      ksdetail: new UntypedFormArray([], Validators.required),
-      kelurahan: new UntypedFormControl(null, Validators.required),
-      //periodeLaporanId: new UntypedFormControl(null, Validators.required),
-      triwulan: new UntypedFormControl(null, Validators.required),
-      jumlahAwal: new UntypedFormControl(null, Validators.required),
-    })
-    console.log('token 1: ', localStorage.getItem('token'))
-    //"Harap input seperti contoh : 'Penambahan', 'Penggunaan', 'Kutipan Pengganti', 'Rusak', 'Hilang'."
-    this.generateKSDetail()
-  }
-  generateKSDetail() {
-    let Penambahan = new UntypedFormGroup({
-        status: new UntypedFormControl(null, Validators.required),
-        nomorKertasSekuriti: new UntypedFormControl(null, Validators.required),
-        nomorRisalahLelang: new UntypedFormControl(null, Validators.required),
-        nomorLotRisalahLelang: new UntypedFormControl(null, Validators.required),
-        tanggalMutasi: new UntypedFormControl(null, Validators.required),
-      }),
-      Penggunaan = new UntypedFormGroup({
-        status: new UntypedFormControl(null, Validators.required),
-        nomorKertasSekuriti: new UntypedFormControl(null, Validators.required),
-        nomorRisalahLelang: new UntypedFormControl(null, Validators.required),
-        nomorLotRisalahLelang: new UntypedFormControl(null, Validators.required),
-        tanggalMutasi: new UntypedFormControl(null, Validators.required),
-      }),
-      Pengganti = new UntypedFormGroup({
-        status: new UntypedFormControl(null, Validators.required),
-        nomorKertasSekuriti: new UntypedFormControl(null, Validators.required),
-        nomorRisalahLelang: new UntypedFormControl(null, Validators.required),
-        nomorLotRisalahLelang: new UntypedFormControl(null, Validators.required),
-        tanggalMutasi: new UntypedFormControl(null, Validators.required),
-      }),
-      Rusak = new UntypedFormGroup({
-        status: new UntypedFormControl(null, Validators.required),
-        nomorKertasSekuriti: new UntypedFormControl(null, Validators.required),
-        nomorRisalahLelang: new UntypedFormControl(null, Validators.required),
-        nomorLotRisalahLelang: new UntypedFormControl(null, Validators.required),
-        tanggalMutasi: new UntypedFormControl(null, Validators.required),
-      }),
-      Hilang = new UntypedFormGroup({
-        status: new UntypedFormControl(null, Validators.required),
-        nomorKertasSekuriti: new UntypedFormControl(null, Validators.required),
-        nomorRisalahLelang: new UntypedFormControl(null, Validators.required),
-        nomorLotRisalahLelang: new UntypedFormControl(null, Validators.required),
-        tanggalMutasi: new UntypedFormControl(null, Validators.required),
+    this.http
+      .get(this.config.apiBaseUrl + 'api/TransaksiLelang', this.api.generateHeader())
+      .subscribe((result: any) => {
+        this.listTrans = result.data.map((x) => ({ ...x, nomorRisalahLelang: String(x.nomorRisalahLelang) }))
+
+        if (this.isEditMode || this.isPreview) {
+          const selectedId = this.isEditMode ? this.id : this.idpreview
+          this.http
+            .get(this.config.apiBaseUrl + 'api/KertasSekuriti/' + selectedId, this.api.generateHeader())
+            .subscribe((res: any) => {
+              const penambahan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penambahan') || {}
+              const penggunaan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penggunaan') || {}
+              const kutipanPengganti =
+                res.data.isiKertasSekuritiModels.find((el) => el.status === 'Kutipan Pengganti') || {}
+              const rusak = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Rusak') || {}
+              const hilang = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Hilang') || {}
+
+              this.data = {
+                id: this.id,
+                triwulan: res.data.triwulan,
+                jumlahAwal: res.data.jumlahAwal,
+                isiKertasSekuritiModels: [
+                  {
+                    id: penambahan.id,
+                    status: 'Penambahan',
+                    nomorKertasSekuriti: penambahan.nomorKertasSekuriti,
+                    nomorRisalahLelang: penambahan.nomorRisalahLelang,
+                    nomorLotRisalahLelang: penambahan.nomorLotRisalahLelang,
+                    tanggalMutasi: penambahan.tanggalMutasi.split('T')[0],
+                    jumlahMutasi: penambahan.jumlahMutasi,
+                  },
+                  {
+                    id: penggunaan.id,
+                    status: 'Penggunaan',
+                    nomorKertasSekuriti: penggunaan.nomorKertasSekuriti,
+                    nomorRisalahLelang: penggunaan.nomorRisalahLelang,
+                    nomorLotRisalahLelang: penggunaan.nomorLotRisalahLelang,
+                    tanggalMutasi: penggunaan.tanggalMutasi.split('T')[0],
+                    jumlahMutasi: penggunaan.jumlahMutasi,
+                  },
+                  {
+                    id: kutipanPengganti.id,
+                    status: 'Kutipan Pengganti',
+                    nomorKertasSekuriti: kutipanPengganti.nomorKertasSekuriti,
+                    nomorRisalahLelang: kutipanPengganti.nomorRisalahLelang,
+                    nomorLotRisalahLelang: kutipanPengganti.nomorLotRisalahLelang,
+                    tanggalMutasi: kutipanPengganti.tanggalMutasi.split('T')[0],
+                    jumlahMutasi: kutipanPengganti.jumlahMutasi,
+                  },
+                  {
+                    id: rusak.id,
+                    status: 'Rusak',
+                    nomorKertasSekuriti: rusak.nomorKertasSekuriti,
+                    nomorRisalahLelang: rusak.nomorRisalahLelang,
+                    nomorLotRisalahLelang: rusak.nomorLotRisalahLelang,
+                    tanggalMutasi: rusak.tanggalMutasi.split('T')[0],
+                    jumlahMutasi: rusak.jumlahMutasi,
+                  },
+                  {
+                    id: hilang.id,
+                    status: 'Hilang',
+                    nomorKertasSekuriti: hilang.nomorKertasSekuriti,
+                    nomorRisalahLelang: hilang.nomorRisalahLelang,
+                    nomorLotRisalahLelang: hilang.nomorLotRisalahLelang,
+                    tanggalMutasi: hilang.tanggalMutasi.split('T')[0],
+                    jumlahMutasi: hilang.jumlahMutasi,
+                  },
+                ],
+              }
+              console.log(this.data)
+            })
+        }
       })
-    const ksdetail = this.ksForm.get('ksdetail') as UntypedFormArray
-    ksdetail.push(Penambahan)
-    ksdetail.push(Penggunaan)
-    ksdetail.push(Pengganti)
-    ksdetail.push(Rusak)
-    ksdetail.push(Hilang)
   }
   savetransaksi() {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
-      this.http
-        .post(
-          this.config.apiBaseUrl + '/api/KertasSekuriti',
-          this.generateBodyReq(this.ksForm.value),
-          this.api.generateHeader()
-        )
-        .subscribe(
-          (data) => {
-            console.log('post ressult ', data)
-            this.toastr.info('Data Tersimpan')
-            this.router.navigate(['/kslanding/' + this.idperiode])
-          },
-          (error) => {
-            this.toastr.error('Tidak dapat menyimpan Kertas Sekuriti, Periksa kembali isian Anda')
-            console.log(error)
-          }
-        )
+      const method = this.isEditMode ? 'put' : 'post'
+      const url = this.isEditMode ? `api/KertasSekuriti/${this.id}` : 'api/KertasSekuriti'
+      this.http[method](this.config.apiBaseUrl + url, this.data, this.api.generateHeader()).subscribe(
+        (data) => {
+          console.log('post ressult ', data)
+          this.toastr.info('Data Tersimpan')
+          this.router.navigate(['/ksdetail/' + this.idperiode], { queryParams: { ...this.route.snapshot.queryParams } })
+        },
+        (error) => {
+          this.toastr.error('Tidak dapat menyimpan Kertas Sekuriti, Periksa kembali isian Anda')
+          console.log(error)
+        }
+      )
     }
   }
 
-  onSelectRegister(id) {
-    this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang/' + id, this.api.generateHeader()).subscribe(
-      (result: any) => {
-        this.trans = result.data
-        console.log(this.trans)
-      },
-      (error) => {}
-    )
+  onSelectRegister(id, index) {
+    this.data.isiKertasSekuritiModels[index].nomorRisalahLelang = id
   }
-  generateBodyReq(formValue: any) {
-    let id = this.id === '' ? uuidv4() : this.id
-    let bodyreq = {
-      transaksiLelangId: formValue.transaksiLelangId,
-      lot: parseInt(formValue.lot),
-      letaktanahBangunanLong: formValue.letaktanahBangunanLong,
-      letaktanahBangunanLat: formValue.letaktanahBangunanLat,
-      statusHakAtasTanah: formValue.statusHakAtasTanah,
-      luasTanah: parseInt(formValue.luasTanah),
-      luasBangunan: parseInt(formValue.luasBangunan),
-      njopnop: Number(formValue.njopnop.replace(/[^0-9.-]+/g, '')),
-      pokokLelang: Number(this.trans.pokokLelang),
-      nomorSSB: Number(formValue.nomorSSB),
-      tanggalSSB: formValue.tanggalSSB,
-      nomorSSP: Number(formValue.nomorSSP),
-      tanggalSSP: formValue.tanggalSSP,
-      tanggalPenyampaianPetikanRisalahRapat: formValue.tanggalPenyampaianPetikanRisalahRapat,
-      keterangan: formValue.keterangan,
-    }
-    console.log(bodyreq)
-    return bodyreq
+
+  onSelectTriwulan(value) {
+    this.data.triwulan = value
   }
 }

@@ -1,0 +1,67 @@
+<section id="tanda-terima" class="content" style="font-size: 6px; letter-spacing: 1px">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="card">
+          <div class="card-body">
+            <div class="d-flex align-items-center" style="letter-spacing: 1px">
+              <img [src]="logo" width="75" />
+              <div class="ml-3">
+                <div class="font-weight-bold" style="font-size: 2.25em">
+                  {{ 'Kementerian Keuangan Republik Indonesia' | uppercase }}
+                </div>
+                <div class="font-weight-bold" style="font-size: 2.25em">{{ 'Sekretariat Jenderal' | uppercase }}</div>
+                <div class="font-weight-bold" style="font-size: 2.25em">
+                  {{ 'Pusat Pembinaan Profesi Keuangan' | uppercase }}
+                </div>
+                <div class="text-center mt-2" style="border: solid 0.0625rem; font-size: 1.75em; letter-spacing: 1px">
+                  <div>{{ data.nomorTandaTerima }}</div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="text-center mt-2"
+              style="border: solid 0.125em; font-size: 1.75em; letter-spacing: 1px; padding: 0.5rem 0"
+            >
+              <div>Tanda Terima Laporan {{ type }}</div>
+            </div>
+            <div class="p-3 mt-2">
+              <table style="font-size: 1.5em">
+                <tr>
+                  <td style="width: 18.75em">Nama PL II</td>
+                  <td style="width: 1.25em">:</td>
+                  <td>{{ data.nama }}</td>
+                </tr>
+                <tr>
+                  <td style="width: 18.75em">Nomor Izin</td>
+                  <td style="width: 1.25em">:</td>
+                  <td>{{ data.nomorIzin }}</td>
+                </tr>
+                <tr>
+                  <td style="width: 18.75em">Waktu Penyampaian</td>
+                  <td style="width: 1.25em">:</td>
+                  <td>{{ data.tanggalSubmit | date: 'dd MMMM yyyy, HH:mm':'id' }} WIB</td>
+                </tr>
+              </table>
+            </div>
+            <!-- <div class="mt-3 d-flex justify-content-between">
+              <div
+                class="p-3 text-center"
+                style="border: solid 0.125em; width: 17em; max-height: 11.5em; font-size: 1.5em"
+              >
+                TANDA TERIMA INI MERUPAKAN BUKTI PENYAMPAIAN LAPORAN REALISASI PL 2 YANG SAH
+              </div>
+              <div style="margin-top: -1.45em; margin-right: -1.45em" *ngIf="!activatedRoute.snapshot.queryParams.qr">
+                <qrcode [qrdata]="qrData" [width]="120" [errorCorrectionLevel]="'L'"></qrcode>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between" style="font-size: 1.5em; margin-top: 3rem">
+              <div>Hak Cipta © 2022-2025 Kementerian Keuangan.</div>
+              <div>Versi 0.1.0</div>
+            </div> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -59,7 +59,7 @@ export class MenuSidebarComponent implements OnInit {
         {
           name: 'Kertas Sekuriti',
           iconClasses: 'fas fa-lock ',
-          path: ['/kslist'],
+          path: ['/kslelang'],
         },
       ]
     } else if (role.toString() == 'P2PK' || role.toString() == 'Plain' || role instanceof Array) {

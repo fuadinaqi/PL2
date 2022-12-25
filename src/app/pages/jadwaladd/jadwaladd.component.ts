@@ -15,6 +15,10 @@ import { AppConfigService } from '@/app-config.service'
   styleUrls: ['./jadwaladd.component.scss'],
 })
 export class JadwaladdComponent implements OnInit {
+  tahun = this.route.snapshot.queryParams.tahun
+  bulan = this.route.snapshot.queryParams.bulan
+  term = this.route.snapshot.queryParams.term
+
   public id: string
   public isAddMode: boolean
   public isEditMode: boolean
@@ -23,9 +27,9 @@ export class JadwaladdComponent implements OnInit {
   public idperiode: any
   public idpreview: any
   public jadwal: Jadwal
-  public tahun: number
-  public term: number
-  public bulan: number
+  // public tahun: number
+  // public term: number
+  // public bulan: number
   ngOnInit(): void {
     this.id = this.route.snapshot.params['id']
     this.idperiode = this.route.snapshot.params['idperiode']
@@ -79,9 +83,9 @@ export class JadwaladdComponent implements OnInit {
       this.http.get(this.config.apiBaseUrl + 'api/PeriodePelaporan/' + idperiode, this.api.generateHeader()).subscribe(
         (result: any) => {
           console.log(result)
-          this.tahun = result.data.tahun
-          this.term = result.data.term
-          this.bulan = result.data.bulan
+          // this.tahun = result.data.tahun
+          // this.term = result.data.term
+          // this.bulan = result.data.bulan
         },
         (error) => {}
       )
