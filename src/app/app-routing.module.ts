@@ -43,6 +43,9 @@ import { BeaLelangComponent } from '@pages/bealelang/bealelang.component'
 import { BphLelangComponent } from '@pages/bphlelang/bphlelang.component'
 import { BolelangComponent } from '@pages/bo/bolelang/bolelang.component'
 import { KslelangComponent } from '@pages/kslelang/kslelang.component'
+import { BolistComponent } from '@pages/bo/bolist/bolist.component'
+import { BoBealandingComponent } from '@pages/bo/bobealanding/bobealanding.component'
+import { BoBphlandingComponent } from '@pages/bo/bobphlanding/bobphlanding.component'
 
 const routes: Routes = [
   {
@@ -232,16 +235,24 @@ const routes: Routes = [
         component: BoperiodeComponent,
       },
       {
+        path: 'bo/:type/list',
+        component: BolistComponent,
+      },
+      {
+        path: 'bo/:type',
+        component: BolelangComponent,
+      },
+      {
         path: 'botrans',
         component: TransaksidetailComponent,
       },
       {
         path: 'bobea',
-        component: BeadetailComponent,
+        component: BoBealandingComponent,
       },
       {
         path: 'bobph',
-        component: BphdetailComponent,
+        component: BoBphlandingComponent,
       },
       {
         path: 'boks',
@@ -249,7 +260,7 @@ const routes: Routes = [
       },
       {
         path: 'bojadwal',
-        component: BolandingComponent,
+        component: JadwalDetailComponent,
       },
       {
         path: 'bolelang',

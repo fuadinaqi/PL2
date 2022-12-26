@@ -22,11 +22,14 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title">
-          <a [routerLink]="['/jadwallist']" [queryParams]="{ tahun: tahun }" class="btn btn-s">
+          <a *ngIf="!isP2pk" [routerLink]="['/jadwallist']" [queryParams]="{ tahun }" class="btn btn-s">
+            <i class="fas fa-arrow-left"></i> Kembali
+          </a>
+          <a *ngIf="isP2pk" [routerLink]="['/bo/bojadwal/list']" [queryParams]="{ tahun }" class="btn btn-s">
             <i class="fas fa-arrow-left"></i> Kembali
           </a>
         </div>
-        <div class="card-title" *ngIf="!nihil">
+        <div class="card-title" *ngIf="!isP2pk && !nihil">
           <a [routerLink]="['/jadwaladd', 'periode', idperiode]" [queryParams]="{ tahun, bulan, term }">
             <button type="button" class="btn btn-primary btn-block">
               <i class="fa fa-plus-circle"></i> Tambah Jadwal
@@ -40,7 +43,7 @@
           </button>
         </div>
 
-        <ng-container *ngIf="!listJadwal?.length">
+        <ng-container *ngIf="!isP2pk && !listJadwal?.length">
           <div class="card-title ml-4 mt-1">
             <div class="d-flex align-items-center">
               <input class="pointer" type="checkbox" id="nihil" [checked]="nihil" (change)="onChangeNihil($event)" />
@@ -128,6 +131,13 @@
                     class="btn btn-s"
                   >
                     <i class="fas fa-inbox"></i> Detail
+                  </a>
+                  <a
+                    *ngIf="isP2pk && data.statusPengiriman != 'Draft Permohonan'"
+                    class="btn btn-s"
+                    (click)="onKirim(data.id)"
+                  >
+                    <i class="fas fa-envelope"></i> Buka Akses
                   </a>
                 </td>
               </tr>

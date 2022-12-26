@@ -75,6 +75,9 @@ import { CustomHttpInterceptor } from './custom-http.interceptor'
 import { BolelangComponent } from '@pages/bo/bolelang/bolelang.component'
 import { KslelangComponent } from '@pages/kslelang/kslelang.component'
 import { TandaTerimaComponent } from '@components/tanda-terima/tanda-terima.component'
+import { BolistComponent } from '@pages/bo/bolist/bolist.component'
+import { BoBealandingComponent } from '@pages/bo/bobealanding/bobealanding.component'
+import { BoBphlandingComponent } from '@pages/bo/bobphlanding/bobphlanding.component'
 
 registerLocaleData(localeEn, 'en-EN')
 
@@ -143,8 +146,12 @@ registerLocaleData(localeEn, 'en-EN')
     BphlandingComponent,
 
     BolelangComponent,
+    BolistComponent,
     BolandingComponent,
     BoperiodeComponent,
+    BoBealandingComponent,
+    BoBphlandingComponent,
+
     PeriodelistComponent,
 
     NumberToMonthPipe,

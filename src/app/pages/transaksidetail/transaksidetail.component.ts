@@ -6,7 +6,6 @@ import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { AuthService } from '@services/auth.service'
 import { Subject } from 'rxjs'
-import { Location } from '@angular/common'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 
@@ -74,12 +73,34 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
     this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang' + url, this.api.generateHeader()).subscribe(
       (result: any) => {
         if (result.data) {
-          this.listTrans = this.isP2pk
-            ? result.data
-            : result.data.filter((trans) => [this.idjadwal].includes(trans.jadwalLelangId))
-          if (this.listTrans.length > 0) {
-            this.isempty = false
-            this.dtTrigger.next()
+          if (this.isP2pk) {
+            this.http
+              .get(
+                this.config.apiBaseUrl +
+                  `api/PeriodePelaporan/P2PK/WithParam?Tahun=${this.tahun}&Bulan=${this.bulan}&Term=${this.term}`,
+                this.api.generateHeader()
+              )
+              .subscribe((r: any) => {
+                const jadwalIds = []
+                r.data.forEach((x) => {
+                  x.jadwalLelangModels.forEach((j) => {
+                    jadwalIds.push(j.id)
+                  })
+                })
+                this.listTrans = result.data.filter((trans) => jadwalIds.indexOf(trans.jadwalLelangId) !== -1)
+                if (this.listTrans.length > 0) {
+                  this.isempty = false
+                  this.dtTrigger.next()
+                }
+              })
+          } else {
+            this.listTrans = this.isP2pk
+              ? result.data
+              : result.data.filter((trans) => [this.idjadwal].includes(trans.jadwalLelangId))
+            if (this.listTrans.length > 0) {
+              this.isempty = false
+              this.dtTrigger.next()
+            }
           }
         }
         console.log(result)

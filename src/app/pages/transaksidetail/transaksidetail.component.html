@@ -38,6 +38,9 @@
           >
             <i class="fas fa-arrow-left"></i> Kembali
           </a>
+          <a *ngIf="isP2pk" [routerLink]="['/bo/botrans/list']" [queryParams]="{ tahun }" class="btn btn-s">
+            <i class="fas fa-arrow-left"></i> Kembali
+          </a>
         </div>
         <div *ngIf="!isP2pk" class="card-title">
           <a [routerLink]="['/transaksiadd', 'jadwal', idjadwal]" [queryParams]="{ tahun, bulan, term, parentId }">

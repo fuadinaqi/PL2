@@ -76,9 +76,7 @@ export class BphdetailComponent implements OnInit {
       .subscribe(
         (result: any) => {
           //this.listTrans = result.data
-          this.listTrans = this.isP2pk
-            ? result.data
-            : result.data.filter((trans) => [this.idtrans].includes(trans.transaksiLelangId))
+          this.listTrans = result.data.filter((trans) => [this.idtrans].includes(trans.transaksiLelangId))
           console.log(result)
           if (this.listTrans.length > 0) {
             this.isempty = false

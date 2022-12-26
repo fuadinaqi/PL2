@@ -237,7 +237,7 @@ export class TransaksiaddComponent implements OnInit {
 
   onBack() {
     if (this.isP2pk) {
-      this.router.navigate(['/botrans/'])
+      this.router.navigate(['/botrans/'], { queryParams: { ...this.route.snapshot.queryParams } })
     } else {
       const id = this.idjadwal || this.id || this.idpreview
       this.router.navigate(['/transaksidetail/' + id], {

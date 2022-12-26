@@ -1,0 +1,84 @@
+<!-- Content Header (Page header) -->
+<section class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1>Transaksi Lelang : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }}</h1>
+      </div>
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item"><a [routerLink]="['/bealelang']">Bea Lelang</a></li>
+          <!-- <li class="breadcrumb-item">
+            <a [routerLink]="['/bealist']" [queryParams]="{tahun}">{{ tahun }}</a>
+          </li> -->
+          <li class="breadcrumb-item active">{{ bulan | numberToMonth }} - {{ term | termToLabel }}</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+  <!-- /.container-fluid -->
+</section>
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <a [routerLink]="['/bo/bobea/list']" [queryParams]="{tahun}" class="btn btn-s">
+          <i class="fas fa-arrow-left"></i> Kembali
+        </a>
+        <!-- <div class="card-title">Daftar Transaksi</div> -->
+      </div>
+
+      <div class="card-body table-responsive p-0">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table row-border hover">
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>Status</th>
+              <th>No Register</th>
+              <th>Tgl. Register</th>
+              <th>No. Risalah</th>
+              <th>Tanggal Risalah</th>
+              <th>Penjual</th>
+              <th>Tgl. Surat Penetapan</th>
+              <th>Tgl. Lelang</th>
+              <th>Aksi</th>
+            </tr>
+          </thead>
+          <tbody>
+            <ng-container *ngIf="isempty; else other_content">
+              <tr>
+                <td colspan="10" class="text-center">Data Transaksi kosong silahkan tambah transaksi</td>
+              </tr>
+            </ng-container>
+            <ng-template #other_content>
+              <tr *ngFor="let data of listTrans; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ data.status }}</td>
+                <td>{{ data.noRegisterLelang }}</td>
+                <td>{{ data.tanggalLelang.split('T')[0] }}</td>
+                <td>{{ data.nomorRisalahLelang }}</td>
+                <td>{{ data.tanggalRisalahLelang.split('T')[0] }}</td>
+                <td>{{ data.namaPenjual }}</td>
+                <td>{{ data.tanggalLelang.split('T')[0] }}</td>
+                <td>{{ data.tanggalPenyerahanKutipanRisalahLelang.split('T')[0] }}</td>
+                <td>
+                  <a
+                    [routerLink]="['/beadetail', data.id]"
+                    [queryParams]="{ tahun, bulan, term, idperiode }"
+                    class="btn btn-s"
+                  >
+                    <i class="fas fa-inbox"></i> Detail
+                  </a>
+                </td>
+              </tr>
+            </ng-template>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- /.card -->
+</section>
+<!-- /.content -->

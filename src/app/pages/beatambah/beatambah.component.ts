@@ -120,14 +120,10 @@ export class BeatambahComponent implements OnInit {
   }
 
   onBack() {
-    if (this.isP2pk) {
-      this.router.navigate(['/bobea/'])
-    } else {
-      const id = this.idtrans || this.id || this.idpreview
-      this.router.navigate(['/beadetail/' + id], {
-        queryParams: { ...this.route.snapshot.queryParams },
-      })
-    }
+    const id = this.idtrans || this.id || this.idpreview
+    this.router.navigate(['/beadetail/' + id], {
+      queryParams: { ...this.route.snapshot.queryParams },
+    })
   }
 
   savetransaksi() {
@@ -159,7 +155,7 @@ export class BeatambahComponent implements OnInit {
       pokokLelang: formValue.pokokLelang,
       jenisTransaksi: formValue.jenisTransaksi,
       nomorTransaksi: formValue.nomorTransaksi,
-      fileJenisTransaksi: this.responseUpload.data,
+      fileJenisTransaksi: this.responseUpload?.data,
       nomorBPN: formValue.nomorBPN,
       kodeMAP: formValue.kodeMAP,
       tanggalPenyetoran: formValue.tanggalPenyetoran,

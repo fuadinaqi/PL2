@@ -106,10 +106,12 @@ export class KsaddComponent implements OnInit {
     this.isPreview = this.idpreview ? true : false
     this.isEditMode = this.id ? true : false
 
-    const urlTrans = this.isP2pk ? 'api/TransaksiLelang/P2PK' : 'api/TransaksiLelang'
+    const urlTrans = this.isP2pk ? 'api/TransaksiLelang/P2PK' : `api/TransaksiLelang?tahun=${this.tahun}`
 
     this.http.get(this.config.apiBaseUrl + urlTrans, this.api.generateHeader()).subscribe((result: any) => {
-      this.listTrans = result.data.map((x) => ({ ...x, nomorRisalahLelang: String(x.nomorRisalahLelang) }))
+      this.listTrans = result.data
+        // .filter((x) => x.tahun == this.tahun)
+        .map((x) => ({ ...x, nomorRisalahLelang: String(x.nomorRisalahLelang) }))
 
       if (this.isEditMode || this.isPreview) {
         const selectedId = this.isEditMode ? this.id : this.idpreview

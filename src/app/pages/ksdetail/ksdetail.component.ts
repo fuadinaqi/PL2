@@ -17,9 +17,12 @@ import jsPDF from 'jspdf'
 })
 export class KsdetailComponent implements OnInit, OnDestroy {
   public tahun = this.route.snapshot.queryParams.tahun
-  public bulan = this.route.snapshot.queryParams.bulan
-  public term = this.route.snapshot.queryParams.term
-  public parentId = this.route.snapshot.queryParams.parentId
+  public bulan = 1
+  public term = 1
+  public parentId = ''
+  // public bulan = this.route.snapshot.queryParams.bulan
+  // public term = this.route.snapshot.queryParams.term
+  // public parentId = this.route.snapshot.queryParams.parentId
 
   public listTrans: Array<any>
   public idjadwal: String
@@ -76,9 +79,8 @@ export class KsdetailComponent implements OnInit, OnDestroy {
       (result: any) => {
         if (result.data) {
           console.log(this.idjadwal)
-          this.listTrans = this.isP2pk
-            ? result.data
-            : result.data.filter((trans) => [this.parentId].includes(trans.periodeLaporanId))
+          this.listTrans = result.data.filter((d) => this.tahun == d.tahun)
+          // : result.data.filter((trans) => [this.parentId].includes(trans.periodeLaporanId))
           if (this.listTrans.length > 0) {
             this.isempty = false
             this.dtTrigger.next()
@@ -99,6 +101,15 @@ export class KsdetailComponent implements OnInit, OnDestroy {
         break
     }
   }
+
+  onBack() {
+    if (this.isP2pk) {
+      this.router.navigate(['/bo/boks'])
+    } else {
+      this.router.navigate(['/kslelang'])
+    }
+  }
+
   onKirim(idtrans) {
     if (confirm('Apakah anda yakin ingin mengirim data?')) {
       console.log(idtrans)
@@ -108,6 +119,9 @@ export class KsdetailComponent implements OnInit, OnDestroy {
         (data) => {
           console.log('post ressult ', data)
           this.toastr.info(msg)
+          if (this.isP2pk) {
+            window.location.reload()
+          }
           this.loadTransaction()
         },
         (error) => {

@@ -8,6 +8,7 @@ import { v4 as uuidv4 } from 'uuid'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
+import { AuthService } from '@services/auth.service'
 
 @Component({
   selector: 'app-jadwaladd',
@@ -27,6 +28,7 @@ export class JadwaladdComponent implements OnInit {
   public idperiode: any
   public idpreview: any
   public jadwal: Jadwal
+  public isP2pk: boolean = false
   // public tahun: number
   // public term: number
   // public bulan: number
@@ -37,6 +39,14 @@ export class JadwaladdComponent implements OnInit {
     this.isAddMode = this.idperiode ? true : false
     this.isPreview = this.idpreview ? true : false
     this.isEditMode = this.id ? true : false
+
+    let role = this.authService.getRole()
+    if (role.toString() == 'UserPLII') {
+      this.isP2pk = false
+    } else {
+      this.isP2pk = true
+    }
+
     console.log('token 1: ', localStorage.getItem('token'))
     this.jadwalForm = new UntypedFormGroup({
       nomerRegistrasi: new UntypedFormControl(null, [Validators.required, Validators.pattern('^[0-9]*$')]),
@@ -53,7 +63,9 @@ export class JadwaladdComponent implements OnInit {
 
     if (this.isEditMode || this.isPreview) {
       const idperiode = this.isEditMode ? this.id : this.idpreview
-      this.http.get(this.config.apiBaseUrl + 'api/JadwalLelang/' + idperiode, this.api.generateHeader()).subscribe(
+      const url = this.isP2pk ? 'api/JadwalLelang/P2PK/' : 'api/JadwalLelang/'
+
+      this.http.get(this.config.apiBaseUrl + url + idperiode, this.api.generateHeader()).subscribe(
         (result: any) => {
           this.jadwal = result.data
           console.log(result)
@@ -98,7 +110,8 @@ export class JadwaladdComponent implements OnInit {
     public periodeLaporan: Periode,
     private http: HttpClient,
     private api: ApiService,
-    private config: AppConfigService
+    private config: AppConfigService,
+    private authService: AuthService
   ) {}
   isValid(a: string) {
     let control = this.jadwalForm.get(a)

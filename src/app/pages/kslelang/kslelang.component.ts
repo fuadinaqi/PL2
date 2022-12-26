@@ -33,8 +33,8 @@ export class KslelangComponent {
     )
   }
 
-  clickDetail(tahun: number) {
-    this.router.navigateByUrl(`/kslist?tahun=${tahun}`)
+  clickDetail(data) {
+    this.router.navigateByUrl(`/ksdetail/${data.id}?tahun=${data.tahun}`)
   }
 
   constructor(

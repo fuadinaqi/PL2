@@ -76,10 +76,7 @@ export class BeadetailComponent implements OnInit {
     this.http.get(this.config.apiBaseUrl + 'api/LaporanPenyetoranBeaLelang' + url, this.api.generateHeader()).subscribe(
       (result: any) => {
         //this.listTrans = result.data
-        this.listTrans = this.isP2pk
-          ? result.data
-          : result.data.filter((trans) => [this.idtrans].includes(trans.transaksiLelangId))
-        console.log(result)
+        this.listTrans = result.data.filter((trans) => [this.idtrans].includes(trans.transaksiLelangId))
         if (this.listTrans.length > 0) {
           this.isempty = false
           this.dtTrigger.next()
