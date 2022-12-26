@@ -15,11 +15,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     this.totalRequests++
 
-    const authReq = request.clone({
-      setHeaders: {
-        ['Authorization']: 'Bearer ' + localStorage.getItem('token') || '',
-      },
-    })
+    const authReq = request.clone({})
 
     return next.handle(authReq).pipe(
       tap({
