@@ -22,7 +22,7 @@ export class JadwalDetailComponent {
   public listJadwal: Array<any>
   public idperiode: String
   public isempty: boolean = true
-  public nihil: boolean = true
+  public nihil: boolean = false
   public isP2pk: boolean = false
 
   dtOptions: DataTables.Settings = {}

@@ -24,7 +24,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <div class="card-title">
+        <div class="card-title" *ngIf="!isP2pk">
           <a [routerLink]="['/periode']">
             <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
               Tambah Periode
@@ -48,12 +48,22 @@
           <thead>
             <tr>
               <th>Tahun</th>
+              <th>Jadwal Lelang</th>
+              <th>Transaksi Lelang</th>
+              <th>Bea Lelang</th>
+              <th>BPHTB</th>
+              <th>Kertas Sekuriti</th>
               <th class="text-right">Aksi</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of listPeriode">
               <td>{{ data.tahun }}</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
+              <td>-</td>
               <td class="text-right">
                 <button class="btn btn-sm btn-primary" (click)="clickDetail(data.tahun)">Detail</button>
               </td>

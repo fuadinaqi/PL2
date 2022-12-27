@@ -36,7 +36,8 @@ export class AuthService {
           console.log('jwt : ', jwt)
           this.toastr.info('berhasil')
           if (this.getRole() === 'P2PK') {
-            this.router.navigate(['/dash-bo'])
+            this.router.navigate(['/'])
+            // this.router.navigate(['/dash-bo'])
           } else {
             this.router.navigate(['/'])
           }
@@ -110,6 +111,13 @@ export class AuthService {
       let jwt = jwt_decode(localStorage.getItem('token'))
       this.user = jwt
       if (this.user) {
+        const roles = this.user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+
+        if (Array.isArray(roles)) {
+          if (roles.indexOf('P2PK') !== -1) return 'P2PK'
+          if (roles.indexOf('UserPLII') !== -1) return 'UserPLII'
+          return 'Plain'
+        }
         return this.user['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
       } else {
         this.logout()
@@ -128,12 +136,14 @@ export class AuthService {
   loginKemenkeu() {
     this.loginByAuth({ email: 'P2PK@pelaporanplii.com', password: '$Plendid123' })
     this.toastr.info('berhasil')
-    this.router.navigate(['/dash-bo'])
+    this.router.navigate(['/'])
+    // this.router.navigate(['/dash-bo'])
   }
   loginKasubbid() {
     this.loginByAuth({ email: 'admin@pelaporanplii.com', password: '$Plendid123' })
     this.toastr.info('berhasil')
-    this.router.navigate(['/dash-bo'])
+    this.router.navigate(['/'])
+    // this.router.navigate(['/dash-bo'])
   }
 
   async loginByHris({ email, password }) {
@@ -154,7 +164,8 @@ export class AuthService {
           console.log('jwt : ', jwt)
           this.toastr.info('berhasil')
           if (this.getRole() === 'P2PK' || this.getRole() === 'Plain') {
-            this.router.navigate(['/dash-bo'])
+            this.router.navigate(['/'])
+            // this.router.navigate(['/dash-bo'])
           } else {
             this.router.navigate(['/'])
           }

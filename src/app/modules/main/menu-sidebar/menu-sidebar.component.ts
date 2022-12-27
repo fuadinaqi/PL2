@@ -67,7 +67,8 @@ export class MenuSidebarComponent implements OnInit {
         {
           name: 'Back Office',
           iconClasses: 'fas fa-briefcase ',
-          path: ['/dash-bo'],
+          path: ['/'],
+          // path: ['/dash-bo'],
         },
 
         {
