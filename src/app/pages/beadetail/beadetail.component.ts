@@ -94,7 +94,8 @@ export class BeadetailComponent implements OnInit {
         (data) => {
           console.log('post ressult ', data)
           this.toastr.info(msg)
-          this.onLoadData()
+          window.location.reload()
+          // this.onLoadData()
         },
         (error) => {
           this.toastr.error('Tidak dapat mengirim data, coba kembali nanti')
@@ -107,7 +108,7 @@ export class BeadetailComponent implements OnInit {
   onHapus(id) {
     const API_URL = 'api/LaporanPenyetoranBeaLelang/' + id
     if (confirm('Apakah Anda yakin ingin mehapus data ini')) {
-      this.http.delete(this.config.apiBaseUrl + API_URL).subscribe((data) => {
+      this.http.delete(this.config.apiBaseUrl + API_URL, this.api.generateHeader()).subscribe((data) => {
         this.toastr.info('Berhasil menghapus data')
         window.location.reload()
       })

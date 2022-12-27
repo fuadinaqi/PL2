@@ -184,12 +184,12 @@ export class TransaksiaddComponent implements OnInit {
               ? 0
               : this.jadwal.jaminanLelangBerupaUang,
             jaminanLelangBankGaransi: this.jadwal.jaminanLelangBankGaransi,
-            nilaiLimit: isNaN(this.jadwal.nilaiLimit) ? 0 : this.jadwal.nilaiLimit,
-            pokokLelang: isNaN(this.jadwal.pokokLelang) ? 0 : this.jadwal.pokokLelang,
-            beaLelangPenjual: isNaN(this.jadwal.beaLelangPenjual) ? 0 : this.jadwal.beaLelangPenjual,
-            beaLelangPembeli: isNaN(this.jadwal.beaLelangPembeli) ? 0 : this.jadwal.beaLelangPembeli,
+            nilaiLimit: isNaN(this.jadwal.nilaiLimit) ? 0 : String(this.jadwal.nilaiLimit),
+            pokokLelang: isNaN(this.jadwal.pokokLelang) ? 0 : String(this.jadwal.pokokLelang),
+            beaLelangPenjual: isNaN(this.jadwal.beaLelangPenjual) ? 0 : String(this.jadwal.beaLelangPenjual),
+            beaLelangPembeli: isNaN(this.jadwal.beaLelangPembeli) ? 0 : String(this.jadwal.beaLelangPembeli),
             tanggalPenyerahanKutipanRisalahLelang: this.jadwal.tanggalPenyerahanKutipanRisalahLelang.split('T')[0],
-            imbalanJasa: isNaN(this.jadwal.imbalanJasa) ? 0 : this.jadwal.imbalanJasa,
+            imbalanJasa: isNaN(this.jadwal.imbalanJasa) ? 0 : String(this.jadwal.imbalanJasa),
             keterangan: this.jadwal.keterangan,
             nomorRegisterPembatalan: isNaN(this.jadwal.nomorRegisterPembatalan)
               ? 0
@@ -283,6 +283,8 @@ export class TransaksiaddComponent implements OnInit {
   }
   generateBodyReq(formValue: any) {
     let id = this.id === '' ? uuidv4() : this.id
+
+    console.log(formValue)
     let bodyreq = {
       id: this.id,
       periodeLaporanId: this.jadwal.periodeLaporanId,

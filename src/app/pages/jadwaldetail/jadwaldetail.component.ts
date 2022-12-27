@@ -145,8 +145,9 @@ export class JadwalDetailComponent {
           (data) => {
             console.log('post ressult ', data)
             this.toastr.info(msg)
-            this.onLoadSamePage()
-            this.loadJadwal()
+            window.location.reload()
+            // this.onLoadSamePage()
+            // this.loadJadwal()
           },
           (error) => {
             this.toastr.error('Tidak dapat mengirim data, Periksa kembali data Anda')
@@ -184,7 +185,7 @@ export class JadwalDetailComponent {
   onHapus(id) {
     const API_URL = 'api/JadwalLelang/' + id
     if (confirm('Apakah Anda yakin ingin mehapus data ini')) {
-      this.http.delete(this.config.apiBaseUrl + API_URL).subscribe((data) => {
+      this.http.delete(this.config.apiBaseUrl + API_URL, this.api.generateHeader()).subscribe((data) => {
         this.toastr.info('Berhasil menghapus data')
         window.location.reload()
       })

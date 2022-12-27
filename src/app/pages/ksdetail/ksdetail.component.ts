@@ -119,10 +119,8 @@ export class KsdetailComponent implements OnInit, OnDestroy {
         (data) => {
           console.log('post ressult ', data)
           this.toastr.info(msg)
-          if (this.isP2pk) {
-            window.location.reload()
-          }
-          this.loadTransaction()
+          window.location.reload()
+          // this.loadTransaction()
         },
         (error) => {
           this.toastr.error('Tidak dapat mengirim data, coba kembali nanti')
@@ -135,7 +133,7 @@ export class KsdetailComponent implements OnInit, OnDestroy {
   onHapus(id) {
     const API_URL = 'api/KertasSekuriti/' + id
     if (confirm('Apakah Anda yakin ingin mehapus data ini')) {
-      this.http.delete(this.config.apiBaseUrl + API_URL).subscribe((data) => {
+      this.http.delete(this.config.apiBaseUrl + API_URL, this.api.generateHeader()).subscribe((data) => {
         this.toastr.info('Berhasil menghapus data')
         window.location.reload()
       })
