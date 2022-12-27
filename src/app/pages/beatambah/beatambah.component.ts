@@ -95,6 +95,7 @@ export class BeatambahComponent implements OnInit {
             tanggalPenyetoran: this.bea.tanggalPenyetoran.split('T')[0],
             keterangan: this.bea.keterangan,
           })
+          this.trans = result.data
           this.responseUpload = { data: this.bea.fileJenisTransaksi }
         },
         (error) => {}

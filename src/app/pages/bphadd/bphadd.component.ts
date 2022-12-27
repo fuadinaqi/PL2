@@ -36,6 +36,16 @@ export class BphaddComponent implements OnInit {
   public kec: any = []
   public kel: any = []
 
+  public provinsiPenjual: string = ''
+  public kabPenjual: string = ''
+  public kecPenjual: string = ''
+  public kelPenjual: string = ''
+
+  public provinsiPembeli: string = ''
+  public kabPembeli: string = ''
+  public kecPembeli: string = ''
+  public kelPembeli: string = ''
+
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -56,7 +66,7 @@ export class BphaddComponent implements OnInit {
     }
 
     this.id = this.route.snapshot.params['id']
-    this.idtrans = this.route.snapshot.params['idtrans']
+    this.idtrans = this.route.snapshot.params['idtrans'] || this.route.snapshot.queryParams['idtrans'] || ''
     this.idpreview = this.route.snapshot.params['idpreview']
     this.isAddMode = this.idtrans ? true : false
     this.isPreview = this.idpreview ? true : false
@@ -176,6 +186,32 @@ export class BphaddComponent implements OnInit {
       (result: any) => {
         this.trans = result.data
         console.log(this.trans)
+
+        this.alamatService.getAllProvinsi().subscribe((r: any) => {
+          this.provinsiPenjual = r.find((x) => x.id == result.data.provinsiPenjual)?.name || ''
+          this.provinsiPembeli = r.find((x) => x.id == result.data.provinsiPembeli)?.name || ''
+        })
+
+        this.alamatService.selectProvinsi(result.data.provinsiPenjual).subscribe((r: any) => {
+          this.kabPenjual = r.find((x) => x.id == result.data.kabupatenKotaPenjual)?.name || ''
+        })
+        this.alamatService.selectProvinsi(result.data.provinsiPembeli).subscribe((r: any) => {
+          this.kabPembeli = r.find((x) => x.id == result.data.kabupatenKotaPembeli)?.name || ''
+        })
+
+        this.alamatService.selectKab(result.data.kabupatenKotaPenjual).subscribe((r: any) => {
+          this.kecPenjual = r.find((x) => x.id == result.data.kecamatanPenjual)?.name || ''
+        })
+        this.alamatService.selectKab(result.data.kabupatenKotaPembeli).subscribe((r: any) => {
+          this.kecPembeli = r.find((x) => x.id == result.data.kecamatanPembeli)?.name || ''
+        })
+
+        this.alamatService.selectKec(result.data.kecamatanPenjual).subscribe((r: any) => {
+          this.kelPenjual = r.find((x) => x.id == result.data.keluarahanPenjual)?.name || ''
+        })
+        this.alamatService.selectKec(result.data.kecamatanPembeli).subscribe((r: any) => {
+          this.kelPembeli = r.find((x) => x.id == result.data.keluarahanPenjual)?.name || ''
+        })
       },
       (error) => {}
     )

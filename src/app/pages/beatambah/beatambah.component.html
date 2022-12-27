@@ -115,7 +115,7 @@
               <input
                 type="text"
                 onClick="showDatePicker(this);"
-                [value]="trans.tanggalLelang ? trans.tanggalLelang : ''"
+                [value]="trans.tanggalLelang ? trans.tanggalLelang.split('T')[0] : ''"
                 disabled
                 class="form-control"
               />

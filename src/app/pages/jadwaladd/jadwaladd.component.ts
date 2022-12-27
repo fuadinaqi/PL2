@@ -50,6 +50,7 @@ export class JadwaladdComponent implements OnInit {
     console.log('token 1: ', localStorage.getItem('token'))
     this.jadwalForm = new UntypedFormGroup({
       nomerRegistrasi: new UntypedFormControl(null, [Validators.required, Validators.pattern('^[0-9]*$')]),
+      tanggalRegistrasi: new UntypedFormControl(null, Validators.required),
       tanggalLelang: new UntypedFormControl(null, Validators.required),
       namaPenjual: new UntypedFormControl(null, Validators.required),
       klasifikasiPenjual: new UntypedFormControl(null, Validators.required),
@@ -122,9 +123,9 @@ export class JadwaladdComponent implements OnInit {
     let bodyreq = {
       id: this.id,
       periodeLaporanId: this.idperiode,
-      tahun: this.tahun,
-      term: this.term,
-      bulan: this.bulan,
+      tahun: Number(this.tahun),
+      term: Number(this.term),
+      bulan: Number(this.bulan),
       nomerRegistrasi: formValue.nomerRegistrasi,
       tanggalRegistrasi: formValue.tanggalRegistrasi,
       tanggalLelang: formValue.tanggalLelang,

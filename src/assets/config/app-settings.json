@@ -1,5 +1,4 @@
 {
-   
-    "apiBaseUrl": "http://p2pk-dev.torche.id:8386/",
-     "apiBaseUrlStaging": "https://pelaporanpliiapi.azurewebsites.net/"
+  "apiBaseUrl": "https://pelaporanpliiapi.azurewebsites.net/",
+  "apiBaseUrlStaging": "https://pelaporanpliiapi.azurewebsites.net/"
 }

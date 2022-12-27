@@ -9,6 +9,7 @@ import { Subject } from 'rxjs'
 import { Location } from '@angular/common'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
+import { getMonthByNumber, getTermByNumber } from '@/helpers/date'
 
 @Component({
   selector: 'app-beadetail',
@@ -30,6 +31,9 @@ export class BeadetailComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>()
 
   isWillDownload = false
+  excelTitle = `Bea Lelang ${getMonthByNumber(this.bulan)} ${this.tahun} - ${getTermByNumber(this.term)} (${
+    new Date().toISOString().split('T')[0]
+  })`
 
   dataTandaTerima = {
     nomorTandaTerima: 'PBL-0001/PLII/2022',
@@ -119,7 +123,7 @@ export class BeadetailComponent implements OnInit {
     this.isWillDownload = true
 
     setTimeout(() => {
-      const TITLE = `Bea Lelang ${this.bulan} ${this.tahun} - ${this.term}`
+      // const TITLE = `Bea Lelang ${this.bulan} ${this.tahun} - ${this.term}`
       /* pass here the table id */
       let element = document.getElementById('table-download')
       const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element)
@@ -129,7 +133,7 @@ export class BeadetailComponent implements OnInit {
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
 
       /* save to file */
-      XLSX.writeFile(wb, `${TITLE}.xlsx`)
+      XLSX.writeFile(wb, `${this.excelTitle}.xlsx`)
       this.isWillDownload = false
       window.location.reload()
     }, 100)

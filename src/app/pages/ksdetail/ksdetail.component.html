@@ -75,6 +75,9 @@
           class="table row-border hover"
         >
           <thead>
+            <tr *ngIf="isWillDownload">
+              <th colspan="5">{{ excelTitle }}</th>
+            </tr>
             <tr>
               <th>No.</th>
               <th>Triwulan</th>
@@ -87,7 +90,7 @@
           <tbody>
             <ng-container *ngIf="isempty; else other_content">
               <tr>
-                <td colspan="10" align="center">Data Kertas Sekuriti kosong silahkan tambah kertas sekuriti</td>
+                <td colspan="6" align="center">Data Kertas Sekuriti kosong silahkan tambah kertas sekuriti</td>
               </tr>
             </ng-container>
             <ng-template #other_content>

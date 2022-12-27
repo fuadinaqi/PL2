@@ -63,6 +63,9 @@
           class="table row-border hover"
         >
           <thead>
+            <tr *ngIf="isWillDownload">
+              <th colspan="8">{{ excelTitle }}</th>
+            </tr>
             <tr>
               <th>No.</th>
               <th>No. Risalah</th>

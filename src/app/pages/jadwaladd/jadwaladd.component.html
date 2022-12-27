@@ -36,6 +36,17 @@
               />
             </div>
             <div class="form-group col-xl-6">
+              <label for="tanggalRegistrasi">Tanggal Registrasi</label>
+              <input
+                type="date"
+                placeholder="dd-mm-yyyy"
+                [ngClass]="isValid('tanggalRegistrasi') ? 'form-control is-invalid' : 'form-control '"
+                formControlName="tanggalRegistrasi"
+              />
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xl-6">
               <label for="tanggalLelang">Tanggal Lelang</label>
               <input
                 type="date"
@@ -44,8 +55,6 @@
                 formControlName="tanggalLelang"
               />
             </div>
-          </div>
-          <div class="row">
             <div class="form-group col-xl-6">
               <label for="namaPenjual">Nama Penjual Lelang</label>
               <input
@@ -54,6 +63,8 @@
                 formControlName="namaPenjual"
               />
             </div>
+          </div>
+          <div class="row">
             <div class="form-group col-xl-6">
               <label for="klasifikasiPenjual">Klasifikasi Penjual </label>
               <select
@@ -68,8 +79,6 @@
                 <option value="Swasta">Swasta</option>
               </select>
             </div>
-          </div>
-          <div class="row">
             <div class="form-group col-xl-6">
               <label for="nomorSuratPermohonan">Nomor Surat Permohonan </label>
               <input
@@ -78,6 +87,8 @@
                 formControlName="nomorSuratPermohonan"
               />
             </div>
+          </div>
+          <div class="row">
             <div class="form-group col-xl-6">
               <label for="tanggalSuratPermohonan">Tanggal Surat Permohonan </label>
               <input
@@ -86,8 +97,6 @@
                 formControlName="tanggalSuratPermohonan"
               />
             </div>
-          </div>
-          <div class="row">
             <div class="form-group col-xl-6">
               <label for="tempatLelang">Tempat Lelang </label>
 
@@ -101,6 +110,8 @@
                 <option value="Aplikasi">Aplikasi</option>
               </select>
             </div>
+          </div>
+          <div class="row">
             <div class="form-group col-xl-6">
               <label for="sifatLelang">Jenis Penawaran lelang </label>
               <select
@@ -114,8 +125,6 @@
                 <option value="Open Bidding">Open Bidding</option>
               </select>
             </div>
-          </div>
-          <div class="row">
             <div class="form-group col-xl-6">
               <label for="nomorSuratPenetapanJadwalLelang">Nomor Surat Penetapan Jadwal </label>
               <input
@@ -124,6 +133,8 @@
                 formControlName="nomorSuratPenetapanJadwalLelang"
               />
             </div>
+          </div>
+          <div class="row">
             <div class="form-group col-xl-6">
               <label for="tanggalSuratPenetapanJadwalLelang">Tanggal Surat Penetapan Jadwal </label>
               <input

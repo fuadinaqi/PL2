@@ -78,6 +78,7 @@ import { TandaTerimaComponent } from '@components/tanda-terima/tanda-terima.comp
 import { BolistComponent } from '@pages/bo/bolist/bolist.component'
 import { BoBealandingComponent } from '@pages/bo/bobealanding/bobealanding.component'
 import { BoBphlandingComponent } from '@pages/bo/bobphlanding/bobphlanding.component'
+import { CustomDropdownComponent } from '@components/custom-dropdown/custom-dropdown.component'
 
 registerLocaleData(localeEn, 'en-EN')
 
@@ -158,6 +159,8 @@ registerLocaleData(localeEn, 'en-EN')
     TermToLabelPipe,
 
     TandaTerimaComponent,
+
+    CustomDropdownComponent,
   ],
   imports: [
     BrowserModule,

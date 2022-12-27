@@ -206,25 +206,22 @@ export class TransaksiaddComponent implements OnInit {
       }
     }
   }
-  async selectProvinsi(id) {
+  async selectProvinsi(id, key: string) {
     console.log('provinsi:', id)
     this.alamatService.selectProvinsi(id).subscribe((r) => {
-      this.kab = r
-      this.kab1 = r
+      this[key] = r
     })
   }
-  async selectKab(id) {
+  async selectKab(id, key: string) {
     console.log('kab:', id)
     this.alamatService.selectKab(id).subscribe((r) => {
-      this.kec = r
-      this.kec1 = r
+      this[key] = r
     })
   }
-  async selectKec(id) {
+  async selectKec(id, key: string) {
     console.log('kec:', id)
     this.alamatService.selectKec(id).subscribe((r) => {
-      this.kel = r
-      this.kel1 = r
+      this[key] = r
     })
   }
 
@@ -320,12 +317,12 @@ export class TransaksiaddComponent implements OnInit {
       jaminanLelang: formValue.jaminanLelang,
       jaminanLelangBerupaUang: Number(formValue.jaminanLelangBerupaUang),
       jaminanLelangBankGaransi: formValue.jaminanLelangBankGaransi,
-      nilaiLimit: Number(formValue.nilaiLimit.replace(/[^0-9.-]+/g, '')),
-      pokokLelang: Number(formValue.pokokLelang.replace(/[^0-9.-]+/g, '')),
-      beaLelangPenjual: Number(formValue.beaLelangPenjual.replace(/[^0-9.-]+/g, '')),
-      beaLelangPembeli: Number(formValue.beaLelangPembeli.replace(/[^0-9.-]+/g, '')),
+      nilaiLimit: Number(formValue.nilaiLimit?.replace(/[^0-9.-]+/g, '')),
+      pokokLelang: Number(formValue.pokokLelang?.replace(/[^0-9.-]+/g, '')),
+      beaLelangPenjual: Number(formValue.beaLelangPenjual?.replace(/[^0-9.-]+/g, '')),
+      beaLelangPembeli: Number(formValue.beaLelangPembeli?.replace(/[^0-9.-]+/g, '')),
       tanggalPenyerahanKutipanRisalahLelang: formValue.tanggalPenyerahanKutipanRisalahLelang,
-      imbalanJasa: Number(formValue.imbalanJasa.replace(/[^0-9.-]+/g, '')),
+      imbalanJasa: Number(formValue.imbalanJasa?.replace(/[^0-9.-]+/g, '')),
       keterangan: formValue.keterangan,
       nomorRegisterPembatalan: isNaN(formValue.nomorRegisterPembatalan) ? 0 : formValue.nomorRegisterPembatalan,
       beaLelangBatal: formValue.beaLelangBatal,

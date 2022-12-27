@@ -8,6 +8,7 @@ import { AuthService } from '@services/auth.service'
 import { Subject } from 'rxjs'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
+import { getMonthByNumber, getTermByNumber } from '@/helpers/date'
 
 @Component({
   selector: 'app-transaksidetail',
@@ -28,6 +29,9 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject<any>()
 
   isWillDownload = false
+  excelTitle = `Transaksi Lelang ${getMonthByNumber(this.bulan)} ${this.tahun} - ${getTermByNumber(this.term)} (${
+    new Date().toISOString().split('T')[0]
+  })`
 
   dataTandaTerima = {
     nomorTandaTerima: 'TL-0001/PLII/2022',
@@ -152,7 +156,7 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
     this.isWillDownload = true
 
     setTimeout(() => {
-      const TITLE = `Transaksi Lelang ${this.bulan} ${this.tahun} - ${this.term}`
+      // const TITLE = `Transaksi Lelang ${this.bulan} ${this.tahun} - ${this.term}`
       /* pass here the table id */
       let element = document.getElementById('table-download')
       const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element)
@@ -162,7 +166,7 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
       XLSX.utils.book_append_sheet(wb, ws, 'Sheet1')
 
       /* save to file */
-      XLSX.writeFile(wb, `${TITLE}.xlsx`)
+      XLSX.writeFile(wb, `${this.excelTitle}.xlsx`)
       this.isWillDownload = false
       window.location.reload()
     }, 100)

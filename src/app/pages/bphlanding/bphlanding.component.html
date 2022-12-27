@@ -67,8 +67,8 @@
               <tr *ngFor="let data of listTrans; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ data.status }}</td>
-                <td>{{ data.nomerRegistrasi }}</td>
-                <td>{{ data.tanggalRegistrasi }}</td>
+                <td>{{ data.noRegisterLelang }}</td>
+                <td>{{ data.tanggalRegisterLelang.split('T')[0] }}</td>
                 <td>{{ data.nomorRisalahLelang }}</td>
                 <td>{{ data.tanggalRisalahLelang.split('T')[0] }}</td>
                 <td>{{ data.namaPenjual }}</td>

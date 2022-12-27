@@ -382,9 +382,9 @@
                   <label for="provinsi">Provinsi</label>
                   <select
                     class="form-control"
-                    id="provinsi"
+                    id="provinsiPenjual"
                     formControlName="provinsiPenjual"
-                    (change)="selectProvinsi($event.target.value)"
+                    (change)="selectProvinsi($event.target.value, 'kab')"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of provinsi; let i = index" [value]="provinsi[i].id">
@@ -398,7 +398,7 @@
                     class="form-control"
                     id="kab"
                     formControlName="kabupatenKotaPenjual"
-                    (change)="selectKab($event.target.value)"
+                    (change)="selectKab($event.target.value, 'kec')"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of kab; let i = index" [value]="kab[i].id">
@@ -414,7 +414,7 @@
                     class="form-control"
                     formControlName="kecamatanPenjual"
                     id="kec"
-                    (change)="selectKec($event.target.value)"
+                    (change)="selectKec($event.target.value, 'kel')"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of kec; let i = index" [value]="kec[i].id">
@@ -507,13 +507,13 @@
                   <label for="provinsi">Provinsi</label>
                   <select
                     class="form-control"
-                    id="provinsi"
+                    id="provinsiPembeli"
                     formControlName="provinsiPembeli"
-                    (change)="selectProvinsi($event.target.value)"
+                    (change)="selectProvinsi($event.target.value, 'kab1')"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of provinsi1; let i = index" [value]="provinsi1[i].id">
-                      {{ provinsi[i].name }}
+                      {{ provinsi1[i].name }}
                     </option>
                   </select>
                 </div>
@@ -523,7 +523,7 @@
                     class="form-control"
                     id="kab"
                     formControlName="kabupatenKotaPembeli"
-                    (change)="selectKab($event.target.value)"
+                    (change)="selectKab($event.target.value, 'kec1')"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of kab1; let i = index" [value]="kab1[i].id">
@@ -539,7 +539,7 @@
                     class="form-control"
                     formControlName="kecamatanPembeli"
                     id="kec1"
-                    (change)="selectKec($event.target.value)"
+                    (change)="selectKec($event.target.value, 'kel1')"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of kec1; let i = index" [value]="kec[i].id">
