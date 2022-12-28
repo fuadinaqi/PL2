@@ -129,29 +129,29 @@ export class BeatambahComponent implements OnInit {
 
   savetransaksi() {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
-      this.http
-        .post(
-          this.config.apiBaseUrl + 'api/LaporanPenyetoranBeaLelang',
-          this.generateBodyReq(this.beaForm.value),
-          this.api.generateHeader()
-        )
-        .subscribe(
-          (data) => {
-            console.log('post ressult ', data)
-            this.toastr.info('Data Tersimpan')
-            this.onBack()
-          },
-          (error) => {
-            this.toastr.error('Tidak dapat menyimpan Bea lelang, Periksa kembali isian Anda')
-            console.log(error)
-          }
-        )
+      const method = this.isEditMode ? 'put' : 'post'
+      const url = this.isEditMode ? `api/LaporanPenyetoranBeaLelang/${this.id}` : 'api/LaporanPenyetoranBeaLelang'
+      this.http[method](
+        this.config.apiBaseUrl + url,
+        this.generateBodyReq(this.beaForm.value),
+        this.api.generateHeader()
+      ).subscribe(
+        (data) => {
+          console.log('post ressult ', data)
+          this.toastr.info('Data Tersimpan')
+          this.onBack()
+        },
+        (error) => {
+          this.toastr.error('Tidak dapat menyimpan Bea lelang, Periksa kembali isian Anda')
+          console.log(error)
+        }
+      )
     }
   }
 
   generateBodyReq(formValue: any) {
     let id = this.id === '' ? uuidv4() : this.id
-    let bodyreq = {
+    let bodyreq: any = {
       transaksiLelangId: this.idtrans,
       pokokLelang: formValue.pokokLelang,
       jenisTransaksi: formValue.jenisTransaksi,
@@ -161,6 +161,9 @@ export class BeatambahComponent implements OnInit {
       kodeMAP: formValue.kodeMAP,
       tanggalPenyetoran: formValue.tanggalPenyetoran,
       keterangan: formValue.keterangan,
+    }
+    if (this.isEditMode) {
+      bodyreq.id = this.id
     }
     console.log(bodyreq)
     return bodyreq
