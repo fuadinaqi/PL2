@@ -101,7 +101,7 @@ export class BphaddComponent implements OnInit {
       this.http.get(this.config.apiBaseUrl + url + id, this.api.generateHeader()).subscribe(
         (result: any) => {
           this.bph = result.data
-          console.log('bph', this.bph)
+
           this.idtrans = this.bph.transaksiLelangId
           this.bphForm.patchValue({
             lot: this.bph.lot,
@@ -207,10 +207,10 @@ export class BphaddComponent implements OnInit {
         })
 
         this.alamatService.selectKec(result.data.kecamatanPenjual).subscribe((r: any) => {
-          this.kelPenjual = r.find((x) => x.id == result.data.keluarahanPenjual)?.name || ''
+          this.kelPenjual = r.find((x) => x.id == result.data.kelurahanPenjual)?.name || ''
         })
         this.alamatService.selectKec(result.data.kecamatanPembeli).subscribe((r: any) => {
-          this.kelPembeli = r.find((x) => x.id == result.data.keluarahanPenjual)?.name || ''
+          this.kelPembeli = r.find((x) => x.id == result.data.kelurahanPembeli)?.name || ''
         })
       },
       (error) => {}
@@ -218,6 +218,12 @@ export class BphaddComponent implements OnInit {
   }
   generateBodyReq(formValue: any) {
     let id = this.id === '' ? uuidv4() : this.id
+    const modifiedNjopnop = () => {
+      const n = formValue.njopnop
+      if (typeof n === 'number') return n
+      if (typeof n === 'string') return Number(formValue.njopnop.replace(/[^0-9.-]+/g, ''))
+      return null
+    }
     let bodyreq = {
       transaksiLelangId: this.idtrans,
       lot: parseInt(formValue.lot),
@@ -226,7 +232,7 @@ export class BphaddComponent implements OnInit {
       statusHakAtasTanah: formValue.statusHakAtasTanah,
       luasTanah: parseInt(formValue.luasTanah),
       luasBangunan: parseInt(formValue.luasBangunan),
-      njopnop: Number(formValue.njopnop.replace(/[^0-9.-]+/g, '')),
+      njopnop: modifiedNjopnop(),
       pokokLelang: Number(this.trans.pokokLelang),
       nomorSSB: Number(formValue.nomorSSB),
       tanggalSSB: formValue.tanggalSSB,

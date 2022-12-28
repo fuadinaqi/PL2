@@ -362,9 +362,8 @@
                   <input
                     type="text"
                     class="form-control"
-                    id="namapenjual"
                     disabled
-                    [value]="jadwal.klasifikasiPenjual"
+                    [value]="jadwal.klasifikasiPenjual || jadwal.kategoriPenjual"
                   />
                 </div>
                 <div class="form-group col-xl-6">
@@ -384,7 +383,7 @@
                     class="form-control"
                     id="provinsiPenjual"
                     formControlName="provinsiPenjual"
-                    (change)="selectProvinsi($event.target.value, 'kab')"
+                    (change)="selectProvinsi($event.target.value, 'kab', true)"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of provinsi; let i = index" [value]="provinsi[i].id">
@@ -398,7 +397,7 @@
                     class="form-control"
                     id="kab"
                     formControlName="kabupatenKotaPenjual"
-                    (change)="selectKab($event.target.value, 'kec')"
+                    (change)="selectKab($event.target.value, 'kec', true)"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of kab; let i = index" [value]="kab[i].id">
@@ -414,7 +413,7 @@
                     class="form-control"
                     formControlName="kecamatanPenjual"
                     id="kec"
-                    (change)="selectKec($event.target.value, 'kel')"
+                    (change)="selectKec($event.target.value, 'kel', true)"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of kec; let i = index" [value]="kec[i].id">
@@ -509,7 +508,7 @@
                     class="form-control"
                     id="provinsiPembeli"
                     formControlName="provinsiPembeli"
-                    (change)="selectProvinsi($event.target.value, 'kab1')"
+                    (change)="selectProvinsi($event.target.value, 'kab1', true)"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of provinsi1; let i = index" [value]="provinsi1[i].id">
@@ -521,13 +520,13 @@
                   <label for="kab">Kab/Kota</label>
                   <select
                     class="form-control"
-                    id="kab"
+                    id="kabPembeli"
                     formControlName="kabupatenKotaPembeli"
-                    (change)="selectKab($event.target.value, 'kec1')"
+                    (change)="selectKab($event.target.value, 'kec1', true)"
                   >
                     <option value="">- Pilih -</option>
                     <option *ngFor="let order of kab1; let i = index" [value]="kab1[i].id">
-                      {{ kab[i].name }}
+                      {{ kab1[i].name }}
                     </option>
                   </select>
                 </div>
@@ -538,12 +537,12 @@
                   <select
                     class="form-control"
                     formControlName="kecamatanPembeli"
-                    id="kec1"
-                    (change)="selectKec($event.target.value, 'kel1')"
+                    id="kecamatan1"
+                    (change)="selectKec($event.target.value, 'kel1', true)"
                   >
                     <option value="">- Pilih -</option>
-                    <option *ngFor="let order of kec1; let i = index" [value]="kec[i].id">
-                      {{ kec[i].name }}
+                    <option *ngFor="let order of kec1; let i = index" [value]="kec1[i].id">
+                      {{ kec1[i].name }}
                     </option>
                   </select>
                 </div>
@@ -551,8 +550,8 @@
                   <label for="kelurahan">Kelurahan</label>
                   <select class="form-control" formControlName="kelurahanPembeli" id="kel1">
                     <option value="">- Pilih -</option>
-                    <option *ngFor="let order of kel1; let i = index" [value]="kel[i].id">
-                      {{ kel[i].name }}
+                    <option *ngFor="let order of kel1; let i = index" [value]="kel1[i].id">
+                      {{ kel1[i].name }}
                     </option>
                   </select>
                 </div>

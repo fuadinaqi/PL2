@@ -100,7 +100,7 @@
                 <td>{{ i + 1 }}</td>
                 <td>{{ data.statusHakAtasTanah }}</td>
                 <td>{{ formatStatus(data.statusPengiriman) }}</td>
-                <td>{{ data.tanggalPenyampaianPetikanRisalahRapat }}</td>
+                <td>{{ data.tanggalPenyampaianPetikanRisalahRapat?.split('T')[0] || '' }}</td>
                 <td>{{ data.lot }}</td>
                 <td>{{ data.luasTanah }}</td>
                 <td>{{ data.luasBangunan }}</td>

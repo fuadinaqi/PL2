@@ -33,9 +33,7 @@ export class KsdetailComponent implements OnInit, OnDestroy {
   dtTrigger: Subject<any> = new Subject<any>()
 
   isWillDownload = false
-  excelTitle = `Penggunaan Kertas Sekuriti ${getMonthByNumber(this.bulan)} ${this.tahun} - ${getTermByNumber(
-    this.term
-  )} (${new Date().toISOString().split('T')[0]})`
+  excelTitle = `Penggunaan Kertas Sekuriti ${this.tahun}`
 
   dataTandaTerima = {
     nomorTandaTerima: 'LKS-0001/PLII/2022',

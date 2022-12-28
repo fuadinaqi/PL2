@@ -137,6 +137,13 @@ export class TransaksiaddComponent implements OnInit {
         (result: any) => {
           this.jadwal = result.data
           console.log(result)
+          this.selectProvinsi(result.data.provinsiPenjual, 'kab')
+          this.selectProvinsi(result.data.provinsiPembeli, 'kab1')
+          this.selectKab(result.data.kabupatenKotaPenjual, 'kec')
+          this.selectKab(result.data.kabupatenKotaPembeli, 'kec1')
+          this.selectKec(result.data.kecamatanPenjual, 'kel')
+          this.selectKec(result.data.kecamatanPembeli, 'kel1')
+
           this.idjadwal = this.jadwal.jadwalLelangId
           this.transaksiForm.patchValue({
             nomerRegistrasi: this.jadwal.nomerRegistrasi,
@@ -206,19 +213,41 @@ export class TransaksiaddComponent implements OnInit {
       }
     }
   }
-  async selectProvinsi(id, key: string) {
+  async selectProvinsi(id, key: string, isReset?: boolean) {
     console.log('provinsi:', id)
     this.alamatService.selectProvinsi(id).subscribe((r) => {
       this[key] = r
+      if (isReset) {
+        if (key === 'kab') {
+          this.kec = []
+          this.kel = []
+          this.transaksiForm.get('kecamatanPenjual').patchValue(null)
+          this.transaksiForm.get('kelurahanPenjual').patchValue(null)
+        } else {
+          this.kec1 = []
+          this.kel1 = []
+          this.transaksiForm.get('kecamatanPembeli').patchValue(null)
+          this.transaksiForm.get('kelurahanPembeli').patchValue(null)
+        }
+      }
     })
   }
-  async selectKab(id, key: string) {
+  async selectKab(id, key: string, isReset?: boolean) {
     console.log('kab:', id)
     this.alamatService.selectKab(id).subscribe((r) => {
       this[key] = r
+      if (isReset) {
+        if (key === 'kec') {
+          this.kel = []
+          this.transaksiForm.get('kelurahanPenjual').patchValue(null)
+        } else {
+          this.kel1 = []
+          this.transaksiForm.get('kelurahanPembeli').patchValue(null)
+        }
+      }
     })
   }
-  async selectKec(id, key: string) {
+  async selectKec(id, key: string, isReset?: boolean) {
     console.log('kec:', id)
     this.alamatService.selectKec(id).subscribe((r) => {
       this[key] = r
@@ -287,7 +316,7 @@ export class TransaksiaddComponent implements OnInit {
       periodeLaporanId: this.jadwal.periodeLaporanId,
       jadwalLelangId: this.idjadwal,
       status: formValue.status,
-      nomorRisalahLelang: isNaN(formValue.nomorRisalahLelang) ? 0 : formValue.nomorRisalahLelang,
+      nomorRisalahLelang: formValue.nomorRisalahLelang,
       tanggalRisalahLelang: formValue.tanggalRisalahLelang,
       nikPenjual: formValue.nikPenjual,
       alamatPenjual: formValue.alamatPenjual,

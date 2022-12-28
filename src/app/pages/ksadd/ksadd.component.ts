@@ -109,9 +109,12 @@ export class KsaddComponent implements OnInit {
     const urlTrans = this.isP2pk ? 'api/TransaksiLelang/P2PK' : `api/TransaksiLelang?tahun=${this.tahun}`
 
     this.http.get(this.config.apiBaseUrl + urlTrans, this.api.generateHeader()).subscribe((result: any) => {
-      this.listTrans = result.data
-        // .filter((x) => x.tahun == this.tahun)
-        .map((x) => ({ ...x, nomorRisalahLelang: String(x.nomorRisalahLelang) }))
+      this.listTrans = [
+        { value: '', label: '-Pilih-' },
+        ...result.data
+          // .filter((x) => x.tahun == this.tahun)
+          .map((x) => ({ value: String(x.nomorRisalahLelang), label: `${x.nomorRisalahLelang} - ${x.namaPenjual}` })),
+      ]
 
       if (this.isEditMode || this.isPreview) {
         const selectedId = this.isEditMode ? this.id : this.idpreview

@@ -119,14 +119,26 @@
                   </select>
                 </div>
                 <div class="form-group col-xl-6">
+                  <label>Pokok Lelang </label>
+                  <input
+                    type="text"
+                    value=""
+                    data-type="currency"
+                    class="form-control"
+                    [value]="trans.pokokLelang ? trans.pokokLelang : '0'"
+                    disabled
+                  />
+                </div>
+                <!-- <div class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Alamat</label>
                   <input type="text" class="form-control" />
-                </div>
+                </div> -->
               </div>
-              <div class="row">
+              <!-- <div class="row">
                 <div class="form-group col-xl-6">
                   <label for="provinsi">Provinsi</label>
                   <select class="form-control" id="provinsi" (change)="selectProvinsi($event.target.value)">
+                    <option value="">- Pilih -</option>
                     <option *ngFor="let order of provinsi; let i = index" [value]="provinsi[i].id">
                       {{ provinsi[i].name }}
                     </option>
@@ -135,6 +147,7 @@
                 <div class="form-group col-xl-6">
                   <label for="kab">Kab/Kota</label>
                   <select class="form-control" id="kab" (change)="selectKab($event.target.value)">
+                    <option value="">- Pilih -</option>
                     <option *ngFor="let order of kab; let i = index" [value]="kab[i].id">
                       {{ kab[i].name }}
                     </option>
@@ -145,6 +158,7 @@
                 <div class="form-group col-xl-6">
                   <label for="kecamatan">Kecamatan</label>
                   <select class="form-control" id="kec" (change)="selectKec($event.target.value)">
+                    <option value="">- Pilih -</option>
                     <option *ngFor="let order of kec; let i = index" [value]="kec[i].id">
                       {{ kec[i].name }}
                     </option>
@@ -153,13 +167,14 @@
                 <div class="form-group col-xl-6">
                   <label for="kelurahan">Kelurahan</label>
                   <select class="form-control" id="kel">
+                    <option value="">- Pilih -</option>
                     <option *ngFor="let order of kel; let i = index" [value]="kel[i].id">
                       {{ kel[i].name }}
                     </option>
                   </select>
                 </div>
-              </div>
-              <div class="row">
+              </div> -->
+              <!-- <div class="row">
                 <div class="form-group col-xl-6">
                   <label for="rt">RT</label>
                   <input type="text" class="form-control" id="rt" placeholder="" />
@@ -168,28 +183,26 @@
                   <label for="rw">RW</label>
                   <input type="text" class="form-control" id="rw" placeholder="RW" />
                 </div>
-              </div>
+              </div> -->
               <div class="row">
-                <div class="form-group col-xl-6">
+                <!-- <div class="form-group col-xl-6">
                   <label for="kodepos">Kode Pos</label>
                   <input type="text" class="form-control" id="kodepos" />
-                </div>
+                </div> -->
                 <div class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Lot</label>
                   <input type="text" class="form-control" formControlName="lot" />
                 </div>
-              </div>
-              <div class="row">
                 <div class="form-group col-xl-6">
                   <label for="luasTanah">Luas Tanah (m2)</label>
                   <input type="text" class="form-control" id="luasTanah" formControlName="luasTanah" />
                 </div>
+              </div>
+              <div class="row">
                 <div class="form-group col-xl-6">
                   <label>Luas Bangunan (m2)</label>
                   <input type="text" class="form-control" formControlName="luasBangunan" />
                 </div>
-              </div>
-              <div class="row">
                 <div class="form-group col-xl-6">
                   <label>NJOP/NOP </label>
                   <input
@@ -201,38 +214,6 @@
                     formControlName="njopnop"
                   />
                 </div>
-                <div class="form-group col-xl-6">
-                  <label>Pokok Lelang </label>
-                  <input
-                    type="text"
-                    value=""
-                    data-type="currency"
-                    class="form-control"
-                    [value]="trans.pokokLelang ? trans.pokokLelang : '0'"
-                    disabled
-                  />
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-group col-xl-6">
-                  <label>Nomor SSB </label>
-                  <input type="text" class="form-control" formControlName="nomorSSB" />
-                </div>
-                <div class="form-group col-xl-6">
-                  <label>Tanggal SSB </label>
-
-                  <input type="date" class="form-control" formControlName="tanggalSSB" />
-                </div>
-              </div>
-              <div class="row">
-                <div class="form-group col-xl-6">
-                  <label>Nomor SSP </label>
-                  <input type="text" class="form-control" formControlName="nomorSSP" />
-                </div>
-                <div class="form-group col-xl-6">
-                  <label>Tanggal SSP </label>
-                  <input type="date" class="form-control" formControlName="tanggalSSP" />
-                </div>
               </div>
               <div class="row">
                 <div class="form-group col-xl-6">
@@ -240,10 +221,33 @@
                   <input type="date" class="form-control" formControlName="tanggalPenyampaianPetikanRisalahRapat" />
                 </div>
                 <div class="form-group col-xl-6">
+                  <label>Nomor SSB </label>
+                  <input type="text" class="form-control" formControlName="nomorSSB" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label>Tanggal SSB </label>
+
+                  <input type="date" class="form-control" formControlName="tanggalSSB" />
+                </div>
+                <div class="form-group col-xl-6">
+                  <label>Nomor SSP </label>
+                  <input type="text" class="form-control" formControlName="nomorSSP" />
+                </div>
+              </div>
+              <div class="row">
+                <div class="form-group col-xl-6">
+                  <label>Tanggal SSP </label>
+                  <input type="date" class="form-control" formControlName="tanggalSSP" />
+                </div>
+                <div class="form-group col-xl-6">
                   <label>Keterangan </label>
                   <input type="text" class="form-control" id="keterangan" formControlName="keterangan" />
                 </div>
               </div>
+              <!-- <div class="row">
+              </div> -->
             </div>
 
             <div
