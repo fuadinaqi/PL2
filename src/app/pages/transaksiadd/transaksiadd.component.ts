@@ -357,6 +357,10 @@ export class TransaksiaddComponent implements OnInit {
       beaLelangBatal: formValue.beaLelangBatal,
       alasanPembatalan: formValue.alasanPembatalan,
     }
+    if (formValue.jaminanLelang === 'Bank Garansi Jaminan') {
+      delete bodyreq.jaminanLelangBankGaransi
+      delete bodyreq.jaminanLelangBerupaUang
+    }
     console.log(bodyreq)
     return bodyreq
   }
