@@ -49,7 +49,7 @@ export class JadwaladdComponent implements OnInit {
 
     console.log('token 1: ', localStorage.getItem('token'))
     this.jadwalForm = new UntypedFormGroup({
-      nomerRegistrasi: new UntypedFormControl(null, [Validators.required, Validators.pattern('^[0-9]*$')]),
+      nomerRegistrasi: new UntypedFormControl(null, [Validators.required]),
       tanggalRegistrasi: new UntypedFormControl(null, Validators.required),
       tanggalLelang: new UntypedFormControl(null, Validators.required),
       namaPenjual: new UntypedFormControl(null, Validators.required),

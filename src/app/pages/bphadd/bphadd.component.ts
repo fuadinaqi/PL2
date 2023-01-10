@@ -89,7 +89,7 @@ export class BphaddComponent implements OnInit {
       nomorSSP: new UntypedFormControl(null, Validators.required),
       tanggalSSP: new UntypedFormControl(null, Validators.required),
       tanggalPenyampaianPetikanRisalahRapat: new UntypedFormControl(null, Validators.required),
-      keterangan: new UntypedFormControl(null, Validators.required),
+      keterangan: new UntypedFormControl(null),
     })
     this.onSelectRegister(this.idtrans)
 

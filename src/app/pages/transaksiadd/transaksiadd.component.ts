@@ -144,6 +144,9 @@ export class TransaksiaddComponent implements OnInit {
           this.selectKec(result.data.kecamatanPenjual, 'kel')
           this.selectKec(result.data.kecamatanPembeli, 'kel1')
 
+          this.onJaminan(result.data.jaminanLelang)
+          this.onBatal(result.data.status)
+
           this.idjadwal = this.jadwal.jadwalLelangId
           this.transaksiForm.patchValue({
             nomerRegistrasi: this.jadwal.nomerRegistrasi,
@@ -358,9 +361,31 @@ export class TransaksiaddComponent implements OnInit {
       alasanPembatalan: formValue.alasanPembatalan,
     }
     if (formValue.jaminanLelang === 'Bank Garansi Jaminan') {
-      delete bodyreq.jaminanLelangBankGaransi
+      // delete bodyreq.jaminanLelangBankGaransi
       delete bodyreq.jaminanLelangBerupaUang
     }
+    if (formValue.jaminanLelang === 'Uang Jaminan') {
+      delete bodyreq.jaminanLelangBankGaransi
+    }
+    if (formValue.status === 'Batal') {
+      delete bodyreq.namaPembeli
+      delete bodyreq.nikPembeli
+      delete bodyreq.alamatPembeli
+      delete bodyreq.rtPembeli
+      delete bodyreq.rwPembeli
+      delete bodyreq.provinsiPembeli
+      delete bodyreq.kabupatenKotaPembeli
+      delete bodyreq.kecamatanPembeli
+      delete bodyreq.kelurahanPembeli
+      delete bodyreq.kodeposPembeli
+      delete bodyreq.npwpPembeli
+      delete bodyreq.pokokLelang
+      delete bodyreq.beaLelangPenjual
+      delete bodyreq.beaLelangPembeli
+    }
+    Object.entries(bodyreq).forEach(([key, value]) => {
+      if (!value) delete bodyreq[key]
+    })
     console.log(bodyreq)
     return bodyreq
   }

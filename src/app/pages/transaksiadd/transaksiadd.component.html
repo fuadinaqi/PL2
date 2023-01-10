@@ -225,7 +225,7 @@
                 </div>
                 <div *ngIf="!isUangJaminan" class="form-group col-xl-3">
                   <label for="exampleInputEmail1">Nama Bank Penyedia </label>
-                  <input type="text" class="form-control" formControlName="jaminanLelangBerupaUang" />
+                  <input type="text" class="form-control" formControlName="jaminanLelangBankGaransi" />
                 </div>
               </div>
               <div class="row">
@@ -593,7 +593,7 @@
       </form>
       <!-- /.card-body -->
       <div class="card-footer">
-        <button type="button" (click)="savetransaksi()" class="btn btn-primary">
+        <button *ngIf="!isPreview" type="button" (click)="savetransaksi()" class="btn btn-primary">
           <i class="fa fa-floppy-o"></i> Simpan Transaksi Lelang
         </button>
       </div>
