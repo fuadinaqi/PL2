@@ -142,23 +142,27 @@ export class BphaddComponent implements OnInit {
 
   savetransaksi() {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
-      this.http
-        .post(
-          this.config.apiBaseUrl + 'api/LaporanRisalahLelangPengenaanBPHTB',
-          this.generateBodyReq(this.bphForm.value),
-          this.api.generateHeader()
-        )
-        .subscribe(
-          (data) => {
-            console.log('post ressult ', data)
-            this.toastr.info('Data Tersimpan')
-            this.onBack()
-          },
-          (error) => {
-            this.toastr.error('Tidak dapat menyimpan BPHTB, Periksa kembali isian Anda')
-            console.log(error)
-          }
-        )
+      console.log(this.id)
+      const method = this.isEditMode ? 'put' : 'post'
+      const url = this.isEditMode
+        ? `api/LaporanRisalahLelangPengenaanBPHTB/${this.id}`
+        : 'api/LaporanRisalahLelangPengenaanBPHTB'
+      const sendBody = this.isEditMode ? { ...this.bphForm.value, id: this.id } : this.bphForm.value
+      this.http[method](
+        this.config.apiBaseUrl + url,
+        this.generateBodyReq(sendBody),
+        this.api.generateHeader()
+      ).subscribe(
+        (data) => {
+          console.log('post ressult ', data)
+          this.toastr.info('Data Tersimpan')
+          this.onBack()
+        },
+        (error) => {
+          this.toastr.error('Tidak dapat menyimpan BPHTB, Periksa kembali isian Anda')
+          console.log(error)
+        }
+      )
     }
   }
   async selectProvinsi(id) {
@@ -186,6 +190,10 @@ export class BphaddComponent implements OnInit {
       (result: any) => {
         this.trans = result.data
         console.log(this.trans)
+
+        this.bphForm.patchValue({
+          pokokLelang: this.trans.pokokLelang,
+        })
 
         this.alamatService.getAllProvinsi().subscribe((r: any) => {
           this.provinsiPenjual = r.find((x) => x.id == result.data.provinsiPenjual)?.name || ''
@@ -225,6 +233,7 @@ export class BphaddComponent implements OnInit {
       return null
     }
     let bodyreq = {
+      id,
       transaksiLelangId: this.idtrans,
       lot: parseInt(formValue.lot),
       letaktanahBangunanLong: formValue.letaktanahBangunanLong,

@@ -79,6 +79,7 @@ import { BolistComponent } from '@pages/bo/bolist/bolist.component'
 import { BoBealandingComponent } from '@pages/bo/bobealanding/bobealanding.component'
 import { BoBphlandingComponent } from '@pages/bo/bobphlanding/bobphlanding.component'
 import { CustomDropdownComponent } from '@components/custom-dropdown/custom-dropdown.component'
+import { CurrencyMaskModule } from 'ng2-currency-mask'
 
 registerLocaleData(localeEn, 'en-EN')
 
@@ -161,6 +162,7 @@ registerLocaleData(localeEn, 'en-EN')
     TandaTerimaComponent,
 
     CustomDropdownComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -176,6 +178,7 @@ registerLocaleData(localeEn, 'en-EN')
       preventDuplicates: true,
     }),
     DataTablesModule,
+    CurrencyMaskModule,
   ],
   providers: [
     {

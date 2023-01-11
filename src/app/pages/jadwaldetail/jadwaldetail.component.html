@@ -75,10 +75,13 @@
               <th>No.</th>
               <th>No Register</th>
               <th>Tgl. Registrasi</th>
-              <th>Rencana Tanggal</th>
-              <th>Penjual</th>
-              <th>Sifat</th>
-              <th>Tempat</th>
+              <th>Tanggal Lelang</th>
+              <th>Nama Penjual Lelang</th>
+              <th>Klasifikasi Penjual</th>
+              <th>Nomor Surat Permohonan</th>
+              <th>Tanggal Surat Permohonan</th>
+              <th>Tempat Lelang</th>
+              <th>Jenis Penawaran lelang</th>
               <th>No. Surat Penetapan</th>
               <th>Tgl. Surat Penetapan</th>
               <th>Status</th>
@@ -101,6 +104,9 @@
                 <td>{{ data.tanggalRegistrasi.split('T')[0] }}</td>
                 <td>{{ data.tanggalLelang.split('T')[0] }}</td>
                 <td>{{ data.namaPenjual }}</td>
+                <td>{{ data.klasifikasiPenjual }}</td>
+                <td>{{ data.nomorSuratPermohonan }}</td>
+                <td>{{ data.tanggalSuratPermohonan.split('T')[0] }}</td>
                 <td>{{ data.sifatLelang }}</td>
                 <td>{{ data.tempatLelang }}</td>
                 <td>{{ data.nomorSuratPenetapanJadwalLelang }}</td>

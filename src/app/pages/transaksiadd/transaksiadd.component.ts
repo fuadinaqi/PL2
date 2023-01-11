@@ -276,6 +276,11 @@ export class TransaksiaddComponent implements OnInit {
   }
 
   savetransaksi() {
+    const tglRisalah = this.transaksiForm?.value?.tanggalRisalahLelang || ''
+    const tglLelang = this.jadwal?.tanggalLelang?.split('T')?.[0] || ''
+    if (tglRisalah > tglLelang) {
+      return this.toastr.error('Tanggal Risalah Lelang tidak boleh melebihi tanggal lelang')
+    }
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       let url = this.config.apiBaseUrl + 'api/TransaksiLelang/'
       if (this.isAddMode) {
@@ -314,6 +319,8 @@ export class TransaksiaddComponent implements OnInit {
     let id = this.id === '' ? uuidv4() : this.id
 
     console.log(formValue)
+
+    // if (formValue.tanggalRisalahLelang > formValue.tanggalRisalahLelang)
     let bodyreq = {
       id: this.id,
       periodeLaporanId: this.jadwal.periodeLaporanId,

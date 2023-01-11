@@ -34,6 +34,8 @@ export class BeatambahComponent implements OnInit {
   public fileUpload: any
   public prog: number
   public responseUpload: any
+  public fileName: string
+
   constructor(
     private toastr: ToastrService,
     public route: ActivatedRoute,
@@ -54,11 +56,12 @@ export class BeatambahComponent implements OnInit {
     }
 
     this.id = this.route.snapshot.params['id']
-    this.idtrans = this.route.snapshot.params['idtrans']
+    this.idtrans = this.route.snapshot.params['idtrans'] || this.route.snapshot.queryParams['idtrans']
     this.idpreview = this.route.snapshot.params['idpreview']
     this.isAddMode = this.idtrans ? true : false
     this.isPreview = this.idpreview ? true : false
     this.isEditMode = this.id ? true : false
+
     //kurang
     this.beaForm = new UntypedFormGroup({
       tanggalLelang: new UntypedFormControl(null, Validators.required),
@@ -87,6 +90,8 @@ export class BeatambahComponent implements OnInit {
           this.beaForm.patchValue({
             transaksiLelangId: this.bea.transaksiLelangId,
             pokokLelang: this.bea.pokokLelang,
+            beaLelangPenjual: this.bea.beaLelangPenjual,
+            beaLelangPembeli: this.bea.beaLelangPembeli,
             jenisTransaksi: this.bea.jenisTransaksi,
             nomorTransaksi: this.bea.nomorTransaksi,
             //fileJenisTransaksi: this.bea.fileJenisTransaksi,
@@ -95,7 +100,11 @@ export class BeatambahComponent implements OnInit {
             tanggalPenyetoran: this.bea.tanggalPenyetoran.split('T')[0],
             keterangan: this.bea.keterangan,
           })
-          this.trans = result.data
+          this.fileName = this.bea.fileJenisTransaksi
+          this.trans = {
+            ...result.data,
+            tanggalPenyerahanKutipanRisalahLelang: this.trans.tanggalPenyerahanKutipanRisalahLelang,
+          }
           this.responseUpload = { data: this.bea.fileJenisTransaksi }
         },
         (error) => {}
@@ -114,6 +123,11 @@ export class BeatambahComponent implements OnInit {
     this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang/' + this.idtrans, this.api.generateHeader()).subscribe(
       (result: any) => {
         this.trans = result.data
+        this.beaForm.patchValue({
+          pokokLelang: result.data.pokokLelang,
+          beaLelangPenjual: result.data.beaLelangPenjual,
+          beaLelangPembeli: result.data.beaLelangPembeli,
+        })
         console.log(this.trans)
       },
       (error) => {}
@@ -183,6 +197,7 @@ export class BeatambahComponent implements OnInit {
     console.log('file :', event.target.getAttribute('formControlName'))
 
     this.fileUpload = file
+    this.fileName = file.name
 
     let control = event.target
     this.beaForm.patchValue({

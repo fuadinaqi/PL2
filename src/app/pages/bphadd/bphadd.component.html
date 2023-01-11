@@ -121,11 +121,15 @@
                 <div class="form-group col-xl-6">
                   <label>Pokok Lelang </label>
                   <input
-                    type="text"
-                    value=""
-                    data-type="currency"
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
                     class="form-control"
-                    [value]="trans.pokokLelang ? trans.pokokLelang : '0'"
+                    formControlName="pokokLelang"
                     disabled
                   />
                 </div>

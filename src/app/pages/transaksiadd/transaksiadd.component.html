@@ -151,7 +151,7 @@
                 <div class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Jumlah Peserta Lelang</label>
                   <input
-                    type="text"
+                    type="number"
                     class="form-control"
                     formControlName="jumlahPesertaLelang"
                     placeholder="Masukkan Jumlah Peserta Lelang"
@@ -215,10 +215,13 @@
                 <div *ngIf="isUangJaminan" class="form-group col-xl-3">
                   <label for="exampleInputEmail1">Uang Jaminan </label>
                   <input
-                    type="text"
-                    pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                    value=""
-                    data-type="currency"
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
                     class="form-control"
                     formControlName="jaminanLelangBerupaUang"
                   />
@@ -232,10 +235,13 @@
                 <div class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Nilai Limit </label>
                   <input
-                    type="text"
-                    pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                    value=""
-                    data-type="currency"
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
                     class="form-control"
                     formControlName="nilaiLimit"
                   />
@@ -243,10 +249,13 @@
                 <div *ngIf="!isBatal" class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Pokok Lelang </label>
                   <input
-                    type="text"
-                    pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                    value=""
-                    data-type="currency"
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
                     class="form-control"
                     formControlName="pokokLelang"
                   />
@@ -256,10 +265,13 @@
                 <div class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Bea Lelang Penjual </label>
                   <input
-                    type="text"
-                    pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                    value=""
-                    data-type="currency"
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
                     class="form-control"
                     formControlName="beaLelangPenjual"
                   />
@@ -267,10 +279,13 @@
                 <div class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Bea Lelang Pembeli </label>
                   <input
-                    type="text"
-                    pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                    value=""
-                    data-type="currency"
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
                     class="form-control"
                     formControlName="beaLelangPembeli"
                   />
@@ -289,9 +304,13 @@
                 <div class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Imbalan Jasa </label>
                   <input
-                    type="text"
-                    pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                    data-type="currency"
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
                     class="form-control"
                     formControlName="imbalanJasa"
                   />
@@ -305,10 +324,13 @@
                 <div class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Bea Lelang Batal </label>
                   <input
-                    type="text"
-                    pattern="^\$\d{1,3}(,\d{3})*(\.\d+)?$"
-                    value=""
-                    data-type="currency"
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
                     class="form-control"
                     formControlName="beaLelangBatal"
                   />
