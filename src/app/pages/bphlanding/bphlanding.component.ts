@@ -13,7 +13,7 @@ import { AppConfigService } from '@/app-config.service'
 export class BphlandingComponent implements OnInit {
   public tahun = this.route.snapshot.queryParams.tahun
   public bulan = this.route.snapshot.queryParams.bulan
-  public term = this.route.snapshot.queryParams.term
+  public parentId = this.route.snapshot.queryParams.parentId
 
   public listTrans: Array<any>
   public idperiode: String
@@ -33,7 +33,7 @@ export class BphlandingComponent implements OnInit {
     this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang', this.api.generateHeader()).subscribe(
       (result: any) => {
         //this.listTrans = result.data
-        this.listTrans = result.data.filter((trans) => [this.idperiode].includes(trans.periodeLaporanId))
+        this.listTrans = result.data.filter((trans) => [this.idperiode].includes(trans.jadwalLelangId))
         this.listTrans = this.listTrans.filter((trans) => ['Tanah', 'Tanah dan Bangunan'].includes(trans.tipeBarang))
         this.listTrans = this.listTrans.filter((trans) =>
           ['TAP', 'Laku', 'Ditahan', 'Wan Prestasi'].includes(trans.status)

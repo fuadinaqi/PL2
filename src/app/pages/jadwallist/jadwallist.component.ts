@@ -48,7 +48,7 @@ export class JadwallistComponent {
     }
 
     this.http
-      .get(this.config.apiBaseUrl + `api/PeriodePelaporan/byTahun/${this.tahun}`, this.api.generateHeader())
+      .get(this.config.apiBaseUrl + `api/PeriodePelaporan/JadwalLelangbyTahun/${this.tahun}`, this.api.generateHeader())
       .subscribe(
         (result: any) => {
           this.listJadwal = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))

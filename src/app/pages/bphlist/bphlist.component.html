@@ -42,7 +42,6 @@
             <tr>
               <th>No</th>
               <th>Bulan</th>
-              <th>Term</th>
               <th>Jumlah Lelang</th>
               <th>Jumlah Lelang Tanah dan Bangunan</th>
               <th>Bea Pokok</th>
@@ -54,16 +53,12 @@
             <tr *ngFor="let data of listJadwal; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ months[data.bulan] }}</td>
-              <td>{{ terms[data.term] }}</td>
               <td>-</td>
               <td>-</td>
               <td>Rp. -</td>
               <td>-</td>
               <td>
-                <a
-                  [routerLink]="['/bphlanding', data.id]"
-                  [queryParams]="{ tahun, bulan: data.bulan, term: data.term }"
-                >
+                <a [routerLink]="['/bphjadwal', data.id]" [queryParams]="{ tahun, bulan: data.bulan }">
                   <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
                     Detail
                   </app-button>

@@ -278,8 +278,9 @@ export class TransaksiaddComponent implements OnInit {
   savetransaksi() {
     const tglRisalah = this.transaksiForm?.value?.tanggalRisalahLelang || ''
     const tglLelang = this.jadwal?.tanggalLelang?.split('T')?.[0] || ''
-    if (tglRisalah > tglLelang) {
-      return this.toastr.error('Tanggal Risalah Lelang tidak boleh melebihi tanggal lelang')
+
+    if (tglLelang > tglRisalah) {
+      return this.toastr.error('Tanggal Lelang tidak boleh melebihi tanggal Risalah Lelang')
     }
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       let url = this.config.apiBaseUrl + 'api/TransaksiLelang/'

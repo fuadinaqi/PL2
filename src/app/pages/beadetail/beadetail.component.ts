@@ -10,6 +10,8 @@ import { Location } from '@angular/common'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 import { getMonthByNumber, getTermByNumber } from '@/helpers/date'
+import { FormBuilder, FormControl } from '@angular/forms'
+import pad from '@/helpers/pad'
 
 @Component({
   selector: 'app-beadetail',
@@ -20,6 +22,7 @@ export class BeadetailComponent implements OnInit {
   public tahun = this.route.snapshot.queryParams.tahun
   public bulan = this.route.snapshot.queryParams.bulan
   public term = this.route.snapshot.queryParams.term
+  public parentId = this.route.snapshot.queryParams.parentId
   public idperiode = this.route.snapshot.queryParams.idperiode
 
   public listTrans: Array<any>
@@ -31,9 +34,7 @@ export class BeadetailComponent implements OnInit {
   dtTrigger: Subject<any> = new Subject<any>()
 
   isWillDownload = false
-  excelTitle = `Bea Lelang ${getMonthByNumber(this.bulan)} ${this.tahun} - ${getTermByNumber(this.term)} (${
-    new Date().toISOString().split('T')[0]
-  })`
+  excelTitle = `Bea Lelang ${getMonthByNumber(this.bulan)} ${this.tahun} (${new Date().toISOString().split('T')[0]})`
 
   dataTandaTerima = {
     nomorTandaTerima: 'PBL-0001/PLII/2022',
@@ -42,6 +43,44 @@ export class BeadetailComponent implements OnInit {
     tanggalSubmit: new Date(),
   }
   isWillDownloadTandaTerima = false
+
+  form = this.fb.group({
+    countRequest: new FormControl(0),
+  })
+  get drafts() {
+    if (!this?.listTrans?.length) return []
+    return this.listTrans.filter((el) => el.statusPengiriman == 'Draft Permohonan')
+  }
+
+  onKirimAll() {
+    if (confirm('Apakah anda yakin ingin mengirim data ke PPPK?')) {
+      this.drafts.forEach(({ id }) => {
+        this.http
+          .put(
+            this.config.apiBaseUrl + 'api/LaporanPenyetoranBeaLelang/Kirim' + '?id=' + id,
+            null,
+            this.api.generateHeaderWithParams({ id })
+          )
+          .subscribe(
+            (data) => {
+              console.log('post ressult ', data)
+              this.toastr.info('Bea Terkirim ke Back Office PPPK')
+              this.form.patchValue({
+                countRequest: this.form.value.countRequest + 1,
+              })
+            },
+            (error) => {
+              this.toastr.error('Tidak dapat mengirim data, Periksa kembali data Anda')
+              this.form.patchValue({
+                countRequest: this.form.value.countRequest + 1,
+              })
+              console.log(error)
+            }
+          )
+      })
+    }
+  }
+
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -50,7 +89,8 @@ export class BeadetailComponent implements OnInit {
     private api: ApiService,
     private config: AppConfigService,
     public AuthService: AuthService,
-    public location: Location
+    public location: Location,
+    private fb: FormBuilder
   ) {}
 
   ngOnDestroy(): void {
@@ -74,6 +114,12 @@ export class BeadetailComponent implements OnInit {
       this.isP2pk = true
       this.onLoadData()
     }
+
+    this.form.valueChanges.subscribe((v) => {
+      if (v.countRequest >= this.drafts.length) {
+        window.location.reload()
+      }
+    })
   }
   onLoadData() {
     let url = this.isP2pk ? '/P2PK' : ''
@@ -140,6 +186,7 @@ export class BeadetailComponent implements OnInit {
   }
 
   hanldeCetakTandaTerima(data) {
+    this.dataTandaTerima.nomorTandaTerima = `PBL-${pad(data.noUrutSurat)}/PLII/${this.tahun}`
     const doc = new jsPDF('l', 'mm', [297, 210])
     this.isWillDownloadTandaTerima = true
     setTimeout(() => {

@@ -14,8 +14,7 @@ import { Subject } from 'rxjs'
 export class BealandingComponent implements OnInit {
   public tahun = this.route.snapshot.queryParams.tahun
   public bulan = this.route.snapshot.queryParams.bulan
-  public term = this.route.snapshot.queryParams.term
-  // public parentId = this.route.snapshot.queryParams.parentId
+  public parentId = this.route.snapshot.queryParams.parentId
 
   public listTrans: Array<any>
   public idperiode: String
@@ -51,7 +50,7 @@ export class BealandingComponent implements OnInit {
     this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang', this.api.generateHeader()).subscribe(
       (result: any) => {
         //query are overrated
-        this.listTrans = result.data.filter((trans) => [this.idperiode].includes(trans.periodeLaporanId))
+        this.listTrans = result.data.filter((trans) => [this.idperiode].includes(trans.jadwalLelangId))
         this.listTrans = this.listTrans.filter((trans) => ['Permohonan Dikirim'].includes(trans.statusPengiriman))
         console.log(result)
         if (this.listTrans.length > 0) {

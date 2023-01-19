@@ -9,6 +9,8 @@ import { Subject } from 'rxjs'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 import { getMonthByNumber, getTermByNumber } from '@/helpers/date'
+import { FormBuilder, FormControl } from '@angular/forms'
+import pad from '@/helpers/pad'
 
 @Component({
   selector: 'app-transaksidetail',
@@ -40,6 +42,44 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
     tanggalSubmit: new Date(),
   }
   isWillDownloadTandaTerima = false
+
+  form = this.fb.group({
+    countRequest: new FormControl(0),
+  })
+  get drafts() {
+    if (!this?.listTrans?.length) return []
+    return this.listTrans.filter((el) => el.statusPengiriman == 'Draft Permohonan')
+  }
+
+  onKirimAll() {
+    if (confirm('Apakah anda yakin ingin mengirim data ke PPPK?')) {
+      this.drafts.forEach(({ id }) => {
+        this.http
+          .put(
+            this.config.apiBaseUrl + 'api/TransaksiLelang/Kirim' + '?id=' + id,
+            null,
+            this.api.generateHeaderWithParams({ id })
+          )
+          .subscribe(
+            (data) => {
+              console.log('post ressult ', data)
+              this.toastr.info('Transaksi Terkirim ke Back Office PPPK')
+              this.form.patchValue({
+                countRequest: this.form.value.countRequest + 1,
+              })
+            },
+            (error) => {
+              this.toastr.error('Tidak dapat mengirim data, Periksa kembali data Anda')
+              this.form.patchValue({
+                countRequest: this.form.value.countRequest + 1,
+              })
+              console.log(error)
+            }
+          )
+      })
+    }
+  }
+
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -47,7 +87,8 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private api: ApiService,
     private config: AppConfigService,
-    public AuthService: AuthService
+    public AuthService: AuthService,
+    private fb: FormBuilder
   ) {}
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
@@ -70,6 +111,12 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
       this.isP2pk = true
       this.loadTransaction()
     }
+
+    this.form.valueChanges.subscribe((v) => {
+      if (v.countRequest >= this.drafts.length) {
+        window.location.reload()
+      }
+    })
   }
   loadTransaction() {
     let url = this.isP2pk ? '/P2PK' : ''
@@ -173,6 +220,7 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
   }
 
   hanldeCetakTandaTerima(data) {
+    this.dataTandaTerima.nomorTandaTerima = `TL-${pad(data.noUrutSurat)}/PLII/${this.tahun}`
     const doc = new jsPDF('l', 'mm', [297, 210])
     this.isWillDownloadTandaTerima = true
     setTimeout(() => {

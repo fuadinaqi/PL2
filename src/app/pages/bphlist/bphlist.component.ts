@@ -44,7 +44,26 @@ export class BphlistComponent implements OnInit {
       .get(this.config.apiBaseUrl + `api/PeriodePelaporan/byTahun/${this.tahun}`, this.api.generateHeader())
       .subscribe(
         (result: any) => {
-          this.listJadwal = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
+          const sorted = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
+          const results = []
+          sorted.forEach((el) => {
+            const indexR = results.findIndex((r) => r.bulan === el.bulan)
+            if (indexR === -1) {
+              results.push(el)
+            } else {
+              results[indexR] = {
+                ...results[indexR],
+                jumlahLelang: results[indexR].jumlahLelang + el.jumlahLelang,
+                laporanTransaksi: results[indexR].laporanTransaksi + el.laporanTransaksi,
+                lisan: results[indexR].lisan + el.lisan,
+                tertulis: results[indexR].tertulis + el.tertulis,
+                email: results[indexR].email + el.email,
+                closed: results[indexR].closed + el.closed,
+                terbuka: results[indexR].terbuka + el.terbuka,
+              }
+            }
+          })
+          this.listJadwal = results
         },
         (error) => {}
       )

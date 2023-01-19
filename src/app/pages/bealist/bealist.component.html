@@ -42,7 +42,6 @@
             <tr>
               <th>No</th>
               <th>Bulan</th>
-              <th>Term</th>
               <th>Jumlah Lelang</th>
               <th>Penyetoran Bea</th>
               <th>Pokok</th>
@@ -54,13 +53,12 @@
             <tr *ngFor="let data of listJadwal; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ data.bulan | numberToMonth }}</td>
-              <td>{{ data.term | termToLabel }}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
+              <td>{{ data.jumlahLelang }}</td>
+              <td>{{ data.penyetoranBea }}</td>
+              <td>{{ data.pokok | currency: 'Rp ' }}</td>
+              <td>{{ data.beaLelang | currency: 'Rp ' }}</td>
               <td>
-                <a [routerLink]="['/bea', data.id]" [queryParams]="{ tahun, bulan: data.bulan, term: data.term }">
+                <a [routerLink]="['/beajadwal', data.id]" [queryParams]="{ tahun, bulan: data.bulan }">
                   <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
                     Detail
                   </app-button>

@@ -41,10 +41,26 @@ export class BealistComponent implements OnInit {
 
   ngOnInit(): void {
     this.http
-      .get(this.config.apiBaseUrl + `api/PeriodePelaporan/byTahun/${this.tahun}`, this.api.generateHeader())
+      .get(this.config.apiBaseUrl + `api/PeriodePelaporan/BeaLelangbyTahun/${this.tahun}`, this.api.generateHeader())
       .subscribe(
         (result: any) => {
-          this.listJadwal = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
+          const sorted = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
+          const results = []
+          sorted.forEach((el) => {
+            const indexR = results.findIndex((r) => r.bulan === el.bulan)
+            if (indexR === -1) {
+              results.push(el)
+            } else {
+              results[indexR] = {
+                ...results[indexR],
+                jumlahLelang: results[indexR].jumlahLelang + el.jumlahLelang,
+                penyetoranBea: results[indexR].penyetoranBea + el.penyetoranBea,
+                pokok: results[indexR].pokok + el.pokok,
+                beaLelang: results[indexR].beaLelang + el.beaLelang,
+              }
+            }
+          })
+          this.listJadwal = results
         },
         (error) => {}
       )

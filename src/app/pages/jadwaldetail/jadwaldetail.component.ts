@@ -1,7 +1,7 @@
 import { Component } from '@angular/core'
 import { ToastrService } from 'ngx-toastr'
 import { Router, ActivatedRoute } from '@angular/router'
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
+import { HttpClient } from '@angular/common/http'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { Subject } from 'rxjs'
@@ -9,6 +9,8 @@ import * as XLSX from 'xlsx'
 import { AuthService } from '@/services/auth.service'
 import jsPDF from 'jspdf'
 import { getMonthByNumber, getTermByNumber } from '@/helpers/date'
+import { FormBuilder, FormControl } from '@angular/forms'
+import pad from '@/helpers/pad'
 @Component({
   selector: 'app-jadwaldetail',
   templateUrl: './jadwaldetail.component.html',
@@ -41,6 +43,10 @@ export class JadwalDetailComponent {
   }
   isWillDownloadTandaTerima = false
 
+  form = this.fb.group({
+    countRequest: new FormControl(0),
+  })
+
   constructor(
     private toastr: ToastrService,
     private route: ActivatedRoute,
@@ -48,7 +54,8 @@ export class JadwalDetailComponent {
     private http: HttpClient,
     private api: ApiService,
     private config: AppConfigService,
-    private authService: AuthService
+    private authService: AuthService,
+    private fb: FormBuilder
   ) {}
   ngOnInit(): void {
     this.dtOptions = {
@@ -64,6 +71,11 @@ export class JadwalDetailComponent {
       this.isP2pk = true
       this.loadJadwal()
     }
+    this.form.valueChanges.subscribe((v) => {
+      if (v.countRequest >= this.drafts.length) {
+        window.location.reload()
+      }
+    })
   }
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
@@ -134,6 +146,40 @@ export class JadwalDetailComponent {
     this.router.navigate(['/jadwaldetail/' + this.idperiode], {
       queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term },
     })
+  }
+
+  get drafts() {
+    if (!this?.listJadwal?.length) return []
+    return this.listJadwal.filter((el) => el.statusPengiriman == 'Draft Permohonan')
+  }
+
+  onKirimAll() {
+    if (confirm('Apakah anda yakin ingin mengirim data ke PPPK?')) {
+      this.drafts.forEach(({ id }) => {
+        this.http
+          .put(
+            this.config.apiBaseUrl + 'api/JadwalLelang/Kirim' + '?id=' + id,
+            null,
+            this.api.generateHeaderWithParams({ id })
+          )
+          .subscribe(
+            (data) => {
+              console.log('post ressult ', data)
+              this.toastr.info('Jadwal Terkirim ke P2PK')
+              this.form.patchValue({
+                countRequest: this.form.value.countRequest + 1,
+              })
+            },
+            (error) => {
+              this.toastr.error('Tidak dapat mengirim data, Periksa kembali data Anda')
+              this.form.patchValue({
+                countRequest: this.form.value.countRequest + 1,
+              })
+              console.log(error)
+            }
+          )
+      })
+    }
   }
 
   onKirim(idjadwal) {
@@ -217,6 +263,7 @@ export class JadwalDetailComponent {
   }
 
   hanldeCetakTandaTerima(data) {
+    this.dataTandaTerima.nomorTandaTerima = `LJL-${pad(data.noUrutSurat)}/PLII/${data.tahun}`
     const doc = new jsPDF('l', 'mm', [297, 210])
     this.isWillDownloadTandaTerima = true
     setTimeout(() => {

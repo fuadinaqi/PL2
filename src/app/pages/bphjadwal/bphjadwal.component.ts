@@ -7,20 +7,17 @@ import { AppConfigService } from '@/app-config.service'
 import { Subject } from 'rxjs'
 
 @Component({
-  selector: 'app-transaksilanding',
-  templateUrl: './transaksilanding.component.html',
-  styleUrls: ['./transaksilanding.component.scss'],
+  selector: 'app-bphjadwal',
+  templateUrl: './bphjadwal.component.html',
 })
-export class TransaksilandingComponent implements OnInit, OnDestroy {
+export class BphJadwalComponent implements OnInit, OnDestroy {
   public tahun = this.route.snapshot.queryParams.tahun
   public bulan = this.route.snapshot.queryParams.bulan
-  public term = this.route.snapshot.queryParams.term
-  public parentId = this.route.snapshot.queryParams.parentId
+  public parentId = this.route.snapshot.params.id
 
   public listJadwal: Array<any>
   public idperiode: String
   public isempty: boolean = true
-  // public tahun: String
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<any> = new Subject<any>()
 

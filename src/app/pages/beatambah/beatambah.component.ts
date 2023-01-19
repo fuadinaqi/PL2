@@ -17,7 +17,7 @@ import { AuthService } from '@services/auth.service'
 export class BeatambahComponent implements OnInit {
   public tahun = this.route.snapshot.queryParams.tahun
   public bulan = this.route.snapshot.queryParams.bulan
-  public term = this.route.snapshot.queryParams.term
+  public parentId = this.route.snapshot.queryParams.parentId
   public idperiode = this.route.snapshot.queryParams.idperiode
   public idtrans: any
   public isP2pk: boolean

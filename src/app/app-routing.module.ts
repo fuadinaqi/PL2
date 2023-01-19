@@ -27,11 +27,13 @@ import { TransaksilandingComponent } from '@pages/transaksilanding/transaksiland
 import { BphlistComponent } from '@pages/bphlist/bphlist.component'
 import { BphdetailComponent } from '@pages/bphdetail/bphdetail.component'
 import { BphaddComponent } from '@pages/bphadd/bphadd.component'
+import { BeaJadwalComponent } from '@pages/beajadwal/beajadwal.component'
 import { BealandingComponent } from '@pages/bealanding/bealanding.component'
 import { KslistComponent } from '@pages/kslist/kslist.component'
 import { KsdetailComponent } from '@pages/ksdetail/ksdetail.component'
 import { KsaddComponent } from '@pages/ksadd/ksadd.component'
 import { BolandingComponent } from '@pages/bo/bolanding/bolanding.component'
+import { BphJadwalComponent } from '@pages/bphjadwal/bphjadwal.component'
 import { BphlandingComponent } from '@pages/bphlanding/bphlanding.component'
 import { BoperiodeComponent } from '@pages/bo/boperiode/boperiode.component'
 import { KslandingComponent } from '@pages/kslanding/kslanding.component'
@@ -143,6 +145,10 @@ const routes: Routes = [
         component: TransaksiaddComponent,
       },
       {
+        path: 'beajadwal/:idperiode',
+        component: BeaJadwalComponent,
+      },
+      {
         path: 'bea/:idperiode',
         component: BealandingComponent,
       },
@@ -193,6 +199,10 @@ const routes: Routes = [
       {
         path: 'bphadd/preview/:idpreview',
         component: BphaddComponent,
+      },
+      {
+        path: 'bphjadwal/:idperiode',
+        component: BphJadwalComponent,
       },
       {
         path: 'bphlanding/:idperiode',

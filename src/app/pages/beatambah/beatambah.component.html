@@ -3,23 +3,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Tambah Bea Lelang : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }}</h1>
+        <h1>Tambah Bea Lelang : {{ bulan | numberToMonth }} {{ tahun }}</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a [routerLink]="['/bealelang']">Bea Lelang</a></li>
-          <!-- <li class="breadcrumb-item">
-            <a [routerLink]="['/bealist']" [queryParams]="{tahun}">{{ tahun }}</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a [routerLink]="['/bea', idperiode]" [queryParams]="{ tahun, bulan, term }"> Transaksi </a>
-          </li>
-          <li class="breadcrumb-item active">
-            <a [routerLink]="['/beadetail', idtrans]" [queryParams]="{ tahun, bulan, term, idperiode }"
-              >Penyetoran Bea</a
-            >
-          </li> -->
-          <li class="breadcrumb-item active">Tambah Bea {{ bulan | numberToMonth }} - {{ term | termToLabel }}</li>
+          <li class="breadcrumb-item active">Tambah Bea {{ bulan | numberToMonth }}</li>
         </ol>
       </div>
     </div>

@@ -3,18 +3,12 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Laporan Penyetoran BPHTB Lelang : {{ bulan | numberToMonth }} {{ tahun }} {{ term | termToLabel }}</h1>
+        <h1>Laporan Penyetoran BPHTB Lelang : {{ bulan | numberToMonth }} {{ tahun }}</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
           <li class="breadcrumb-item"><a [routerLink]="['/bphlelang']">BPHTB</a></li>
-          <!-- <li class="breadcrumb-item">
-            <a [routerLink]="['/bphlist']" [queryParams]="{tahun}">{{ tahun }}</a>
-          </li>
-          <li class="breadcrumb-item">
-            <a [routerLink]="['/bphlanding', idperiode]" [queryParams]="{ tahun, bulan, term }"> Transaksi Lelang </a>
-          </li> -->
-          <li class="breadcrumb-item active">{{ bulan | numberToMonth }} - {{ term | termToLabel }}</li>
+          <li class="breadcrumb-item active">{{ bulan | numberToMonth }}</li>
         </ol>
       </div>
     </div>
@@ -31,17 +25,22 @@
           <a
             *ngIf="!isP2pk"
             [routerLink]="['/bphlanding', idperiode]"
-            [queryParams]="{ tahun, bulan, term }"
+            [queryParams]="{ tahun, bulan, parentId, term }"
             class="btn btn-s"
           >
             <i class="fas fa-arrow-left"></i> Kembali
           </a>
-          <a *ngIf="isP2pk" [routerLink]="['/bobph']" [queryParams]="{ tahun, bulan, term }" class="btn btn-s">
+          <a
+            *ngIf="isP2pk"
+            [routerLink]="['/bobph']"
+            [queryParams]="{ tahun, bulan, parentId, term }"
+            class="btn btn-s"
+          >
             <i class="fas fa-arrow-left"></i> Kembali
           </a>
         </div>
         <div class="card-title" *ngIf="!isP2pk">
-          <a [routerLink]="['/bphadd', 'trans', idtrans]" [queryParams]="{ tahun, bulan, term, idperiode }">
+          <a [routerLink]="['/bphadd', 'trans', idtrans]" [queryParams]="{ tahun, bulan, idperiode, parentId, term }">
             <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
               Tambah BPHTB
             </app-button>
@@ -63,6 +62,12 @@
             </div>
           </div>
         </div> -->
+
+        <div class="card-title ml-2 float-right" *ngIf="!isP2pk && drafts.length">
+          <button type="button" class="btn btn-primary btn-block" (click)="onKirimAll()">
+            <i class="fa fa-paper-plane"></i> Kirim
+          </button>
+        </div>
       </div>
 
       <div class="card-body table-responsive p-0">
@@ -110,7 +115,7 @@
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"
                     class="btn btn-s"
                     [routerLink]="['/bphadd', data.id]"
-                    [queryParams]="{ tahun, bulan, term, idtrans, idperiode }"
+                    [queryParams]="{ tahun, bulan, idtrans, idperiode, parentId, term }"
                   >
                     <i class="fas fa-edit"></i> Edit
                   </a>
@@ -131,7 +136,7 @@
 
                   <a
                     [routerLink]="['/bphadd', 'preview', data.id]"
-                    [queryParams]="{ tahun, bulan, term, idtrans, idperiode }"
+                    [queryParams]="{ tahun, bulan, idtrans, idperiode, parentId, term }"
                     class="btn btn-s"
                   >
                     <i class="fas fa-inbox"></i> Detail
