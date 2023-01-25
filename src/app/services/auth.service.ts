@@ -146,6 +146,42 @@ export class AuthService {
     // this.router.navigate(['/dash-bo'])
   }
 
+  async loginByPerizinan({ email, password }) {
+    try {
+      let bodyreq = {
+        emailAddress: email,
+        password: password,
+      }
+
+      console.log({ email, password })
+      this.http.post(this.config.apiBaseUrl + 'api/Users/loginViaPerizinan', bodyreq).subscribe(
+        (result: any) => {
+          let d = result.data
+          localStorage.setItem('token', JSON.stringify(d).replace('"', '').replace('"', ''))
+          console.log('token 1: ', localStorage.getItem('token'))
+          let jwt = jwt_decode(localStorage.getItem('token'))
+          this.user = jwt
+          console.log('jwt : ', jwt)
+          this.toastr.info('berhasil')
+          if (this.getRole() === 'P2PK' || this.getRole() === 'Plain') {
+            this.router.navigate(['/'])
+            // this.router.navigate(['/dash-bo'])
+          } else {
+            this.router.navigate(['/'])
+          }
+        },
+        (error) => {
+          this.toastr.error(error.error.message)
+          console.log(error)
+          this.router.navigate(['/login'])
+        }
+      )
+      //this.router.navigate(['/']);
+    } catch (error) {
+      this.toastr.error(error.message)
+    }
+  }
+
   async loginByHris({ email, password }) {
     try {
       let bodyreq = {

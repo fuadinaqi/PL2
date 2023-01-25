@@ -162,7 +162,7 @@ export class TransaksiaddComponent implements OnInit {
             tanggalSuratPenetapanJadwalLelang: this.jadwal.tanggalSuratPenetapanJadwalLelang,
             jadwalLelangId: this.jadwal.jadwalLelangId,
             status: this.jadwal.status,
-            nomorRisalahLelang: isNaN(this.jadwal.nomorRisalahLelang) ? 0 : this.jadwal.nomorRisalahLelang,
+            nomorRisalahLelang: this.jadwal.nomorRisalahLelang,
             tanggalRisalahLelang: this.jadwal.tanggalRisalahLelang.split('T')[0],
             nikPenjual: this.jadwal.nikPenjual,
             alamatPenjual: this.jadwal.alamatPenjual,
@@ -201,9 +201,7 @@ export class TransaksiaddComponent implements OnInit {
             tanggalPenyerahanKutipanRisalahLelang: this.jadwal.tanggalPenyerahanKutipanRisalahLelang.split('T')[0],
             imbalanJasa: isNaN(this.jadwal.imbalanJasa) ? 0 : String(this.jadwal.imbalanJasa),
             keterangan: this.jadwal.keterangan,
-            nomorRegisterPembatalan: isNaN(this.jadwal.nomorRegisterPembatalan)
-              ? 0
-              : this.jadwal.nomorRegisterPembatalan,
+            nomorRegisterPembatalan: this.jadwal.nomorRegisterPembatalan,
             beaLelangBatal: this.jadwal.beaLelangBatal,
             alasanPembatalan: this.jadwal.alasanPembatalan,
           })
@@ -282,6 +280,14 @@ export class TransaksiaddComponent implements OnInit {
     if (tglLelang > tglRisalah) {
       return this.toastr.error('Tanggal Lelang tidak boleh melebihi tanggal Risalah Lelang')
     }
+
+    const jaminanLelangBerupaUang = this.transaksiForm?.value?.jaminanLelangBerupaUang || 0
+    const nilaiLimit = this.transaksiForm?.value?.nilaiLimit || 0
+
+    if (jaminanLelangBerupaUang > nilaiLimit) {
+      return this.toastr.error('Uang Jaminan tidak boleh melebihi limit')
+    }
+
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       let url = this.config.apiBaseUrl + 'api/TransaksiLelang/'
       if (this.isAddMode) {
@@ -364,7 +370,7 @@ export class TransaksiaddComponent implements OnInit {
       tanggalPenyerahanKutipanRisalahLelang: formValue.tanggalPenyerahanKutipanRisalahLelang,
       imbalanJasa: Number(formValue.imbalanJasa),
       keterangan: formValue.keterangan,
-      nomorRegisterPembatalan: isNaN(formValue.nomorRegisterPembatalan) ? 0 : formValue.nomorRegisterPembatalan,
+      nomorRegisterPembatalan: formValue.nomorRegisterPembatalan,
       beaLelangBatal: formValue.beaLelangBatal,
       alasanPembatalan: formValue.alasanPembatalan,
     }
@@ -392,7 +398,7 @@ export class TransaksiaddComponent implements OnInit {
       delete bodyreq.beaLelangPembeli
     }
     Object.entries(bodyreq).forEach(([key, value]) => {
-      if (!value) delete bodyreq[key]
+      if (!value && typeof value !== 'number') delete bodyreq[key]
     })
     console.log(bodyreq)
     return bodyreq

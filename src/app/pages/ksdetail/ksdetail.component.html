@@ -42,7 +42,11 @@
           </a>
         </div>
         <div *ngIf="!isP2pk" class="card-title">
-          <a [routerLink]="['/ksadd', 'periode', idjadwal]" [queryParams]="{ tahun, bulan, term, parentId }">
+          <a
+            [routerLink]="['/ksadd', 'periode', idjadwal]"
+            [queryParams]="{ tahun, bulan, term, parentId }"
+            [state]="{ dataKertas: listTrans }"
+          >
             <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
               Tambah Kertas Sekuriti
             </app-button>
@@ -82,6 +86,12 @@
               <th>No.</th>
               <th>Triwulan</th>
               <th>Jumlah Awal</th>
+              <th>Penambahan</th>
+              <th>Terpakai</th>
+              <th>Pengganti</th>
+              <th>Rusak</th>
+              <th>Hilang</th>
+              <th>Sisa</th>
               <th>Status Data</th>
               <th>Tanggal Kirim</th>
               <th *ngIf="!isWillDownload">Aksi</th>
@@ -98,6 +108,12 @@
                 <td>{{ i + 1 }}</td>
                 <td>{{ data.triwulan }}</td>
                 <td>{{ data.jumlahAwal }}</td>
+                <td>{{ data.penambahan }}</td>
+                <td>{{ data.penggunaan }}</td>
+                <td>{{ data.kutipanPengganti }}</td>
+                <td>{{ data.rusak }}</td>
+                <td>{{ data.hilang }}</td>
+                <td>{{ data.sisa }}</td>
                 <td>{{ formatStatus(data.statusPengiriman) }}</td>
                 <td>{{ data.tanggalKirim?.split('T')[0] || '' }}</td>
                 <td *ngIf="!isWillDownload">

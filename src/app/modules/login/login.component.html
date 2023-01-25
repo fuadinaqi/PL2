@@ -45,6 +45,11 @@
     </form>
 
     <div class="social-auth-links text-center mb-3">
+      <app-button class="mb-1" [block]="true" [loading]="isAuthLoading" (click)="loginByPerizinan()" [icon]="'blank'">
+        Masuk Via Perizinan
+      </app-button>
+    </div>
+    <div class="social-auth-links text-center mb-3">
       <app-button class="mb-1" [block]="true" [loading]="isAuthLoading" (click)="loginByPelaksana()" [icon]="'blank'">
         Masuk Sebagai PPPK
       </app-button>

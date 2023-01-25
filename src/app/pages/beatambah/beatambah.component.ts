@@ -36,6 +36,8 @@ export class BeatambahComponent implements OnInit {
   public responseUpload: any
   public fileName: string
 
+  public realPokokLelang = 0
+
   constructor(
     private toastr: ToastrService,
     public route: ActivatedRoute,
@@ -71,6 +73,7 @@ export class BeatambahComponent implements OnInit {
       transaksiLelangId: new UntypedFormControl(null, Validators.required),
       pokokLelang: new UntypedFormControl(null, Validators.required),
       jenisTransaksi: new UntypedFormControl(null, Validators.required),
+      jenisBeaLelang: new UntypedFormControl(null, Validators.required),
       nomorTransaksi: new UntypedFormControl(null, Validators.required),
       fileJenisTransaksi: new UntypedFormControl(null, Validators.required),
       nomorBPN: new UntypedFormControl(null, Validators.required),
@@ -87,12 +90,14 @@ export class BeatambahComponent implements OnInit {
           this.bea = result.data
           console.log('bea', this.bea)
           this.idtrans = this.bea.transaksiLelangId
+          this.realPokokLelang = this.bea.pokokLelang
           this.beaForm.patchValue({
             transaksiLelangId: this.bea.transaksiLelangId,
             pokokLelang: this.bea.pokokLelang,
             beaLelangPenjual: this.bea.beaLelangPenjual,
             beaLelangPembeli: this.bea.beaLelangPembeli,
             jenisTransaksi: this.bea.jenisTransaksi,
+            jenisBeaLelang: this.bea.jenisBeaLelang,
             nomorTransaksi: this.bea.nomorTransaksi,
             //fileJenisTransaksi: this.bea.fileJenisTransaksi,
             nomorBPN: this.bea.nomorBPN,
@@ -116,6 +121,18 @@ export class BeatambahComponent implements OnInit {
     }
 
     this.loadTrans()
+
+    this.beaForm.get('jenisBeaLelang').valueChanges.subscribe((val) => {
+      if (val === 'Penjual' || val === 'Batal') {
+        this.beaForm.patchValue({
+          pokokLelang: 0,
+        })
+      } else {
+        this.beaForm.patchValue({
+          pokokLelang: this.realPokokLelang,
+        })
+      }
+    })
   }
 
   loadTrans() {
@@ -123,6 +140,7 @@ export class BeatambahComponent implements OnInit {
     this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang/' + this.idtrans, this.api.generateHeader()).subscribe(
       (result: any) => {
         this.trans = result.data
+        this.realPokokLelang = result.data.pokokLelang
         this.beaForm.patchValue({
           pokokLelang: result.data.pokokLelang,
           beaLelangPenjual: result.data.beaLelangPenjual,
@@ -169,10 +187,11 @@ export class BeatambahComponent implements OnInit {
       transaksiLelangId: this.idtrans,
       pokokLelang: formValue.pokokLelang,
       jenisTransaksi: formValue.jenisTransaksi,
+      jenisBeaLelang: formValue.jenisBeaLelang,
       nomorTransaksi: formValue.nomorTransaksi,
       fileJenisTransaksi: this.responseUpload?.data,
       nomorBPN: formValue.nomorBPN,
-      kodeMAP: formValue.kodeMAP,
+      kodeMAP: String(formValue.kodeMAP),
       tanggalPenyetoran: formValue.tanggalPenyetoran,
       keterangan: formValue.keterangan,
     }

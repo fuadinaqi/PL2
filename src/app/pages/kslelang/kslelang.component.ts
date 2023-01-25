@@ -28,6 +28,33 @@ export class KslelangComponent {
           }
         })
         this.listPeriode = arrListPeriode.sort(compareFromHighest('tahun'))
+
+        this.listPeriode.forEach((el, i) => {
+          this.http
+            .get(
+              this.config.apiBaseUrl + `api/PeriodePelaporan/KertasSekuritibyTahun/${el.tahun}`,
+              this.api.generateHeader()
+            )
+            .subscribe((res: any) => {
+              const jumlahAwal = res.data.map((el) => el.jumlahAwal).reduce((a, b) => a + b)
+              const penambahan = res.data.map((el) => el.penambahan).reduce((a, b) => a + b)
+              const penggunaan = res.data.map((el) => el.penggunaan).reduce((a, b) => a + b)
+              const kutipanPengganti = res.data.map((el) => el.kutipanPengganti).reduce((a, b) => a + b)
+              const rusak = res.data.map((el) => el.rusak).reduce((a, b) => a + b)
+              const hilang = res.data.map((el) => el.hilang).reduce((a, b) => a + b)
+              const sisa = res.data.map((el) => el.sisa).reduce((a, b) => a + b)
+              this.listPeriode[i] = {
+                ...this.listPeriode[i],
+                jumlahAwal,
+                penambahan,
+                penggunaan,
+                kutipanPengganti,
+                rusak,
+                hilang,
+                sisa,
+              }
+            })
+        })
       },
       (error) => {}
     )

@@ -75,9 +75,9 @@ export class KsdetailComponent implements OnInit, OnDestroy {
     }
   }
   loadTransaction() {
-    let url = this.isP2pk ? '/P2PK' : ''
+    let url = this.isP2pk ? 'api/KertasSekuriti/P2PK' : `api/PeriodePelaporan/KertasSekuritibyTahun/${this.tahun}`
 
-    this.http.get(this.config.apiBaseUrl + 'api/KertasSekuriti' + url, this.api.generateHeader()).subscribe(
+    this.http.get(this.config.apiBaseUrl + url, this.api.generateHeader()).subscribe(
       (result: any) => {
         if (result.data) {
           console.log(this.idjadwal)

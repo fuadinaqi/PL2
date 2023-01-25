@@ -53,10 +53,10 @@
             <tr *ngFor="let data of listJadwal; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ months[data.bulan] }}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>Rp. -</td>
-              <td>-</td>
+              <td>{{ data.jumlahLelang }}</td>
+              <td>{{ data.jumlahLelangTanahDanBangunan }}</td>
+              <td>{{ data.pokokLelang | currency: 'Rp ' }}</td>
+              <td>{{ data.terkirim }}</td>
               <td>
                 <a [routerLink]="['/bphjadwal', data.id]" [queryParams]="{ tahun, bulan: data.bulan }">
                   <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">

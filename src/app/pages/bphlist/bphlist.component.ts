@@ -41,7 +41,7 @@ export class BphlistComponent implements OnInit {
 
   ngOnInit(): void {
     this.http
-      .get(this.config.apiBaseUrl + `api/PeriodePelaporan/byTahun/${this.tahun}`, this.api.generateHeader())
+      .get(this.config.apiBaseUrl + `api/PeriodePelaporan/BPHTBbyTahun/${this.tahun}`, this.api.generateHeader())
       .subscribe(
         (result: any) => {
           const sorted = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
@@ -54,12 +54,11 @@ export class BphlistComponent implements OnInit {
               results[indexR] = {
                 ...results[indexR],
                 jumlahLelang: results[indexR].jumlahLelang + el.jumlahLelang,
-                laporanTransaksi: results[indexR].laporanTransaksi + el.laporanTransaksi,
-                lisan: results[indexR].lisan + el.lisan,
-                tertulis: results[indexR].tertulis + el.tertulis,
-                email: results[indexR].email + el.email,
-                closed: results[indexR].closed + el.closed,
-                terbuka: results[indexR].terbuka + el.terbuka,
+                jumlahLelangBukanTanah: results[indexR].jumlahLelangBukanTanah + el.jumlahLelangBukanTanah,
+                jumlahLelangTanahDanBangunan:
+                  results[indexR].jumlahLelangTanahDanBangunan + el.jumlahLelangTanahDanBangunan,
+                pokokLelang: results[indexR].pokokLelang + el.pokokLelang,
+                terkirim: results[indexR].terkirim + el.terkirim,
               }
             }
           })

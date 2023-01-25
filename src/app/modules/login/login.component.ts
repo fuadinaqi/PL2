@@ -38,6 +38,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     await this.AuthService.loginKemenkeu()
     this.isAuthLoading = false
   }
+  async loginByPerizinan() {
+    await this.AuthService.loginByPerizinan(this.loginForm.value)
+    this.isAuthLoading = false
+  }
   async loginByPelaksana() {
     await this.AuthService.loginByHris(this.loginForm.value)
     this.isAuthLoading = false

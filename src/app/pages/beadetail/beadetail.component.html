@@ -77,10 +77,11 @@
             <tr>
               <th>No.</th>
               <th>No. Risalah</th>
+              <th>Jenis Bea Lelang</th>
               <th>Jenis Transaksi</th>
-              <th>No. Transaksi</th>
+              <th>NTPN</th>
               <th>No. BPN</th>
-              <th>Kode Map</th>
+              <th>Kode MAP</th>
               <th>Pokok Lelang</th>
               <th>Bea Lelang Penjual</th>
               <th>Bea Lelang Pembeli</th>
@@ -101,13 +102,20 @@
               <tr *ngFor="let data of listTrans; let i = index">
                 <td>{{ i + 1 }}</td>
                 <td>{{ data.nomorRisalahLelang }}</td>
+                <td>{{ data.jenisBeaLelang }}</td>
                 <td>{{ data.jenisTransaksi }}</td>
                 <td>{{ data.nomorTransaksi }}</td>
                 <td>{{ data.nomorBPN }}</td>
                 <td>{{ data.kodeMAP }}</td>
-                <td>{{ data.pokokLelang | currency: 'Rp ' }}</td>
-                <td>{{ data.beaLelangPenjual | currency: 'Rp ' }}</td>
-                <td>{{ data.beaLelangPembeli | currency: 'Rp ' }}</td>
+                <td>{{ (data.jenisBeaLelang === 'Pembeli' ? data.pokokLelang : 0) | currency: 'Rp ' }}</td>
+                <ng-container *ngIf="data.jenisBeaLelang === 'Batal'">
+                  <td>-</td>
+                  <td>-</td>
+                </ng-container>
+                <ng-container *ngIf="data.jenisBeaLelang !== 'Batal'">
+                  <td>{{ data.beaLelangPenjual | currency: 'Rp ' }}</td>
+                  <td>{{ data.beaLelangPembeli | currency: 'Rp ' }}</td>
+                </ng-container>
                 <!-- <td >{{ data.tanggalPenyerahanKutipanRisalahLelang.split('T')[0] }}</td> -->
                 <td>{{ data.tanggalPenyetoran.split('T')[0] }}</td>
                 <td>{{ data.tanggalLelang.split('T')[0] }}</td>

@@ -28,27 +28,33 @@
         <div class="card-body">
           <div class="row">
             <div class="form-group col-xl-6">
+              <label for="exampleInputEmail1">Jenis Bea Lelang </label>
+              <select class="form-control" formControlName="jenisBeaLelang">
+                <option value="Pembeli">Pembeli</option>
+                <option value="Penjual">Penjual</option>
+                <option value="Batal">Batal</option>
+              </select>
+            </div>
+            <div class="form-group col-xl-6">
               <label for="exampleInputEmail1">Jenis Transaksi </label>
               <select class="form-control" formControlName="jenisTransaksi">
-                <option value="SSP">SSP</option>
+                <option value="BPN">BPN</option>
                 <option value="SSBP">SSBP</option>
               </select>
             </div>
-          </div>
-          <div class="row">
             <div class="form-group col-xl-6">
-              <label for="exampleInputEmail1">Nomor Transaksi </label>
+              <label for="exampleInputEmail1">NTPN </label>
               <input type="text" class="form-control" formControlName="nomorTransaksi" />
             </div>
             <div class="form-group col-xl-6">
-              <label for="exampleInputEmail1">Nomor BPN </label>
+              <label for="exampleInputEmail1">Nomor BPN / SSBP </label>
               <input type="text" class="form-control" id="suratttp" formControlName="nomorBPN" />
             </div>
-          </div>
-          <div class="row">
+            <!-- </div> -->
+            <!-- <div class="row"> -->
             <div class="form-group col-xl-6">
-              <label for="exampleInputEmail1">Kode Map </label>
-              <input type="text" class="form-control" formControlName="kodeMAP" />
+              <label for="exampleInputEmail1">Kode MAP </label>
+              <input type="number" class="form-control" formControlName="kodeMAP" max="999999" />
             </div>
 
             <div class="form-group col-xl-6">
@@ -67,9 +73,9 @@
                 id="tglsuratttp"
               />
             </div>
-          </div>
-          <div class="row">
-            <div class="form-group col-xl-6">
+            <!-- </div> -->
+            <!-- <div class="row"> -->
+            <div *ngIf="beaForm.get('jenisBeaLelang').value !== 'Batal'" class="form-group col-xl-6">
               <label for="exampleInputEmail1">Bea Lelang Penjual </label>
               <input
                 currencyMask
@@ -85,7 +91,7 @@
                 id="tglsuratttp"
               />
             </div>
-            <div class="form-group col-xl-6">
+            <div *ngIf="beaForm.get('jenisBeaLelang').value !== 'Batal'" class="form-group col-xl-6">
               <label for="exampleInputEmail1">Bea Lelang Pembeli </label>
               <input
                 currencyMask
@@ -101,8 +107,8 @@
                 id="tglsuratttp"
               />
             </div>
-          </div>
-          <div class="row">
+            <!-- </div> -->
+            <!-- <div class="row"> -->
             <div class="form-group col-xl-6">
               <label for="exampleInputEmail1">Tanggal Penyerahan Kutipan Risalah Lelang </label>
               <input
@@ -127,8 +133,8 @@
                 class="form-control"
               />
             </div>
-          </div>
-          <div class="row">
+            <!-- </div> -->
+            <!-- <div class="row"> -->
             <div class="form-group col-xl-6">
               <label for="tanggalSuratPenetapanJadwalLelang">Tanggal Setor </label>
               <input type="date" formControlName="tanggalPenyetoran" class="form-control" />

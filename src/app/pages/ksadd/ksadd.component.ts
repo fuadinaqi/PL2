@@ -7,6 +7,7 @@ import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormArray } fr
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { AuthService } from '@services/auth.service'
+import { Location } from '@angular/common'
 
 @Component({
   selector: 'app-ksadd',
@@ -35,7 +36,7 @@ export class KsaddComponent implements OnInit {
     bulan: this.bulan,
     term: this.term,
     triwulan: '1',
-    jumlahAwal: null,
+    jumlahAwal: 0,
     isiKertasSekuritiModels: [
       {
         status: 'Penambahan',
@@ -80,6 +81,12 @@ export class KsaddComponent implements OnInit {
     ],
   }
   public isP2pk: boolean
+  public dataKertas: any = {
+    1: { sisa: 0 },
+    2: { sisa: 0 },
+    3: { sisa: 0 },
+    4: { sisa: 0 },
+  }
 
   constructor(
     private toastr: ToastrService,
@@ -88,10 +95,21 @@ export class KsaddComponent implements OnInit {
     private http: HttpClient,
     private api: ApiService,
     private config: AppConfigService,
-    private AuthService: AuthService
+    private AuthService: AuthService,
+    private location: Location
   ) {}
 
   ngOnInit(): void {
+    // console.log(this.router.routerState.snapshot.root)
+    const dataKertas = this.location.getState()['dataKertas'] || []
+
+    this.dataKertas[1] = dataKertas.find((el) => el.triwulan === 1) || { sisa: 0 }
+    this.dataKertas[2] = dataKertas.find((el) => el.triwulan === 2) || { sisa: 0 }
+    this.dataKertas[3] = dataKertas.find((el) => el.triwulan === 3) || { sisa: 0 }
+    this.dataKertas[4] = dataKertas.find((el) => el.triwulan === 4) || { sisa: 0 }
+
+    console.log(this.dataKertas)
+
     let role = this.AuthService.getRole()
     if (role.toString() == 'UserPLII') {
       this.isP2pk = false
@@ -197,6 +215,10 @@ export class KsaddComponent implements OnInit {
   }
 
   savetransaksi() {
+    if (this.sisa < 0) {
+      return this.toastr.error('Jumlah akhir minimal 0')
+    }
+
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       const method = this.isEditMode ? 'put' : 'post'
       const url = this.isEditMode ? `api/KertasSekuriti/${this.id}` : 'api/KertasSekuriti'
@@ -220,5 +242,21 @@ export class KsaddComponent implements OnInit {
 
   onSelectTriwulan(value) {
     this.data.triwulan = value
+    if (value > 1) {
+      this.data.jumlahAwal = this.dataKertas[value - 1].sisa
+    } else {
+      this.data.jumlahAwal = 0
+    }
+  }
+
+  get sisa() {
+    return (
+      Number(this.data.jumlahAwal) +
+      Number(this.data.isiKertasSekuritiModels[0].jumlahMutasi) -
+      Number(this.data.isiKertasSekuritiModels[1].jumlahMutasi) -
+      Number(this.data.isiKertasSekuritiModels[2].jumlahMutasi) -
+      Number(this.data.isiKertasSekuritiModels[3].jumlahMutasi) -
+      Number(this.data.isiKertasSekuritiModels[4].jumlahMutasi)
+    )
   }
 }

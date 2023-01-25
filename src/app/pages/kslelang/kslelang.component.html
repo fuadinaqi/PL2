@@ -48,12 +48,26 @@
           <thead>
             <tr>
               <th>Tahun</th>
+              <th>Jumlah Kertas Sekuriti</th>
+              <th>Penambahan</th>
+              <th>Terpakai</th>
+              <th>Pengganti</th>
+              <th>Rusak</th>
+              <th>Hilang</th>
+              <th>Sisa</th>
               <th class="text-right">Aksi</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let data of listPeriode">
               <td>{{ data.tahun }}</td>
+              <td>{{ data.jumlahAwal }}</td>
+              <td>{{ data.penambahan }}</td>
+              <td>{{ data.penggunaan }}</td>
+              <td>{{ data.kutipanPengganti }}</td>
+              <td>{{ data.rusak }}</td>
+              <td>{{ data.hilang }}</td>
+              <td>{{ data.sisa }}</td>
               <td class="text-right">
                 <button class="btn btn-sm btn-primary" (click)="clickDetail(data)">Detail</button>
               </td>

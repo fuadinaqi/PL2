@@ -70,7 +70,13 @@
                 <td>{{ data.tanggalSuratPenetapanJadwalLelang.split('T')[0] }}</td>
                 <td>
                   <a [routerLink]="['/transaksidetail', data.id]" [queryParams]="{tahun, bulan, term, parentId}">
-                    <button type="button" class="btn btn-primary btn-block">
+                    <button
+                      type="button"
+                      class="btn btn-block"
+                      [class.btn-primary]="!!data.jumlahTransaksiLelang"
+                      [class.btn-danger]="!data.jumlahTransaksiLelang"
+                      [title]="!!data.jumlahTransaksiLelang ? 'Sudah ada transaksi' : 'Belum ada transaksi'"
+                    >
                       <i class="fa fa-info-circle"></i> Detail
                     </button>
                   </a>
