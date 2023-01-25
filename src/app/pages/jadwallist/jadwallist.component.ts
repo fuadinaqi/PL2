@@ -14,7 +14,7 @@ import { compareFromLowest } from '@/helpers/compare'
 })
 export class JadwallistComponent {
   public tahun = this.activatedRoute.snapshot.queryParams.tahun || ''
-  public listJadwal: Array<any>
+  public listJadwal: Array<any> = []
   public months = [
     '',
     'January',
@@ -52,11 +52,32 @@ export class JadwallistComponent {
       .subscribe(
         (result: any) => {
           this.listJadwal = result.data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
-          this.dtTrigger.next()
+          this.initJadwal()
         },
-        (error) => {}
+        (error) => {
+          this.initJadwal()
+        }
       )
   }
+
+  initJadwal() {
+    this.http.get(this.config.apiBaseUrl + 'api/PeriodePelaporan', this.api.generateHeader()).subscribe(
+      (result: any) => {
+        const arrJadwal = this.listJadwal.map((el) => ({ ...el }))
+        result.data
+          .filter((x) => x.tahun == this.tahun)
+          .forEach((d) => {
+            if (arrJadwal.findIndex((l) => l.id === d.id) === -1) {
+              arrJadwal.push(d)
+            }
+          })
+        this.listJadwal = arrJadwal.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
+        this.dtTrigger.next()
+      },
+      (error) => {}
+    )
+  }
+
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
     this.dtTrigger.unsubscribe()

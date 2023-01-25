@@ -44,10 +44,16 @@
               <td>{{ i + 1 }}</td>
               <td>{{ data.bulan | numberToMonth }}</td>
               <td>{{ data.term | termToLabel }}</td>
-              <td>{{ data.mendatang }}</td>
-              <td>{{ data.terlaksana }}</td>
-              <td>{{ data.transaksiLelangBatal }}</td>
-              <td>{{ data.mendatang + data.terlaksana + data.transaksiLelangBatal }}</td>
+              <td>{{ data.mendatang || 0 }}</td>
+              <td>{{ data.terlaksana || 0 }}</td>
+              <td>{{ data.transaksiLelangBatal || 0 }}</td>
+              <td>
+                {{
+                  data.mendatang || data.terlaksana || data.transaksiLelangBatal
+                    ? data.mendatang + data.terlaksana + data.transaksiLelangBatal
+                    : 0
+                }}
+              </td>
               <td>
                 <a
                   [routerLink]="['/jadwaldetail', data.id]"
