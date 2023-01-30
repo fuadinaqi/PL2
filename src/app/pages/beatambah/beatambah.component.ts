@@ -161,6 +161,10 @@ export class BeatambahComponent implements OnInit {
 
   savetransaksi() {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
+      if (this.beaForm.value.kodeMAP > 999999) {
+        return this.toastr.error('Kode MAP maksimal 6 digit')
+      }
+
       const method = this.isEditMode ? 'put' : 'post'
       const url = this.isEditMode ? `api/LaporanPenyetoranBeaLelang/${this.id}` : 'api/LaporanPenyetoranBeaLelang'
       this.http[method](

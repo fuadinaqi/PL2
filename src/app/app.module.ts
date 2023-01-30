@@ -75,6 +75,7 @@ import { BeaLelangComponent } from '@pages/bealelang/bealelang.component'
 import { BphLelangComponent } from '@pages/bphlelang/bphlelang.component'
 import { CustomHttpInterceptor } from './custom-http.interceptor'
 import { BolelangComponent } from '@pages/bo/bolelang/bolelang.component'
+import { BoUsersComponent } from '@pages/bo/bousers/bousers.component'
 import { KslelangComponent } from '@pages/kslelang/kslelang.component'
 import { TandaTerimaComponent } from '@components/tanda-terima/tanda-terima.component'
 import { BolistComponent } from '@pages/bo/bolist/bolist.component'
@@ -152,6 +153,7 @@ registerLocaleData(localeEn, 'en-EN')
     BphlandingComponent,
 
     BolelangComponent,
+    BoUsersComponent,
     BolistComponent,
     BolandingComponent,
     BoperiodeComponent,

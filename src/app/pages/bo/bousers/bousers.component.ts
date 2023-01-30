@@ -8,10 +8,10 @@ import { compareFromHighest } from '@/helpers/compare'
 import { Subject } from 'rxjs'
 
 @Component({
-  selector: 'app-bolelang',
-  templateUrl: './bolelang.component.html',
+  selector: 'app-bousers',
+  templateUrl: './bousers.component.html',
 })
-export class BolelangComponent {
+export class BoUsersComponent {
   public type = this.activatedRoute.snapshot.params.type
   public title = ''
   public listPeriode: Array<any>
@@ -23,7 +23,7 @@ export class BolelangComponent {
       pagingType: 'full_numbers',
       pageLength: 10,
     }
-    
+
     this.activatedRoute.params.subscribe((value) => {
       this.type = value.type
 
@@ -70,11 +70,11 @@ export class BolelangComponent {
       )
   }
 
-  clickDetail(tahun: number) {
+  clickDetail(userId: any) {
     if (this.type !== 'boks') {
-      this.router.navigateByUrl(`/bo/${this.type}/list?tahun=${tahun}`)
+      this.router.navigateByUrl(`/bo/${this.type}?u=${userId}`)
     } else {
-      this.router.navigateByUrl(`/boks?tahun=${tahun}`)
+      this.router.navigateByUrl(`/boks?u=${userId}`)
     }
   }
 

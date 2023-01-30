@@ -48,6 +48,7 @@ import { KslelangComponent } from '@pages/kslelang/kslelang.component'
 import { BolistComponent } from '@pages/bo/bolist/bolist.component'
 import { BoBealandingComponent } from '@pages/bo/bobealanding/bobealanding.component'
 import { BoBphlandingComponent } from '@pages/bo/bobphlanding/bobphlanding.component'
+import { BoUsersComponent } from '@pages/bo/bousers/bousers.component'
 
 const routes: Routes = [
   {
@@ -247,6 +248,10 @@ const routes: Routes = [
       {
         path: 'bo/:type/list',
         component: BolistComponent,
+      },
+      {
+        path: 'bo/users/:type',
+        component: BoUsersComponent,
       },
       {
         path: 'bo/:type',

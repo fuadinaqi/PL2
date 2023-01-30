@@ -74,27 +74,27 @@ export class MenuSidebarComponent implements OnInit {
         {
           name: 'Jadwal',
           iconClasses: 'far fa-address-book',
-          path: ['/bo/bojadwal'],
+          path: ['/bo/users/bojadwal'],
         },
         {
           name: 'Transaksi',
           iconClasses: 'fas fa-book',
-          path: ['/bo/botrans'],
+          path: ['/bo/users/botrans'],
         },
         {
           name: 'Penyetoran Bea',
           iconClasses: 'fas fa-credit-card',
-          path: ['/bo/bobea'],
+          path: ['/bo/users/bobea'],
         },
         {
           name: 'Penyetoran BPHTB',
           iconClasses: 'fas fa-building',
-          path: ['/bo/bobph'],
+          path: ['/bo/users/bobph'],
         },
         {
           name: 'Kertas Sekuriti',
           iconClasses: 'fas fa-lock',
-          path: ['/bo/boks'],
+          path: ['/bo/users/boks'],
         },
       ]
     }
