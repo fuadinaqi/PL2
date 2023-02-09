@@ -20,6 +20,7 @@ export class JadwalDetailComponent {
   public tahun = this.route.snapshot.queryParams.tahun
   public bulan = this.route.snapshot.queryParams.bulan
   public term = this.route.snapshot.queryParams.term
+  public userId = this.route.snapshot.queryParams.u
 
   public listJadwal: Array<any>
   public idperiode: String
@@ -83,7 +84,7 @@ export class JadwalDetailComponent {
   }
   loadJadwal() {
     const url = this.isP2pk
-      ? `api/JadwalLelang/P2PK/byTahun/${this.tahun}`
+      ? `api/JadwalLelang/P2PK/byTahun/${this.tahun}/${this.userId}`
       : `api/JadwalLelang/AllPerPeriode/${this.idperiode}`
 
     this.http.get(this.config.apiBaseUrl + url, this.api.generateHeader()).subscribe(
@@ -92,7 +93,7 @@ export class JadwalDetailComponent {
           this.http
             .get(
               this.config.apiBaseUrl +
-                `api/PeriodePelaporan/P2PK/WithParam?Tahun=${this.tahun}&Bulan=${this.bulan}&Term=${this.term}`,
+                `api/PeriodePelaporan/P2PK/WithParam?Tahun=${this.tahun}&Bulan=${this.bulan}&Term=${this.term}&UserId=${this.userId}`,
               this.api.generateHeader()
             )
             .subscribe((r: any) => {

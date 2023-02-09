@@ -13,6 +13,7 @@ import { compareFromLowest } from '@/helpers/compare'
 })
 export class BolistComponent implements OnInit, OnDestroy {
   public tahun = this.activatedRoute.snapshot.queryParams.tahun || ''
+  public userId = this.activatedRoute.snapshot.queryParams.u || ''
   public type = this.activatedRoute.snapshot.params.type || ''
   public listJadwal: Array<any>
   dtOptions: DataTables.Settings = {}
@@ -190,10 +191,12 @@ export class BolistComponent implements OnInit, OnDestroy {
     // if (getUrl()) {
     // }
     // this.router.navigateByUrl(`/${this.type}?tahun=${this.tahun}&bulan=${data.bulan}&term=${data.term}`)
-    this.router.navigate([`/${this.type}/`], { queryParams: { tahun: this.tahun, bulan: data.bulan, term: data.term } })
+    this.router.navigate([`/${this.type}/`], {
+      queryParams: { tahun: this.tahun, bulan: data.bulan, term: data.term, u: this.userId },
+    })
   }
 
   onBack() {
-    this.router.navigate(['/bo/', this.type])
+    this.router.navigate(['/bo/users/', this.type], { queryParams: { tahun: this.tahun } })
   }
 }

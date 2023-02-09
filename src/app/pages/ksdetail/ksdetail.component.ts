@@ -18,6 +18,7 @@ import { getMonthByNumber, getTermByNumber } from '@/helpers/date'
 })
 export class KsdetailComponent implements OnInit, OnDestroy {
   public tahun = this.route.snapshot.queryParams.tahun
+  public userId = this.route.snapshot.queryParams.u
   public bulan = 1
   public term = 1
   public parentId = ''
@@ -75,7 +76,9 @@ export class KsdetailComponent implements OnInit, OnDestroy {
     }
   }
   loadTransaction() {
-    let url = this.isP2pk ? 'api/KertasSekuriti/P2PK' : `api/PeriodePelaporan/KertasSekuritibyTahun/${this.tahun}`
+    let url = this.isP2pk
+      ? `api/KertasSekuriti/P2PK/byTahun/${this.tahun}/${this.userId}`
+      : `api/PeriodePelaporan/KertasSekuritibyTahun/${this.tahun}`
 
     this.http.get(this.config.apiBaseUrl + url, this.api.generateHeader()).subscribe(
       (result: any) => {
@@ -106,7 +109,7 @@ export class KsdetailComponent implements OnInit, OnDestroy {
 
   onBack() {
     if (this.isP2pk) {
-      this.router.navigate(['/bo/boks'])
+      this.router.navigate(['/bo/users/boks'], { queryParams: { tahun: this.tahun } })
     } else {
       this.router.navigate(['/kslelang'])
     }

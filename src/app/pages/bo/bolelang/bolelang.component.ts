@@ -22,8 +22,9 @@ export class BolelangComponent {
     this.dtOptions = {
       pagingType: 'full_numbers',
       pageLength: 10,
+      order: [0, 'desc'],
     }
-    
+
     this.activatedRoute.params.subscribe((value) => {
       this.type = value.type
 
@@ -42,6 +43,9 @@ export class BolelangComponent {
           break
         case 'boks':
           this.title = 'Penggunaan Kertas Sekuriti'
+          break
+        case 'bomonitoring':
+          this.title = 'Monitoring'
           break
         default:
           this.title = ''
@@ -71,11 +75,19 @@ export class BolelangComponent {
   }
 
   clickDetail(tahun: number) {
-    if (this.type !== 'boks') {
-      this.router.navigateByUrl(`/bo/${this.type}/list?tahun=${tahun}`)
+    if (this.type === 'bomonitoring') {
+      this.router.navigateByUrl(`/bomonitoring?tahun=${tahun}`)
     } else {
-      this.router.navigateByUrl(`/boks?tahun=${tahun}`)
+      this.router.navigateByUrl(`/bo/users/${this.type}?tahun=${tahun}`)
     }
+    // if (this.type === 'boks') {
+    //   this.router.navigateByUrl(`/boks?tahun=${tahun}`)
+    // } else if (this.type === 'bomonitoring') {
+    //   this.router.navigateByUrl(`/bomonitoring?tahun=${tahun}&type=${this.type}`)
+    // } else {
+    //   this.router.navigateByUrl(``)
+    //   this.router.navigateByUrl(`/bo/${this.type}/list?tahun=${tahun}`)
+    // }
   }
 
   ngOnDestroy(): void {

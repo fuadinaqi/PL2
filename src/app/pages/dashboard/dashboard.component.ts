@@ -32,7 +32,7 @@ export class DashboardComponent {
       this.listPeriode = []
     }
 
-    const url = this.isP2pk ? 'api/PeriodePelaporan/P2PK/HeaderTahun' : 'api/PeriodePelaporan'
+    const url = this.isP2pk ? 'api/Dashboard' : 'api/PeriodePelaporan'
 
     this.http.get(this.config.apiBaseUrl + url, this.api.generateHeader()).subscribe(
       (result: any) => {

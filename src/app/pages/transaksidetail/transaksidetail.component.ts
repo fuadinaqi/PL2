@@ -22,6 +22,7 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
   public bulan = this.route.snapshot.queryParams.bulan
   public term = this.route.snapshot.queryParams.term
   public parentId = this.route.snapshot.queryParams.parentId
+  public userId = this.route.snapshot.queryParams.u
 
   public listTrans: Array<any>
   public idjadwal: String
@@ -119,7 +120,7 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
     })
   }
   loadTransaction() {
-    let url = this.isP2pk ? '/P2PK' : ''
+    let url = this.isP2pk ? `/P2PK/byTahun/${this.tahun}/${this.userId}` : ''
 
     this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang' + url, this.api.generateHeader()).subscribe(
       (result: any) => {
@@ -128,7 +129,7 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
             this.http
               .get(
                 this.config.apiBaseUrl +
-                  `api/PeriodePelaporan/P2PK/WithParam?Tahun=${this.tahun}&Bulan=${this.bulan}&Term=${this.term}`,
+                  `api/PeriodePelaporan/P2PK/WithParam?Tahun=${this.tahun}&Bulan=${this.bulan}&Term=${this.term}&UserId=${this.userId}`,
                 this.api.generateHeader()
               )
               .subscribe((r: any) => {

@@ -83,6 +83,7 @@ import { BoBealandingComponent } from '@pages/bo/bobealanding/bobealanding.compo
 import { BoBphlandingComponent } from '@pages/bo/bobphlanding/bobphlanding.component'
 import { CustomDropdownComponent } from '@components/custom-dropdown/custom-dropdown.component'
 import { CurrencyMaskModule } from 'ng2-currency-mask'
+import { MonitoringComponent } from '@pages/monitoring/monitoring.component'
 
 registerLocaleData(localeEn, 'en-EN')
 
@@ -168,6 +169,7 @@ registerLocaleData(localeEn, 'en-EN')
     TandaTerimaComponent,
 
     CustomDropdownComponent,
+    MonitoringComponent,
   ],
   imports: [
     BrowserModule,

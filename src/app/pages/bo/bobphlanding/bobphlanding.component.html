@@ -25,7 +25,7 @@
     <div class="card">
       <div class="card-header">
         <div class="card-title mb-1">
-          <a [routerLink]="['/bo/bobph/list']" [queryParams]="{tahun}" class="btn btn-s">
+          <a [routerLink]="['/bo/bobph/list']" [queryParams]="{tahun, u: userId}" class="btn btn-s">
             <i class="fas fa-arrow-left"></i> Kembali
           </a>
         </div>
@@ -76,7 +76,7 @@
                 <td>
                   <a
                     [routerLink]="['/bphdetail', data.id]"
-                    [queryParams]="{ tahun, bulan, term, idperiode }"
+                    [queryParams]="{ tahun, bulan, term, idperiode, u: userId }"
                     class="btn btn-s"
                   >
                     <i class="fas fa-inbox"></i> Detail

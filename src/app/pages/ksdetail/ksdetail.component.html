@@ -87,7 +87,7 @@
               <th>Triwulan</th>
               <th>Jumlah Awal</th>
               <th>Penambahan</th>
-              <th>Terpakai</th>
+              <th>Penggunaan</th>
               <th>Pengganti</th>
               <th>Rusak</th>
               <th>Hilang</th>
@@ -142,7 +142,7 @@
 
                   <a
                     [routerLink]="['/ksadd', 'preview', data.id]"
-                    [queryParams]="{ tahun, bulan, term, parentId, idjadwal }"
+                    [queryParams]="{ tahun, bulan, term, parentId, idjadwal, u: userId }"
                     class="btn btn-s"
                   >
                     <i class="fas fa-inbox"></i> Detail

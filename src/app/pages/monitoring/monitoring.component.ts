@@ -8,14 +8,13 @@ import { compareFromHighest } from '@/helpers/compare'
 import { Subject } from 'rxjs'
 
 @Component({
-  selector: 'app-bousers',
-  templateUrl: './bousers.component.html',
+  selector: 'app-monitoring',
+  templateUrl: './monitoring.component.html',
 })
-export class BoUsersComponent {
+export class MonitoringComponent {
   public tahun = this.activatedRoute.snapshot.queryParams.tahun
-  public type = this.activatedRoute.snapshot.params.type
   public title = ''
-  public listPeriode: Array<any>
+  public listPeriode: Array<any> = []
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<any> = new Subject<any>()
 
@@ -25,34 +24,21 @@ export class BoUsersComponent {
       pageLength: 10,
     }
 
-    this.listPeriode = JSON.parse(localStorage.getItem('periode'))
-    if (!this.listPeriode) {
-      this.listPeriode = []
-    }
-
     this.http
-      .get(this.config.apiBaseUrl + `api/JadwalLelang/P2PK/userPerTahun/${this.tahun}`, this.api.generateHeader())
+      .get(this.config.apiBaseUrl + 'api/PeriodePelaporan/P2PK/HeaderTahun', this.api.generateHeader())
       .subscribe(
         (result: any) => {
-          const arrListPeriode = []
-          result.data.forEach((d) => {
-            if (arrListPeriode.findIndex((l) => l.tahun === d.tahun) === -1) {
-              arrListPeriode.push(d)
-            }
-          })
-          this.listPeriode = arrListPeriode.sort(compareFromHighest('tahun'))
+          // const arrListPeriode = []
+          // result.data.forEach((d) => {
+          //   if (arrListPeriode.findIndex((l) => l.tahun === d.tahun) === -1) {
+          //     arrListPeriode.push(d)
+          //   }
+          // })
+          // this.listPeriode = arrListPeriode.sort(compareFromHighest('tahun'))
           this.dtTrigger.next()
         },
         (error) => {}
       )
-  }
-
-  clickDetail(tahun: any, userId: string) {
-    if (this.type !== 'boks') {
-      this.router.navigateByUrl(`/bo/${this.type}/list?tahun=${tahun}&u=${userId}`)
-    } else {
-      this.router.navigateByUrl(`/boks?tahun=${tahun}&u=${userId}`)
-    }
   }
 
   ngOnDestroy(): void {

@@ -23,6 +23,7 @@ export class BphdetailComponent implements OnInit {
   public term = this.route.snapshot.queryParams.term
   public parentId = this.route.snapshot.queryParams.parentId
   public idperiode = this.route.snapshot.queryParams.idperiode
+  public userId = this.route.snapshot.queryParams.u
 
   public listTrans: Array<any>
   public idtrans: String

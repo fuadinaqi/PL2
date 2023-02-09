@@ -25,34 +25,11 @@
 <section class="content">
   <div class="container-fluid">
     <div class="card">
-      <div class="card-header">
-        <div class="card-title">
-          <a [routerLink]="['/bo/users/', this.type]" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
-        </div>
-        <!-- <div class="card-title">
-          <a href="/periode">
-            <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
-              Tambah Periode
-            </app-button>
-          </a>
-        </div> -->
-        <!-- <div class="card-tools">
-          <div class="input-group input-group-sm" style="width: 150px">
-            <input type="text" name="table_search" class="form-control float-right" placeholder="Cari" />
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-default">
-                <i class="fas fa-search"></i>
-              </button>
-            </div>
-          </div>
-        </div> -->
-      </div>
-
       <div class="card-body table-responsive p-0">
         <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover text-nowrap">
           <thead>
             <tr>
-              <th>Tahunz</th>
+              <th>Tahun</th>
               <th class="text-right">Aksi</th>
             </tr>
           </thead>

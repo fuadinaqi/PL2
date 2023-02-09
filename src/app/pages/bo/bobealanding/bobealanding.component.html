@@ -24,7 +24,7 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <a [routerLink]="['/bo/bobea/list']" [queryParams]="{tahun}" class="btn btn-s">
+        <a [routerLink]="['/bo/bobea/list']" [queryParams]="{tahun, u: userId}" class="btn btn-s">
           <i class="fas fa-arrow-left"></i> Kembali
         </a>
         <!-- <div class="card-title">Daftar Transaksi</div> -->
@@ -66,7 +66,7 @@
                 <td>
                   <a
                     [routerLink]="['/beadetail', data.id]"
-                    [queryParams]="{ tahun, bulan, term, idperiode }"
+                    [queryParams]="{ tahun, bulan, term, idperiode, u: userId }"
                     class="btn btn-s"
                   >
                     <i class="fas fa-inbox"></i> Detail

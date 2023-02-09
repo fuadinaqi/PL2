@@ -49,6 +49,7 @@ import { BolistComponent } from '@pages/bo/bolist/bolist.component'
 import { BoBealandingComponent } from '@pages/bo/bobealanding/bobealanding.component'
 import { BoBphlandingComponent } from '@pages/bo/bobphlanding/bobphlanding.component'
 import { BoUsersComponent } from '@pages/bo/bousers/bousers.component'
+import { MonitoringComponent } from '@pages/monitoring/monitoring.component'
 
 const routes: Routes = [
   {
@@ -272,6 +273,10 @@ const routes: Routes = [
       {
         path: 'boks',
         component: KsdetailComponent,
+      },
+      {
+        path: 'bomonitoring',
+        component: MonitoringComponent,
       },
       {
         path: 'bojadwal',

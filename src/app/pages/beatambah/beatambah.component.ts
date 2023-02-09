@@ -19,6 +19,7 @@ export class BeatambahComponent implements OnInit {
   public bulan = this.route.snapshot.queryParams.bulan
   public parentId = this.route.snapshot.queryParams.parentId
   public idperiode = this.route.snapshot.queryParams.idperiode
+  public status = this.route.snapshot.queryParams.status
   public idtrans: any
   public isP2pk: boolean
 
@@ -70,6 +71,7 @@ export class BeatambahComponent implements OnInit {
       tanggalPenyerahanKutipanRisalahLelang: new UntypedFormControl(null, Validators.required),
       beaLelangPenjual: new UntypedFormControl(null, Validators.required),
       beaLelangPembeli: new UntypedFormControl(null, Validators.required),
+      beaLelangBatal: new UntypedFormControl(null, Validators.required),
       transaksiLelangId: new UntypedFormControl(null, Validators.required),
       pokokLelang: new UntypedFormControl(null, Validators.required),
       jenisTransaksi: new UntypedFormControl(null, Validators.required),
@@ -96,6 +98,7 @@ export class BeatambahComponent implements OnInit {
             pokokLelang: this.bea.pokokLelang,
             beaLelangPenjual: this.bea.beaLelangPenjual,
             beaLelangPembeli: this.bea.beaLelangPembeli,
+            beaLelangBatal: this.bea.beaLelangBatal,
             jenisTransaksi: this.bea.jenisTransaksi,
             jenisBeaLelang: this.bea.jenisBeaLelang,
             nomorTransaksi: this.bea.nomorTransaksi,
@@ -137,19 +140,25 @@ export class BeatambahComponent implements OnInit {
 
   loadTrans() {
     if (!this.idtrans) return
-    this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang/' + this.idtrans, this.api.generateHeader()).subscribe(
-      (result: any) => {
-        this.trans = result.data
-        this.realPokokLelang = result.data.pokokLelang
-        this.beaForm.patchValue({
-          pokokLelang: result.data.pokokLelang,
-          beaLelangPenjual: result.data.beaLelangPenjual,
-          beaLelangPembeli: result.data.beaLelangPembeli,
-        })
-        console.log(this.trans)
-      },
-      (error) => {}
-    )
+    this.http
+      .get(
+        this.config.apiBaseUrl + (this.isP2pk ? 'api/TransaksiLelang/P2PK/' : 'api/TransaksiLelang/') + this.idtrans,
+        this.api.generateHeader()
+      )
+      .subscribe(
+        (result: any) => {
+          this.trans = result.data
+          this.realPokokLelang = result.data.pokokLelang
+          this.beaForm.patchValue({
+            pokokLelang: result.data.pokokLelang,
+            beaLelangPenjual: result.data.beaLelangPenjual,
+            beaLelangPembeli: result.data.beaLelangPembeli,
+            beaLelangBatal: result.data.beaLelangBatal,
+          })
+          console.log(this.trans)
+        },
+        (error) => {}
+      )
   }
 
   onBack() {

@@ -33,7 +33,7 @@
           <a
             *ngIf="isP2pk"
             [routerLink]="['/bobph']"
-            [queryParams]="{ tahun, bulan, parentId, term }"
+            [queryParams]="{ tahun, bulan, parentId, term, u: userId }"
             class="btn btn-s"
           >
             <i class="fas fa-arrow-left"></i> Kembali
@@ -136,7 +136,7 @@
 
                   <a
                     [routerLink]="['/bphadd', 'preview', data.id]"
-                    [queryParams]="{ tahun, bulan, idtrans, idperiode, parentId, term }"
+                    [queryParams]="{ tahun, bulan, idtrans, idperiode, parentId, term, u: userId }"
                     class="btn btn-s"
                   >
                     <i class="fas fa-inbox"></i> Detail

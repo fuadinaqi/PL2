@@ -2,7 +2,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1 class="m-0 text-dark">Home</h1>
+        <h1 class="m-0 text-dark">Dashboard</h1>
       </div>
       <!-- /.col -->
       <div class="col-sm-6">
@@ -44,7 +44,7 @@
       </div>
 
       <div class="card-body table-responsive p-0">
-        <table class="table table-hover text-nowrap">
+        <table *ngIf="!isP2pk" class="table table-hover text-nowrap">
           <thead>
             <tr>
               <th>Tahun</th>
@@ -67,6 +67,22 @@
               <td class="text-right">
                 <button class="btn btn-sm btn-primary" (click)="clickDetail(data.tahun)">Detail</button>
               </td>
+            </tr>
+          </tbody>
+        </table>
+        <table *ngIf="isP2pk" class="table table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th>Tahun</th>
+              <th class="text-center">Jumlah Jadwal lelang</th>
+              <th class="text-center">Total Penggunaan Kertas Sekuriti</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of listPeriode">
+              <td>{{ data.tahun }}</td>
+              <td class="text-center">{{ data.jumlahJadwalLelang }}</td>
+              <td class="text-center">{{ data.totalAkhirSekuriti }}</td>
             </tr>
           </tbody>
         </table>

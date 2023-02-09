@@ -19,6 +19,7 @@ export class KsaddComponent implements OnInit {
   public bulan = this.route.snapshot.queryParams.bulan
   public term = this.route.snapshot.queryParams.term
   public parentId = this.route.snapshot.queryParams.parentId
+  public userId = this.route.snapshot.queryParams.u
 
   public id: string
   public isAddMode: boolean
@@ -32,9 +33,9 @@ export class KsaddComponent implements OnInit {
   public trans: any = {}
 
   public data: any = {
-    tahun: this.tahun,
-    bulan: this.bulan,
-    term: this.term,
+    tahun: Number(this.tahun),
+    bulan: Number(this.bulan),
+    term: Number(this.term),
     triwulan: '1',
     jumlahAwal: 0,
     isiKertasSekuritiModels: [
@@ -124,7 +125,9 @@ export class KsaddComponent implements OnInit {
     this.isPreview = this.idpreview ? true : false
     this.isEditMode = this.id ? true : false
 
-    const urlTrans = this.isP2pk ? 'api/TransaksiLelang/P2PK' : `api/TransaksiLelang?tahun=${this.tahun}`
+    const urlTrans = this.isP2pk
+      ? `api/TransaksiLelang/P2PK/byTahun/${this.tahun}/${this.userId}`
+      : `api/TransaksiLelang?tahun=${this.tahun}`
 
     this.http.get(this.config.apiBaseUrl + urlTrans, this.api.generateHeader()).subscribe((result: any) => {
       this.listTrans = [
@@ -205,7 +208,7 @@ export class KsaddComponent implements OnInit {
 
   onBack() {
     if (this.isP2pk) {
-      this.router.navigate(['/boks/'])
+      this.router.navigate(['/boks'], { queryParams: { tahun: this.tahun, u: this.userId } })
     } else {
       const id = this.idperiode || this.id || this.idpreview
       this.router.navigate(['/ksdetail/' + id], {
@@ -222,7 +225,11 @@ export class KsaddComponent implements OnInit {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       const method = this.isEditMode ? 'put' : 'post'
       const url = this.isEditMode ? `api/KertasSekuriti/${this.id}` : 'api/KertasSekuriti'
-      this.http[method](this.config.apiBaseUrl + url, this.data, this.api.generateHeader()).subscribe(
+      this.http[method](
+        this.config.apiBaseUrl + url,
+        { ...this.data, jumlahAkhir: this.sisa },
+        this.api.generateHeader()
+      ).subscribe(
         (data) => {
           console.log('post ressult ', data)
           this.toastr.info('Data Tersimpan')

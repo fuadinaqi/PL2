@@ -1,0 +1,79 @@
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0 text-dark">Monitoring {{ title }}</h1>
+      </div>
+      <!-- /.col -->
+      <div class="col-sm-6">
+        <ol class="breadcrumb float-sm-right">
+          <li class="breadcrumb-item">
+            <a [routerLink]="['/bo/bomonitoring']">{{ title }}</a>
+          </li>
+          <li class="breadcrumb-item active">Home</li>
+        </ol>
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="card">
+      <div class="card-header">
+        <div class="card-title">
+          <a [routerLink]="['/bo/bomonitoring']" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
+        </div>
+      </div>
+      <div class="card-body table-responsive p-0">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover text-nowrap">
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Nama PL 2</th>
+              <th>Nomor Izin</th>
+              <th>Nomor KMK</th>
+              <th>Tanggal KMK</th>
+              <th>Status Jadwal Lelang</th>
+              <th>Tanggal Kirim Jadwal Lelang</th>
+              <th>Status Bea Lelang</th>
+              <th>Tanggal Kirim Bea Lelang</th>
+              <th>Status Risalah Lelang</th>
+              <th>Tanggal Kirim Risalah Lelang</th>
+              <th>Status Kertas Sekuriti</th>
+              <th>Tanggal Kirim Kertas Sekuriti</th>
+              <th>Status Transaksi Lelang</th>
+              <th>Tanggal Kirim Transaksi Lelang</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let data of listPeriode">
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+              <td>{{ data.x || '-' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  <!-- Main row -->
+</section>
+<!-- /.content -->
