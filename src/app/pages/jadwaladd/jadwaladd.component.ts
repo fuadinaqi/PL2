@@ -19,6 +19,7 @@ export class JadwaladdComponent implements OnInit {
   tahun = this.route.snapshot.queryParams.tahun
   bulan = this.route.snapshot.queryParams.bulan
   term = this.route.snapshot.queryParams.term
+  userId = this.route.snapshot.queryParams.u
 
   public id: string
   public isAddMode: boolean
@@ -176,7 +177,7 @@ export class JadwaladdComponent implements OnInit {
   onBack() {
     const id = this.idperiode || this.id || this.idpreview
     this.router.navigate(['/jadwaldetail/' + id], {
-      queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term },
+      queryParams: { tahun: this.tahun, bulan: this.bulan, term: this.term, u: this.userId },
     })
   }
 }

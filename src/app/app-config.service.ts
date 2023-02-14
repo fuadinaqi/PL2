@@ -14,7 +14,7 @@ export class AppConfigService {
 
   loadAppConfig() {
     return this.http
-      .get('/assets/config/app-settings.json')
+      .get('/pelaporanPL2/assets/config/app-settings.json')
       .toPromise()
       .then((config) => {
         this.appConfig = config

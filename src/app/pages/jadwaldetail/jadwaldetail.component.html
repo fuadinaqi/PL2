@@ -25,7 +25,7 @@
           <a *ngIf="!isP2pk" [routerLink]="['/jadwallist']" [queryParams]="{ tahun }" class="btn btn-s">
             <i class="fas fa-arrow-left"></i> Kembali
           </a>
-          <a *ngIf="isP2pk" [routerLink]="['/bo/bojadwal/list']" [queryParams]="{ tahun }" class="btn btn-s">
+          <a *ngIf="isP2pk" [routerLink]="['/bo/bojadwal/list']" [queryParams]="{ tahun, u: userId }" class="btn btn-s">
             <i class="fas fa-arrow-left"></i> Kembali
           </a>
         </div>
@@ -144,7 +144,7 @@
 
                   <a
                     [routerLink]="['/jadwaladd', 'preview', data.id]"
-                    [queryParams]="{ tahun, bulan, term, idperiode }"
+                    [queryParams]="{ tahun, bulan, term, idperiode, u: userId }"
                     class="btn btn-s"
                   >
                     <i class="fas fa-inbox"></i> Detail

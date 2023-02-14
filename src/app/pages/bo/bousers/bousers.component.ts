@@ -34,13 +34,7 @@ export class BoUsersComponent {
       .get(this.config.apiBaseUrl + `api/JadwalLelang/P2PK/userPerTahun/${this.tahun}`, this.api.generateHeader())
       .subscribe(
         (result: any) => {
-          const arrListPeriode = []
-          result.data.forEach((d) => {
-            if (arrListPeriode.findIndex((l) => l.tahun === d.tahun) === -1) {
-              arrListPeriode.push(d)
-            }
-          })
-          this.listPeriode = arrListPeriode.sort(compareFromHighest('tahun'))
+          this.listPeriode = result.data
           this.dtTrigger.next()
         },
         (error) => {}
