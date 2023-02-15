@@ -6,6 +6,7 @@ import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { Subject } from 'rxjs'
 import { compareFromLowest } from '@/helpers/compare'
+import { DATA_EXECPT_JADWAL, DATA_JADWAL } from './constants'
 
 @Component({
   selector: 'app-bolist',
@@ -52,128 +53,7 @@ export class BolistComponent implements OnInit, OnDestroy {
       pageLength: 10,
     }
 
-    const data = [
-      {
-        id: 1,
-        bulan: 1,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 1,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 2,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 2,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 3,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 3,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 4,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 4,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 5,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 5,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 6,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 6,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 7,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 7,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 8,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 8,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 9,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 9,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 10,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 10,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 11,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 11,
-        term: 2,
-      },
-      {
-        id: 1,
-        bulan: 12,
-        term: 1,
-      },
-      {
-        id: 1,
-        bulan: 12,
-        term: 2,
-      },
-    ]
+    const data = this.type === 'bojadwal' ? DATA_JADWAL : DATA_EXECPT_JADWAL
 
     this.listJadwal = data.sort(compareFromLowest('term')).sort(compareFromLowest('bulan'))
     this.dtTrigger.next()

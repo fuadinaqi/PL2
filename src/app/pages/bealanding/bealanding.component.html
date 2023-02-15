@@ -66,7 +66,7 @@
                 <td>
                   <a
                     [routerLink]="['/beadetail', data.id]"
-                    [queryParams]="{ tahun, bulan, idperiode, parentId, status: data.status }"
+                    [queryParams]="{ tahun, bulan, idperiode, parentId, status: data.status, beaLelangBatal: data.beaLelangBatal }"
                     class="btn btn-s"
                   >
                     <i class="fas fa-inbox"></i> Detail

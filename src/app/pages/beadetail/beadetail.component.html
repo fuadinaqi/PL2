@@ -25,7 +25,7 @@
           <a
             *ngIf="!isP2pk"
             [routerLink]="['/bea', idperiode]"
-            [queryParams]="{ tahun, bulan, term, parentId }"
+            [queryParams]="{ tahun, bulan, term, parentId, beaLelangBatal }"
             class="btn btn-s"
           >
             <i class="fas fa-arrow-left"></i> Kembali
@@ -42,7 +42,7 @@
         <div class="card-title" *ngIf="!isP2pk">
           <a
             [routerLink]="['/beatambah', 'trans', idtrans]"
-            [queryParams]="{ tahun, bulan, term, idperiode, parentId, status }"
+            [queryParams]="{ tahun, bulan, term, idperiode, parentId, status, beaLelangBatal }"
           >
             <app-button class="mb-2" [block]="true" [loading]="false" [disabled]="false" [icon]="'blank'">
               Tambah Data Bea Lelang
@@ -112,12 +112,13 @@
                 <ng-container *ngIf="data.jenisBeaLelang === 'Batal'">
                   <td>-</td>
                   <td>-</td>
-                  <td>{{ data.beaLelangBatal | currency: 'Rp ' }}</td>
+                  <td>{{ (beaLelangBatal || data.beaLelangBatal) | currency: 'Rp ' }}</td>
                 </ng-container>
                 <ng-container *ngIf="data.jenisBeaLelang !== 'Batal'">
                   <td>{{ data.beaLelangPenjual | currency: 'Rp ' }}</td>
                   <td>{{ data.beaLelangPembeli | currency: 'Rp ' }}</td>
-                  <td>-</td>
+                  <td *ngIf="beaLelangBatal">{{ beaLelangBatal | currency: 'Rp ' }}</td>
+                  <td *ngIf="!beaLelangBatal">-</td>
                 </ng-container>
                 <!-- <td >{{ data.tanggalPenyerahanKutipanRisalahLelang.split('T')[0] }}</td> -->
                 <td>{{ data.tanggalPenyetoran.split('T')[0] }}</td>
@@ -128,7 +129,7 @@
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"
                     class="btn btn-s"
                     [routerLink]="['/beatambah', data.id]"
-                    [queryParams]="{ tahun, bulan, term, idtrans, idperiode, parentId, status }"
+                    [queryParams]="{ tahun, bulan, term, idtrans, idperiode, parentId, status, beaLelangBatal }"
                   >
                     <i class="fas fa-edit"></i> Edit
                   </a>
@@ -149,7 +150,7 @@
 
                   <a
                     [routerLink]="['/beatambah', 'preview', data.id]"
-                    [queryParams]="{ tahun, bulan, term, idtrans, idperiode, parentId, status, u: userId }"
+                    [queryParams]="{ tahun, bulan, term, idtrans, idperiode, parentId, status, u: userId, beaLelangBatal }"
                     class="btn btn-s"
                   >
                     <i class="fas fa-inbox"></i> Detail

@@ -96,8 +96,8 @@
               </div>
 
               <div class="row">
-                <div class="form-group col-xl-6">
-                  <label for="exampleInputEmail1">No. Kertas Sekuriti Mulai</label>
+                <div class="form-group col-xl-12">
+                  <label for="exampleInputEmail1">No. Kertas Sekuriti Mulai <span class="text-danger">(beri tanda ";" antar kertas sekuriti. contoh: 1234;1235 dst)</span></label>
                   <input [disabled]="isPreview" type="text" class="form-control" [(ngModel)]="d.nomorKertasSekuriti" />
                 </div>
                 <div class="form-group col-xl-6">
@@ -108,12 +108,12 @@
                   <label for="exampleInputEmail1">No. Kertas Sekuriti Akhir</label>
                   <input type="text" class="form-control" [(ngModel)]="d.nomorKertasSekuriti" />
                 </div> -->
-              </div>
-              <div class="row">
                 <div class="form-group col-xl-6">
                   <label for="exampleInputEmail1">Jumlah Mutasi</label>
                   <input [disabled]="isPreview" type="text" class="form-control" [(ngModel)]="d.jumlahMutasi" />
                 </div>
+              </div>
+              <div class="row">
               </div>
             </div>
             <div class="row">

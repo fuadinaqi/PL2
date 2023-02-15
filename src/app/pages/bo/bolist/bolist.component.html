@@ -32,7 +32,7 @@
             <tr>
               <th>No.</th>
               <th>Bulan</th>
-              <th>Term</th>
+              <th *ngIf="type === 'bojadwal'">Term</th>
               <th>Aksi</th>
             </tr>
           </thead>
@@ -40,7 +40,7 @@
             <tr *ngFor="let data of listJadwal; let i = index">
               <td>{{ i + 1 }}</td>
               <td>{{ data.bulan | numberToMonth }}</td>
-              <td>{{ data.term | termToLabel }}</td>
+              <td *ngIf="type === 'bojadwal'">{{ data.term | termToLabel }}</td>
               <td>
                 <a (click)="onClickDetail(data)">
                   <button type="button" class="btn btn-primary btn-block">

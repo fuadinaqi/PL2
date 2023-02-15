@@ -26,6 +26,7 @@ export class BeadetailComponent implements OnInit {
   public idperiode = this.route.snapshot.queryParams.idperiode
   public status = this.route.snapshot.queryParams.status
   public userId = this.route.snapshot.queryParams.u
+  public beaLelangBatal = Number(this.route.snapshot.queryParams.beaLelangBatal)
 
   public listTrans: Array<any>
   public idtrans: String

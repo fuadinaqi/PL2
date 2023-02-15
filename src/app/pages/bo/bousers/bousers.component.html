@@ -32,23 +32,54 @@
       </div>
 
       <div class="card-body table-responsive p-0">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover text-nowrap">
-          <thead>
-            <tr>
-              <th>Tahun</th>
-              <th>Nama PL II</th>
-              <th class="text-right">Aksi</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let data of listPeriode">
-              <td>{{ data.tahun }}</td>
-              <td>{{ data.namaLengkapTanpaGelar }}</td>
-              <td class="text-right">
-                <button class="btn btn-sm btn-primary" (click)="clickDetail(data.tahun, data.userId)">Detail</button>
-              </td>
-            </tr>
-          </tbody>
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover text-nowrap" id="table-download">
+          <ng-container *ngIf="isWillDownload">
+            <thead>
+              <tr>
+                <th [colSpan]="17">
+                  {{ excelTitle}}   
+                </th>
+              </tr>
+              <tr>
+                <th>No.</th>
+                <th *ngFor="let t of titleListDownload">{{ t.label }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of listDownload; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td *ngFor="let el of titleListDownload">
+                  {{
+                    !data[el.key] ? '-'
+                      : el.fn ? el.fn(data[el.key])
+                        : el.type === 'date' ? data[el.key].split('T')[0]
+                          : data[el.key]
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
+          <ng-container *ngIf="!isWillDownload">
+            <thead>
+              <tr>
+                <th>Tahun</th>
+                <th>Nama PL II</th>
+                <th class="text-right">Aksi</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let data of listPeriode">
+                <td>{{ data.tahun }}</td>
+                <td>{{ data.namaLengkapTanpaGelar }}</td>
+                <td class="text-right">
+                  <button class="btn btn-sm btn-primary" (click)="clickDetail(data.tahun, data.userId)">Detail</button>
+                  <button type="button" class="btn btn-sm btn-primary ml-1" (click)="exportExcel({ namaLengkapTanpaGelar: data.namaLengkapTanpaGelar, userId: data.userId })">
+                    <i class="fa fa-download"></i> Download
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </ng-container>
         </table>
       </div>
     </div>

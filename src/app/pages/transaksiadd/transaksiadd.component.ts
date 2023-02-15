@@ -128,7 +128,35 @@ export class TransaksiaddComponent implements OnInit {
         (error) => {}
       )
     }
-    if (this.isEditMode || this.isPreview) {
+    if (this.isAddMode) {
+      this.http.get(this.config.apiBaseUrl + 'api/TransaksiLelang', this.api.generateHeader()).subscribe(
+        (result: any) => {
+          if (result.data) {
+            const dataLast = result.data.filter((trans) => [this.idjadwal].includes(trans.jadwalLelangId))
+            if (dataLast[0]) {
+              this.selectProvinsi(dataLast[0].provinsiPenjual, 'kab')
+              this.selectKab(dataLast[0].kabupatenKotaPenjual, 'kec')
+              this.selectKec(dataLast[0].kecamatanPenjual, 'kel')
+              this.transaksiForm.patchValue({
+                namaPenjual: dataLast[0].namaPenjual,
+                klasifikasiPenjual: dataLast[0].klasifikasiPenjual,
+                nikPenjual: dataLast[0].nikPenjual,
+                alamatPenjual: dataLast[0].alamatPenjual,
+                rtPenjual: dataLast[0].rtPenjual,
+                rwPenjual: dataLast[0].rwPenjual,
+                provinsiPenjual: dataLast[0].provinsiPenjual,
+                kabupatenKotaPenjual: dataLast[0].kabupatenKotaPenjual,
+                kecamatanPenjual: dataLast[0].kecamatanPenjual,
+                kelurahanPenjual: dataLast[0].kelurahanPenjual,
+                kodeposPenjual: dataLast[0].kodeposPenjual,
+                npwpPenjual: dataLast[0].npwpPenjual,
+              })
+            }
+          }
+        },
+        (error) => {}
+      )
+    } else if (this.isEditMode || this.isPreview) {
       const idperiode = this.isEditMode ? this.id : this.idpreview
 
       const URL = this.isP2pk ? 'api/TransaksiLelang/P2PK/' : 'api/TransaksiLelang/'

@@ -26,64 +26,65 @@
   <div class="container-fluid">
     <div class="card">
       <div class="card-header">
-        <div class="card-title">
+        <div class="card-title d-flex align-items-center w-100" style="column-gap: 1rem">
           <a [routerLink]="['/bo/bomonitoring']" class="btn btn-s"> <i class="fas fa-arrow-left"></i> Kembali </a>
+          <app-select
+            class="mt-3"
+            [value]="month"
+            [options]="listMonth"
+            type="custom"
+            (valueChange)="onChangeMonth($event)"
+          ></app-select> 
+          <button type="button" class="btn btn-primary btn-block" style="width: 8rem" (click)="exportExcel()">
+            <i class="fa fa-download"></i> Download
+          </button>
         </div>
       </div>
       <div class="card-body table-responsive p-0">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover text-nowrap">
+        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover text-nowrap" id="table-download">
           <thead>
+            <tr *ngIf="isWillDownload">
+              <th colspan="17">{{ excelTitle }}</th>
+            </tr>
             <tr>
               <th>No</th>
               <th>Nama PL 2</th>
               <th>Nomor Izin</th>
               <th>Nomor KMK</th>
               <th>Tanggal KMK</th>
-              <th>Status Jadwal Lelang</th>
-              <th>Tanggal Kirim Jadwal Lelang</th>
-              <th>Status Bea Lelang</th>
-              <th>Tanggal Kirim Bea Lelang</th>
-              <th>Status Risalah Lelang</th>
-              <th>Tanggal Kirim Risalah Lelang</th>
-              <th>Status Kertas Sekuriti</th>
-              <th>Tanggal Kirim Kertas Sekuriti</th>
+              <th>Status Jadwal Lelang 1</th>
+              <th>Tanggal Kirim Jadwal Lelang 1</th>
+              <th>Status Jadwal Lelang 2</th>
+              <th>Tanggal Kirim Jadwal Lelang 2</th>
               <th>Status Transaksi Lelang</th>
               <th>Tanggal Kirim Transaksi Lelang</th>
+              <th>Status Bea Lelang</th>
+              <th>Tanggal Kirim Bea Lelang</th>
+              <th>Status BPHTB</th>
+              <th>Tanggal Kirim BPHTB</th>
+              <th>Status Kertas Sekuriti</th>
+              <th>Tanggal Kirim Kertas Sekuriti</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <!-- <tr *ngFor="let data of listPeriode"> -->
-              <td>1.</td>
-              <td>User PL II</td>
-              <td>117623</td>
-              <td>KMK-2321</td>
-              <td>{{ this.tahun }}-12-12</td>
-              <td>Submit</td>
-              <td>{{ this.tahun }}-12-12</td>
-              <td>Submit</td>
-              <td>{{ this.tahun }}-12-12</td>
-              <td>Submit</td>
-              <td>{{ this.tahun }}-12-12</td>
-              <td>Submit</td>
-              <td>{{ this.tahun }}-12-12</td>
-              <td>Submit</td>
-              <td>{{ this.tahun }}-12-12</td>
-              <!-- <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td>
-              <td>{{ data.x || '-' }}</td> -->
+            <tr *ngFor="let d of data; let i = index">
+              <td>{{ i + 1 }}.</td>
+              <td>{{ d.namaLengkapTanpaGelar || '-' }}</td>
+              <td>{{ d.nomorIzin || '-' }}</td>
+              <td>{{ d.nomorKMK || '-' }}</td>
+              <td>{{ d.tanggalKMK ? d.tanggalKMK.split('T')[0] : '-' }}</td>
+              <td>{{ d.statusJadwalLelang1 || '-' }}</td>
+              <td>{{ d.tanggalKirimJadwalLelang1 ? d.tanggalKirimJadwalLelang1.split('T')[0] : '-' }}</td>
+              <td>{{ d.statusJadwalLelang2 || '-' }}</td>
+              <td>{{ d.tanggalKirimJadwalLelang2 ? d.tanggalKirimJadwalLelang2.split('T')[0] : '-'}}</td>
+              <td>{{ d.statusTransaksiLelang || '-' }}</td>
+              <td>{{ d.tanggalKirimTransaksiLelang ? d.tanggalKirimTransaksiLelang.split('T')[0] : '-' }}</td>
+              <td>{{ d.statusBeaLelang || '-' }}</td>
+              <td>{{ d.tanggalKirimBeaLelang ? d.tanggalKirimBeaLelang.split('T')[0] : '-' }}</td>
+              <td>{{ d.statusRisalahLelang || '-' }}</td>
+              <td>{{ d.tanggalKirimRisalahLelang ? d.tanggalKirimRisalahLelang.split('T')[0] : '-' }}</td>
+              <td>{{ d.statusKertasSekuriti || '-' }}</td>
+              <td>{{ d.tanggalKirimKertasSekuriti ? d.tanggalKirimKertasSekuriti.split('T')[0] : '-' }}</td>
             </tr>
           </tbody>
         </table>

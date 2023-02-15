@@ -42,7 +42,7 @@ export class BoBphlandingComponent implements OnInit {
             this.http
               .get(
                 this.config.apiBaseUrl +
-                  `api/PeriodePelaporan/P2PK/WithParam?Tahun=${this.tahun}&Bulan=${this.bulan}&Term=${this.term}&UserId=${this.userId}`,
+                  `api/PeriodePelaporan/P2PK/WithParam?Tahun=${this.tahun}&Bulan=${this.bulan}&UserId=${this.userId}`,
                 this.api.generateHeader()
               )
               .subscribe((r: any) => {
