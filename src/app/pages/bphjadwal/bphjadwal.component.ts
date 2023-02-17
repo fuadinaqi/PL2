@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { Subject } from 'rxjs'
+import { AuthService } from '@services/auth.service'
 
 @Component({
   selector: 'app-bphjadwal',
@@ -27,7 +28,8 @@ export class BphJadwalComponent implements OnInit, OnDestroy {
     private router: Router,
     private http: HttpClient,
     private api: ApiService,
-    private config: AppConfigService
+    private config: AppConfigService,
+    private authService: AuthService
   ) {}
   ngOnDestroy(): void {
     // Do not forget to unsubscribe the event
@@ -48,6 +50,13 @@ export class BphJadwalComponent implements OnInit, OnDestroy {
         (result: any) => {
           this.listJadwal = result.data
           this.listJadwal = result.data.filter((trans) => ['Permohonan Dikirim'].includes(trans.statusPengiriman))
+
+          const isUserPL2 = this.authService.getRole() === "UserPLII"
+          const id = this.authService?.user?.['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'] || ''
+          if (isUserPL2) {
+            this.listJadwal = this.listJadwal.filter(j => j.userId === id)
+          }
+
           console.log(result)
           if (this.listJadwal.length > 0) {
             this.isempty = false
