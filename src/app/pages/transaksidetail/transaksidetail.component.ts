@@ -166,7 +166,7 @@ export class TransaksidetailComponent implements OnInit, OnDestroy {
         return 'Draft'
         break
       case 'Permohonan Dikirim':
-        return 'Terkirim ke BO'
+        return 'Terkirim'
         break
     }
   }

@@ -29,7 +29,7 @@ export class CustomHttpInterceptor implements HttpInterceptor {
             const err = error.error.responseException.exceptionMessage.errors
             const errorKey = Object.keys(err)
             if (err[errorKey[0]]?.length) {
-              this.toastr.error(err[errorKey[0]][0])
+              this.toastr.error(`${errorKey[0]}: ${err[errorKey[0]][0]}`)
             }
           } else if (error?.error?.statusCode) {
             if (
@@ -50,7 +50,9 @@ export class CustomHttpInterceptor implements HttpInterceptor {
                 break
               }
               case 404: {
-                this.toastr.error('Page Not Found')
+                if (!request.url.includes('api-wilayah-indonesia/api')) {
+                  this.toastr.error('Page Not Found')
+                }
                 break
               }
               case 415: {

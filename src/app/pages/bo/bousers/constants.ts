@@ -1,83 +1,83 @@
-function formatStatus(status):string {
+function formatStatus(status): string {
   switch (status) {
     case 'Draft Permohonan':
       return 'Draft'
     case 'Permohonan Dikirim':
-      return 'Terkirim ke BO'
+      return 'Terkirim'
     default:
       return ''
   }
 }
 
-export type TitleType = Array<{ key: string, label: string, type?: 'date', fn?: (p: any) => string }>
+export type TitleType = Array<{ key: string; label: string; type?: 'date'; fn?: (p: any) => string }>
 
 export const TITLES: Record<string, TitleType> = {
   jadwal: [
     {
       key: 'namaLengkapTanpaGelar',
-      label: 'Nama PL II'
+      label: 'Nama PL II',
     },
     {
       key: 'nomorIzin',
-      label: 'Nomor Izin'
+      label: 'Nomor Izin',
     },
     {
       key: 'nomerRegistrasi',
-      label: 'No Register'
+      label: 'No Register',
     },
     {
       key: 'tanggalRegistrasi',
       label: 'Tgl. Registrasi',
-      type: 'date'
+      type: 'date',
     },
     {
       key: 'tanggalLelang',
       label: 'Tanggal Lelang',
-      type: 'date'
+      type: 'date',
     },
     {
       key: 'namaPenjual',
-      label: 'Nama Penjual Lelang'
+      label: 'Nama Penjual Lelang',
     },
     {
       key: 'klasifikasiPenjual',
-      label: 'Klasifikasi Penjual'
+      label: 'Klasifikasi Penjual',
     },
     {
       key: 'nomorSuratPermohonan',
-      label: 'Nomor Surat Permohonan'
+      label: 'Nomor Surat Permohonan',
     },
     {
       key: 'tanggalSuratPermohonan',
       label: 'Tanggal Surat Permohonan',
-      type: 'date'
+      type: 'date',
     },
     {
       key: 'tempatLelang',
-      label: 'Tempat Lelang'
+      label: 'Tempat Lelang',
     },
     {
       key: 'sifatLelang',
-      label: 'Jenis Penawaran lelang'
+      label: 'Jenis Penawaran lelang',
     },
     {
       key: 'nomorSuratPenetapanJadwalLelang',
-      label: 'No. Surat Penetapan'
+      label: 'No. Surat Penetapan',
     },
     {
       key: 'tanggalSuratPenetapanJadwalLelang',
       label: 'Tgl. Surat Penetapan',
-      type: 'date'
+      type: 'date',
     },
     {
       key: 'statusPengiriman',
       label: 'Status',
-      fn: formatStatus
+      fn: formatStatus,
     },
     {
       key: 'recInsert',
       label: 'Tgl. Submit',
-      type: 'date'
+      type: 'date',
     },
   ],
   transaksiLelang: [
@@ -88,7 +88,7 @@ export const TITLES: Record<string, TitleType> = {
     {
       key: 'statusPengiriman',
       label: 'Status Data',
-      fn: formatStatus
+      fn: formatStatus,
     },
     {
       key: 'noRegisterLelang',
@@ -101,7 +101,7 @@ export const TITLES: Record<string, TitleType> = {
     {
       key: 'tanggalRisalahLelang',
       label: 'Tanggal Risalah',
-      type: 'date'
+      type: 'date',
     },
     {
       key: 'namaPenjual',
@@ -110,12 +110,12 @@ export const TITLES: Record<string, TitleType> = {
     {
       key: 'tanggalLelang',
       label: 'Tgl. Surat Penetapan',
-      type: 'date'
+      type: 'date',
     },
     {
       key: 'tanggalPenyerahanKutipanRisalahLelang',
       label: 'Tgl. Lelang',
-      type: 'date'
+      type: 'date',
     },
   ],
   beaLelang: [
@@ -162,12 +162,12 @@ export const TITLES: Record<string, TitleType> = {
     {
       key: 'tanggalPenyetoran',
       label: 'Tgl. Setor',
-      type: 'date'
+      type: 'date',
     },
     {
       key: 'tanggalLelang',
       label: 'Tgl. Lelang',
-      type: 'date'
+      type: 'date',
     },
     {
       key: 'keterangan',
@@ -182,12 +182,12 @@ export const TITLES: Record<string, TitleType> = {
     {
       key: 'statusPengiriman',
       label: 'Status Penyampaian',
-      fn: formatStatus
+      fn: formatStatus,
     },
     {
       key: 'tanggalPenyampaianPetikanRisalahRapat',
       label: 'Tgl. Penyampaian Risalah',
-      type: 'date'
+      type: 'date',
     },
     {
       key: 'lot',
@@ -242,12 +242,12 @@ export const TITLES: Record<string, TitleType> = {
     {
       key: 'statusPengiriman',
       label: 'Status Data',
-      fn: formatStatus
+      fn: formatStatus,
     },
     {
       key: 'tanggalKirim',
       label: 'Tanggal Kirim',
-      type: 'date'
+      type: 'date',
     },
-  ]
+  ],
 }

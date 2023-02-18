@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Transaksi Lelang : {{ bulan | numberToMonth }} {{ tahun }}</h1>
+        <h1>Bea Lelang - Transaksi Lelang : {{ bulan | numberToMonth }} {{ tahun }}</h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -69,6 +69,15 @@
                     [queryParams]="{ tahun, bulan, idperiode, parentId, status: data.status, beaLelangBatal: data.beaLelangBatal }"
                     class="btn btn-s"
                   >
+                    <!-- <button
+                      type="button"
+                      class="btn btn-block"
+                      [class.btn-primary]="!!data.jumlahTransaksiLelang"
+                      [class.btn-danger]="!data.jumlahTransaksiLelang"
+                      [title]="!!data.jumlahTransaksiLelang ? 'Sudah ada transaksi' : 'Belum ada transaksi'"
+                    >
+                      <i class="fa fa-info-circle"></i> Detail
+                    </button> -->
                     <i class="fas fa-inbox"></i> Detail
                   </a>
                 </td>

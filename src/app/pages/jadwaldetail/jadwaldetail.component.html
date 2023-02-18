@@ -52,7 +52,7 @@
           </div>
           <div class="card-title ml-2">
             <button type="button" class="btn btn-info btn-block" (click)="onSubmitNihil()">
-              <i class="fa fa-save"></i> Simpan
+              <i class="fa fa-paper-plane"></i> Kirim
             </button>
           </div>
         </ng-container>
@@ -98,8 +98,10 @@
           <tbody>
             <ng-container *ngIf="isempty; else other_content">
               <tr>
-                <td [colSpan]="11" class="text-center">
-                  Jadwal kosong atau belum terkirim, silahkan cek kembali di menu Jadwal Lelang
+                <td [colSpan]="15" class="text-center">
+                  {{
+                    nihil ? 'Nihil' : 'Jadwal kosong atau belum terkirim, silahkan cek kembali di menu Jadwal Lelang'
+                  }}
                 </td>
               </tr>
             </ng-container>

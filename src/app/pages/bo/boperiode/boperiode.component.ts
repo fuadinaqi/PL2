@@ -47,7 +47,7 @@ export class BoperiodeComponent implements OnInit {
         return 'Draft'
         break
       case 'Permohonan Dikirim':
-        return 'Terkirim ke BO'
+        return 'Terkirim'
         break
     }
   }

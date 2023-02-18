@@ -85,18 +85,60 @@
             <tr *ngIf="isWillDownload">
               <th colspan="9">{{ excelTitle }}</th>
             </tr>
-            <tr>
+            <tr *ngIf="!isWillDownload">
               <th>No.</th>
               <th>Status Lelang</th>
               <th>Status Data</th>
               <th>No Register</th>
-
+              <th>Tanggal Register</th>
               <th>No. Risalah</th>
               <th>Tanggal Risalah</th>
               <th>Penjual</th>
               <th>Tgl. Surat Penetapan</th>
               <th>Tgl. Lelang</th>
-              <th *ngIf="!isWillDownload">Aksi</th>
+              <th>Aksi</th>
+            </tr>
+            <tr *ngIf="isWillDownload">
+              <th>No.</th>
+              <th>Status Lelang</th>
+              <th>Status Data</th>
+              <th>No Register</th>
+              <th>Tanggal Register</th>
+              <th>No. Risalah</th>
+              <th>Tanggal Risalah</th>
+              <th>Penjual</th>
+              <th>Tgl. Surat Penetapan</th>
+              <th>Tgl. Lelang</th>
+
+              <!--  -->
+              <th>Tempat Lelang</th>
+              <th>Jumlah Peserta Lelang</th>
+              <th>Sifat Lelang</th>
+              <th>Sifat Barang</th>
+              <th>Tipe Barang</th>
+              <th>Uraian Barang</th>
+              <th>Jaminan Lelang</th>
+              <th>Jaminan Lelang BerupaUang</th>
+              <th>Jaminan Lelang Bank Garansi</th>
+              <th>Nilai Limit</th>
+              <th>Pokok Lelang</th>
+              <th>Imbalan Jasa</th>
+              <th>Nomor Register Pembatalan</th>
+              <th>Bea Lelang Batal</th>
+              <th>Alasan Pembatalan</th>
+              <th>Tanggal Kirim</th>
+              <th>NIK Penjual</th>
+              <th>Kategori Penjual</th>
+              <th>Alamat Penjual</th>
+              <th>NPWP Penjual</th>
+              <th>Bea Lelang Penjual</th>
+              <th>Nama Pembeli</th>
+              <th>NIK Pembeli</th>
+              <th>Alamat Pembeli</th>
+              <th>NPWP Pembeli</th>
+              <th>Bea Lelang Pembeli</th>
+              <th>Keterangan</th>
+              <!--  -->
             </tr>
           </thead>
           <tbody>
@@ -111,11 +153,44 @@
                 <td>{{ data.status }}</td>
                 <td>{{ formatStatus(data.statusPengiriman) }}</td>
                 <td>{{ data.noRegisterLelang }}</td>
+                <td>{{ data.tanggalRegisterLelang ? data.tanggalRegisterLelang.split('T')[0] : '-' }}</td>
                 <td>{{ data.nomorRisalahLelang }}</td>
                 <td>{{ data.tanggalRisalahLelang.split('T')[0] }}</td>
                 <td>{{ data.namaPenjual }}</td>
                 <td>{{ data.tanggalLelang.split('T')[0] }}</td>
                 <td>{{ data.tanggalPenyerahanKutipanRisalahLelang.split('T')[0] }}</td>
+
+                <td *ngIf="isWillDownload">{{ data.tempatLelang }}</td>
+                <td *ngIf="isWillDownload">{{ data.jumlahPesertaLelang }}</td>
+                <td *ngIf="isWillDownload">{{ data.sifatLelang }}</td>
+                <td *ngIf="isWillDownload">{{ data.sifatBarang }}</td>
+                <td *ngIf="isWillDownload">{{ data.tipeBarang }}</td>
+                <td *ngIf="isWillDownload">{{ data.uraianBarang }}</td>
+                <td *ngIf="isWillDownload">{{ data.jaminanLelang }}</td>
+                <td *ngIf="isWillDownload">{{ data.jaminanLelangBerupaUang }}</td>
+                <td *ngIf="isWillDownload">{{ data.jaminanLelangBankGaransi }}</td>
+                <td *ngIf="isWillDownload">{{ data.nilaiLimit }}</td>
+                <td *ngIf="isWillDownload">{{ data.pokokLelang }}</td>
+                <td *ngIf="isWillDownload">{{ data.imbalanJasa }}</td>
+                <td *ngIf="isWillDownload">{{ data.nomorRegisterPembatalan }}</td>
+                <td *ngIf="isWillDownload">{{ data.beaLelangBatal }}</td>
+                <td *ngIf="isWillDownload">{{ data.alasanPembatalan }}</td>
+                <td *ngIf="isWillDownload">{{ data.tanggalKirimBO ? data.tanggalKirimBO.split('T')[0] : '-' }}</td>
+
+                <td *ngIf="isWillDownload">{{ data.nikPenjual }}</td>
+                <td *ngIf="isWillDownload">{{ data.kategoriPenjual }}</td>
+                <td *ngIf="isWillDownload">{{ data.alamatPenjual }}</td>
+                <td *ngIf="isWillDownload">{{ data.npwpPenjual }}</td>
+                <td *ngIf="isWillDownload">{{ data.beaLelangPenjual }}</td>
+
+                <td *ngIf="isWillDownload">{{ data.namaPembeli }}</td>
+                <td *ngIf="isWillDownload">{{ data.nikPembeli }}</td>
+                <td *ngIf="isWillDownload">{{ data.alamatPembeli }}</td>
+                <td *ngIf="isWillDownload">{{ data.npwpPembeli }}</td>
+                <td *ngIf="isWillDownload">{{ data.beaLelangPembeli }}</td>
+
+                <td *ngIf="isWillDownload">{{ data.keterangan }}</td>
+
                 <td *ngIf="!isWillDownload">
                   <a
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"
