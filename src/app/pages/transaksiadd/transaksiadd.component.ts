@@ -424,6 +424,9 @@ export class TransaksiaddComponent implements OnInit {
       delete bodyreq.pokokLelang
       delete bodyreq.beaLelangPenjual
       delete bodyreq.beaLelangPembeli
+    } else if (formValue.status !== 'Batal') {
+      delete bodyreq.beaLelangBatal
+      delete bodyreq.nomorRegisterPembatalan
     }
     Object.entries(bodyreq).forEach(([key, value]) => {
       if (!value && typeof value !== 'number') delete bodyreq[key]
