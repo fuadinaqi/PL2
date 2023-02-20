@@ -18,7 +18,19 @@ export class PeriodeComponent implements OnInit {
   public isAddMode: boolean
   public periodeForm: UntypedFormGroup
   public listPeriode: Array<any>
+
+  listYear = []
+
   ngOnInit(): void {
+    const yearBefore = new Date().getFullYear() - 5
+    const yearAfter = new Date().getFullYear() + 5
+
+    let years = []
+    for (let i = 0; i < yearAfter - yearBefore; i += 1) {
+        years.push(yearBefore + i)
+    }
+    this.listYear = years
+
     this.id = this.route.snapshot.params['id']
     this.isAddMode = !this.id
     this.periodeForm = this.periodeForm = new UntypedFormGroup({
