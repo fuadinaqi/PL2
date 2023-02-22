@@ -10,6 +10,7 @@ import { Location } from '@angular/common'
 import * as XLSX from 'xlsx'
 import jsPDF from 'jspdf'
 import { getMonthByNumber, getTermByNumber } from '@/helpers/date'
+import pad from '@/helpers/pad'
 
 @Component({
   selector: 'app-ksdetail',
@@ -43,6 +44,8 @@ export class KsdetailComponent implements OnInit, OnDestroy {
     tanggalSubmit: new Date(),
   }
   isWillDownloadTandaTerima = false
+
+  dataDownload = []
 
   constructor(
     private toastr: ToastrService,
@@ -85,6 +88,10 @@ export class KsdetailComponent implements OnInit, OnDestroy {
         if (result.data) {
           console.log(this.idjadwal)
           this.listTrans = result.data.filter((d) => this.tahun == d.tahun)
+          if (this.isP2pk) {
+            this.listTrans = this.listTrans.filter((el) => el.statusPengiriman === 'Permohonan Dikirim')
+          }
+          this.dataDownload = this.listTrans.map((x) => ({ ...x }))
           // : result.data.filter((trans) => [this.parentId].includes(trans.periodeLaporanId))
           if (this.listTrans.length > 0) {
             this.isempty = false
@@ -146,6 +153,51 @@ export class KsdetailComponent implements OnInit, OnDestroy {
   }
 
   exportExcel(): void {
+    this.listTrans.forEach((x, i) => {
+      const urlKs = this.isP2pk ? 'api/KertasSekuriti/P2PK/' : 'api/KertasSekuriti/'
+      this.http.get(this.config.apiBaseUrl + urlKs + x.id, this.api.generateHeader()).subscribe((res: any) => {
+        const penambahan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penambahan') || {}
+        const penggunaan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penggunaan') || {}
+        const kutipanPengganti = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Kutipan Pengganti') || {}
+        const rusak = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Rusak') || {}
+        const hilang = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Hilang') || {}
+
+        this.dataDownload[i] = {
+          ...this.dataDownload[i],
+          penambahanObj: {
+            nomorKertasSekuriti: penambahan.nomorKertasSekuriti,
+            nomorRisalahLelang: penambahan.nomorRisalahLelang,
+            nomorLotRisalahLelang: penambahan.nomorLotRisalahLelang,
+            tanggalMutasi: penambahan.tanggalMutasi,
+          },
+          penggunaanObj: {
+            nomorKertasSekuriti: penggunaan.nomorKertasSekuriti,
+            nomorRisalahLelang: penggunaan.nomorRisalahLelang,
+            nomorLotRisalahLelang: penggunaan.nomorLotRisalahLelang,
+            tanggalMutasi: penggunaan.tanggalMutasi,
+          },
+          kutipanPenggantiObj: {
+            nomorKertasSekuriti: kutipanPengganti.nomorKertasSekuriti,
+            nomorRisalahLelang: kutipanPengganti.nomorRisalahLelang,
+            nomorLotRisalahLelang: kutipanPengganti.nomorLotRisalahLelang,
+            tanggalMutasi: kutipanPengganti.tanggalMutasi,
+          },
+          rusakObj: {
+            nomorKertasSekuriti: rusak.nomorKertasSekuriti,
+            nomorRisalahLelang: rusak.nomorRisalahLelang,
+            nomorLotRisalahLelang: rusak.nomorLotRisalahLelang,
+            tanggalMutasi: rusak.tanggalMutasi,
+          },
+          hilangObj: {
+            nomorKertasSekuriti: hilang.nomorKertasSekuriti,
+            nomorRisalahLelang: hilang.nomorRisalahLelang,
+            nomorLotRisalahLelang: hilang.nomorLotRisalahLelang,
+            tanggalMutasi: hilang.tanggalMutasi,
+          },
+        }
+      })
+    })
+
     this.isWillDownload = true
 
     setTimeout(() => {
@@ -162,29 +214,62 @@ export class KsdetailComponent implements OnInit, OnDestroy {
       XLSX.writeFile(wb, `${this.excelTitle}.xlsx`)
       this.isWillDownload = false
       window.location.reload()
-    }, 100)
+    }, 500)
   }
 
   hanldeCetakTandaTerima(data) {
-    const doc = new jsPDF('l', 'mm', [297, 210])
-    this.isWillDownloadTandaTerima = true
-    setTimeout(() => {
-      var elementHTML: any = document.querySelector('#tanda-terima')
+    const send = () => {
+      const doc = new jsPDF('l', 'mm', [297, 210])
+      this.isWillDownloadTandaTerima = true
+      setTimeout(() => {
+        var elementHTML: any = document.querySelector('#tanda-terima')
 
-      doc.html(elementHTML, {
-        callback: (doc) => {
-          // Save the PDF
-          doc.save(`Tanda Terima Laporan Penatausahaan Kertas Sekuriti.pdf`)
-        },
-        margin: [10, 10, 0, 10],
-        autoPaging: 'text',
-        x: 0,
-        y: 0,
-        width: 277, //target width in the PDF document
-        windowWidth: 675, //window width in CSS pixels
-      })
+        doc.html(elementHTML, {
+          callback: (doc) => {
+            // Save the PDF
+            doc.save(`Tanda Terima Laporan Penatausahaan Kertas Sekuriti.pdf`)
+          },
+          margin: [10, 10, 0, 10],
+          autoPaging: 'text',
+          x: 0,
+          y: 0,
+          width: 277, //target width in the PDF document
+          windowWidth: 675, //window width in CSS pixels
+        })
 
-      this.isWillDownloadTandaTerima = false
-    }, 0)
+        this.isWillDownloadTandaTerima = false
+      }, 0)
+    }
+
+    this.dataTandaTerima.nomorTandaTerima = `LKS-${pad(data.noUrutSurat)}/PLII/${this.tahun}`
+    if (data.tanggalKirim) {
+      this.dataTandaTerima.tanggalSubmit = new Date(data.tanggalKirim)
+    }
+    if (data.tanggalKirimBO) {
+      this.dataTandaTerima.tanggalSubmit = new Date(data.tanggalKirimBO)
+    }
+    if (!this.isP2pk) {
+      this.dataTandaTerima.nama = this.AuthService.user.NamaLengkapTanpaGelar
+      send()
+    } else {
+      this.http
+        .get(this.config.apiBaseUrl + `api/JadwalLelang/P2PK/userPerTahun/${this.tahun}`, this.api.generateHeader())
+        .subscribe((result: any) => {
+          const user = result.data.find((el) => el.userId === this.userId) || {}
+          this.dataTandaTerima.nama = user.namaLengkapTanpaGelar || ''
+          send()
+        })
+    }
+  }
+
+  sisaFromParams({ jumlahAwal = 0, penambahan = 0, penggunaan = 0, kutipanPengganti = 0, rusak = 0, hilang = 0 }) {
+    return (
+      Number(jumlahAwal || 0) +
+      Number(penambahan || 0) -
+      Number(penggunaan || 0) -
+      Number(kutipanPengganti || 0) -
+      Number(rusak || 0) -
+      Number(hilang || 0)
+    )
   }
 }

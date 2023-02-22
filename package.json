@@ -39,6 +39,7 @@
     "datatables.net-dt": "^1.11.3",
     "gatekeeper-client-sdk": "0.4.2",
     "jquery": "^3.6.0",
+    "js-guid": "^1.0.0",
     "jspdf": "^2.5.1",
     "jspdf-autotable": "^3.5.25",
     "jwt-decode": "^3.1.2",

@@ -69,16 +69,15 @@
                     [queryParams]="{ tahun, bulan, idperiode, parentId, status: data.status, beaLelangBatal: data.beaLelangBatal }"
                     class="btn btn-s"
                   >
-                    <!-- <button
+                    <button
                       type="button"
                       class="btn btn-block"
-                      [class.btn-primary]="!!data.jumlahTransaksiLelang"
-                      [class.btn-danger]="!data.jumlahTransaksiLelang"
-                      [title]="!!data.jumlahTransaksiLelang ? 'Sudah ada transaksi' : 'Belum ada transaksi'"
+                      [class.btn-primary]="data.adaBea"
+                      [class.btn-danger]="!data.adaBea"
+                      [title]="data.adaBea ? 'Sudah ada Bea Lelang' : 'Belum ada Bea Lelang'"
                     >
                       <i class="fa fa-info-circle"></i> Detail
-                    </button> -->
-                    <i class="fas fa-inbox"></i> Detail
+                    </button>
                   </a>
                 </td>
               </tr>

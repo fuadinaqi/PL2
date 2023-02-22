@@ -76,7 +76,12 @@
             </div>
             <!-- </div> -->
             <!-- <div class="row"> -->
-            <div *ngIf="beaForm.get('jenisBeaLelang').value !== 'Batal'" class="form-group col-xl-6">
+            <div
+              *ngIf="
+                beaForm.get('jenisBeaLelang').value !== 'Batal' && beaForm.get('jenisBeaLelang').value === 'Penjual'
+              "
+              class="form-group col-xl-6"
+            >
               <label for="exampleInputEmail1">Bea Lelang Penjual </label>
               <input
                 currencyMask
@@ -92,7 +97,12 @@
                 id="tglsuratttp"
               />
             </div>
-            <div *ngIf="beaForm.get('jenisBeaLelang').value !== 'Batal'" class="form-group col-xl-6">
+            <div
+              *ngIf="
+                beaForm.get('jenisBeaLelang').value !== 'Batal' && beaForm.get('jenisBeaLelang').value === 'Pembeli'
+              "
+              class="form-group col-xl-6"
+            >
               <label for="exampleInputEmail1">Bea Lelang Pembeli </label>
               <input
                 currencyMask
@@ -185,7 +195,7 @@
               />
 
               <div class="input-group-append">
-                <a *ngIf="!isPreview" (click)="submitFile()" class="btn-transparent"
+                <a *ngIf="!isPreview && fileUpload" (click)="submitFile()" class="btn-transparent"
                   ><span class="input-group-text">Upload</span></a
                 >&nbsp;
                 <a

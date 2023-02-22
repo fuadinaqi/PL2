@@ -189,26 +189,44 @@ export class BeadetailComponent implements OnInit {
   }
 
   hanldeCetakTandaTerima(data) {
+    const send = () => {
+      const doc = new jsPDF('l', 'mm', [297, 210])
+      this.isWillDownloadTandaTerima = true
+      setTimeout(() => {
+        var elementHTML: any = document.querySelector('#tanda-terima')
+
+        doc.html(elementHTML, {
+          callback: (doc) => {
+            // Save the PDF
+            doc.save(`Tanda Terima Laporan Penyetoran Bea Lelang.pdf`)
+          },
+          margin: [10, 10, 0, 10],
+          autoPaging: 'text',
+          x: 0,
+          y: 0,
+          width: 277, //target width in the PDF document
+          windowWidth: 675, //window width in CSS pixels
+        })
+
+        this.isWillDownloadTandaTerima = false
+      }, 0)
+    }
+
     this.dataTandaTerima.nomorTandaTerima = `PBL-${pad(data.noUrutSurat)}/PLII/${this.tahun}`
-    const doc = new jsPDF('l', 'mm', [297, 210])
-    this.isWillDownloadTandaTerima = true
-    setTimeout(() => {
-      var elementHTML: any = document.querySelector('#tanda-terima')
-
-      doc.html(elementHTML, {
-        callback: (doc) => {
-          // Save the PDF
-          doc.save(`Tanda Terima Laporan Penyetoran Bea Lelang.pdf`)
-        },
-        margin: [10, 10, 0, 10],
-        autoPaging: 'text',
-        x: 0,
-        y: 0,
-        width: 277, //target width in the PDF document
-        windowWidth: 675, //window width in CSS pixels
-      })
-
-      this.isWillDownloadTandaTerima = false
-    }, 0)
+    if (data.tanggalKirimBO) {
+      this.dataTandaTerima.tanggalSubmit = new Date(data.tanggalKirimBO)
+    }
+    if (!this.isP2pk) {
+      this.dataTandaTerima.nama = this.AuthService.user.NamaLengkapTanpaGelar
+      send()
+    } else {
+      this.http
+        .get(this.config.apiBaseUrl + `api/JadwalLelang/P2PK/userPerTahun/${this.tahun}`, this.api.generateHeader())
+        .subscribe((result: any) => {
+          const user = result.data.find((el) => el.userId === this.userId) || {}
+          this.dataTandaTerima.nama = user.namaLengkapTanpaGelar || ''
+          send()
+        })
+    }
   }
 }

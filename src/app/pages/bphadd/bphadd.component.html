@@ -214,8 +214,18 @@
                   <input type="date" class="form-control" formControlName="tanggalPenyampaianPetikanRisalahRapat" />
                 </div>
                 <div class="form-group col-xl-6">
-                  <label>Nomor SSB </label>
-                  <input type="text" class="form-control" formControlName="nomorSSB" />
+                  <label>Nilai SSB (BPHTB) </label>
+                  <input
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
+                    class="form-control"
+                    formControlName="nomorSSB"
+                  />
                 </div>
               </div>
               <div class="row">
@@ -225,8 +235,18 @@
                   <input type="date" class="form-control" formControlName="tanggalSSB" />
                 </div>
                 <div class="form-group col-xl-6">
-                  <label>Nomor SSP </label>
-                  <input type="text" class="form-control" formControlName="nomorSSP" />
+                  <label>Nilai SSP (PBB) </label>
+                  <input
+                    currencyMask
+                    [options]="{
+                      align: 'left',
+                      precision: 0,
+                      prefix: 'Rp '
+                    }"
+                    min="0"
+                    class="form-control"
+                    formControlName="nomorSSP"
+                  />
                 </div>
               </div>
               <div class="row">

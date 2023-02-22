@@ -82,8 +82,8 @@
             <tr *ngIf="isWillDownload">
               <th colspan="5">{{ excelTitle }}</th>
             </tr>
-            <tr>
-              <th>No.</th>
+            <tr *ngIf="!isWillDownload">
+              <!-- <th>No.</th> -->
               <th>Triwulan</th>
               <th>Jumlah Awal</th>
               <th>Penambahan</th>
@@ -94,7 +94,46 @@
               <th>Sisa</th>
               <th>Status Data</th>
               <th>Tanggal Kirim</th>
-              <th *ngIf="!isWillDownload">Aksi</th>
+              <th>Aksi</th>
+            </tr>
+            <tr *ngIf="isWillDownload">
+              <!-- <th>No.</th> -->
+              <th>Triwulan</th>
+              <th>Jumlah Awal</th>
+
+              <th>Nomor Risalah Lelang (Penambahan)</th>
+              <th>Lot (Penambahan)</th>
+              <th>Nomor Kertas Sekuriti Mulai (Penambahan)</th>
+              <th>Tanggal Mutasi (Penambahan)</th>
+              <th>Jumlah Mutasi (Penambahan)</th>
+
+              <th>Nomor Risalah Lelang (Penggunaan)</th>
+              <th>Lot (Penggunaan)</th>
+              <th>Nomor Kertas Sekuriti Mulai (Penggunaan)</th>
+              <th>Tanggal Mutasi (Penggunaan)</th>
+              <th>Jumlah Mutasi (Penggunaan)</th>
+
+              <th>Nomor Risalah Lelang (Pengganti)</th>
+              <th>Lot (Pengganti)</th>
+              <th>Nomor Kertas Sekuriti Mulai (Pengganti)</th>
+              <th>Tanggal Mutasi (Pengganti)</th>
+              <th>Jumlah Mutasi (Pengganti)</th>
+
+              <th>Nomor Risalah Lelang (Rusak)</th>
+              <th>Lot (Rusak)</th>
+              <th>Nomor Kertas Sekuriti Mulai (Rusak)</th>
+              <th>Tanggal Mutasi (Rusak)</th>
+              <th>Jumlah Mutasi (Rusak)</th>
+
+              <th>Nomor Risalah Lelang (Hilang)</th>
+              <th>Lot (Hilang)</th>
+              <th>Nomor Kertas Sekuriti Mulai (Hilang)</th>
+              <th>Tanggal Mutasi (Hilang)</th>
+              <th>Jumlah Mutasi (Hilang)</th>
+
+              <th>Sisa</th>
+              <th>Status Data</th>
+              <th>Tanggal Kirim</th>
             </tr>
           </thead>
           <tbody>
@@ -105,17 +144,56 @@
             </ng-container>
             <ng-template #other_content>
               <tr *ngFor="let data of listTrans; let i = index">
-                <td>{{ i + 1 }}</td>
+                <!-- <td>{{ i + 1 }}</td> -->
                 <td>{{ data.triwulan }}</td>
                 <td>{{ data.jumlahAwal }}</td>
+
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.penambahanObj?.nomorRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.penambahanObj?.nomorLotRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.penambahanObj?.nomorKertasSekuriti || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.penambahanObj?.tanggalMutasi || '' }}</td>
                 <td>{{ data.penambahan }}</td>
+
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.penggunaanObj?.nomorRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.penggunaanObj?.nomorLotRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.penggunaanObj?.nomorKertasSekuriti || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.penggunaanObj?.tanggalMutasi || '' }}</td>
                 <td>{{ data.penggunaan }}</td>
+
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.kutipanPenggantiObj?.nomorRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.kutipanPenggantiObj?.nomorLotRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.kutipanPenggantiObj?.nomorKertasSekuriti || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.kutipanPenggantiObj?.tanggalMutasi || '' }}</td>
                 <td>{{ data.kutipanPengganti }}</td>
+
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.rusakObj?.nomorRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.rusakObj?.nomorLotRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.rusakObj?.nomorKertasSekuriti || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.rusakObj?.tanggalMutasi || '' }}</td>
                 <td>{{ data.rusak }}</td>
+
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.hilangObj?.nomorRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.hilangObj?.nomorLotRisalahLelang || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.hilangObj?.nomorKertasSekuriti || '' }}</td>
+                <td *ngIf="isWillDownload">{{ dataDownload[i]?.hilangObj?.tanggalMutasi || '' }}</td>
                 <td>{{ data.hilang }}</td>
-                <td>{{ data.sisa }}</td>
+
+                <td>
+                  {{
+                    data.sisa !== null
+                      ? data.sisa
+                      : sisaFromParams({
+                          jumlahAwal: data.jumlahAwal,
+                          penambahan: data.penambahan,
+                          penggunaan: data.penggunaan,
+                          kutipanPengganti: data.kutipanPengganti,
+                          rusak: data.rusak,
+                          hilang: data.hilang
+                        })
+                  }}
+                </td>
                 <td>{{ formatStatus(data.statusPengiriman) }}</td>
-                <td>{{ data.tanggalKirim?.split('T')[0] || '' }}</td>
+                <td>{{ data.tanggalKirimBO?.split('T')[0] || '' }}</td>
                 <td *ngIf="!isWillDownload">
                   <a
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"

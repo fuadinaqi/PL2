@@ -53,20 +53,17 @@
               <th>Bea Lelang</th>
               <th>BPHTB</th>
               <th>Kertas Sekuriti</th>
-              <th class="text-right">Aksi</th>
             </tr>
           </thead>
+
           <tbody>
             <tr *ngFor="let data of listPeriode">
               <td>{{ data.tahun }}</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td>-</td>
-              <td class="text-right">
-                <button class="btn btn-sm btn-primary" (click)="clickDetail(data.tahun)">Detail</button>
-              </td>
+              <td>{{ data.jadwalLelang }}</td>
+              <td>{{ data.transaksiLelang }}</td>
+              <td>{{ data.beaLelang }}</td>
+              <td>{{ data.bphtb }}</td>
+              <td>{{ data.kertasSekuriti }}</td>
             </tr>
           </tbody>
         </table>
@@ -75,7 +72,7 @@
             <tr>
               <th>Tahun</th>
               <th class="text-center">Jumlah Jadwal lelang</th>
-              <th class="text-center">Total Penggunaan Kertas Sekuriti</th>
+              <th class="text-center">Total Akhir Kertas Sekuriti</th>
             </tr>
           </thead>
           <tbody>

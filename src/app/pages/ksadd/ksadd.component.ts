@@ -8,6 +8,7 @@ import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { AuthService } from '@services/auth.service'
 import { Location } from '@angular/common'
+import { Guid } from 'js-guid'
 
 @Component({
   selector: 'app-ksadd',
@@ -101,15 +102,13 @@ export class KsaddComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // console.log(this.router.routerState.snapshot.root)
     const dataKertas = this.location.getState()['dataKertas'] || []
+    console.log(dataKertas)
 
     this.dataKertas[1] = dataKertas.find((el) => el.triwulan === 1) || { sisa: 0 }
     this.dataKertas[2] = dataKertas.find((el) => el.triwulan === 2) || { sisa: 0 }
     this.dataKertas[3] = dataKertas.find((el) => el.triwulan === 3) || { sisa: 0 }
     this.dataKertas[4] = dataKertas.find((el) => el.triwulan === 4) || { sisa: 0 }
-
-    console.log(this.dataKertas)
 
     let role = this.AuthService.getRole()
     if (role.toString() == 'UserPLII') {
@@ -125,85 +124,70 @@ export class KsaddComponent implements OnInit {
     this.isPreview = this.idpreview ? true : false
     this.isEditMode = this.id ? true : false
 
-    const urlTrans = this.isP2pk
-      ? `api/TransaksiLelang/P2PK/byTahun/${this.tahun}/${this.userId}`
-      : `api/TransaksiLelang?tahun=${this.tahun}`
+    if (this.isEditMode || this.isPreview) {
+      const selectedId = this.isEditMode ? this.id : this.idpreview
+      const urlKs = this.isP2pk ? 'api/KertasSekuriti/P2PK/' : 'api/KertasSekuriti/'
+      this.http.get(this.config.apiBaseUrl + urlKs + selectedId, this.api.generateHeader()).subscribe((res: any) => {
+        const penambahan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penambahan') || {}
+        const penggunaan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penggunaan') || {}
+        const kutipanPengganti = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Kutipan Pengganti') || {}
+        const rusak = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Rusak') || {}
+        const hilang = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Hilang') || {}
 
-    this.http.get(this.config.apiBaseUrl + urlTrans, this.api.generateHeader()).subscribe((result: any) => {
-      this.listTrans = [
-        { value: '', label: '-Pilih-' },
-        ...result.data
-          // .filter((x) => x.tahun == this.tahun)
-          .map((x) => ({ value: String(x.nomorRisalahLelang), label: `${x.nomorRisalahLelang} - ${x.namaPenjual}` })),
-      ]
-
-      if (this.isEditMode || this.isPreview) {
-        const selectedId = this.isEditMode ? this.id : this.idpreview
-        const urlKs = this.isP2pk ? 'api/KertasSekuriti/P2PK/' : 'api/KertasSekuriti/'
-        this.http.get(this.config.apiBaseUrl + urlKs + selectedId, this.api.generateHeader()).subscribe((res: any) => {
-          const penambahan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penambahan') || {}
-          const penggunaan = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Penggunaan') || {}
-          const kutipanPengganti =
-            res.data.isiKertasSekuritiModels.find((el) => el.status === 'Kutipan Pengganti') || {}
-          const rusak = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Rusak') || {}
-          const hilang = res.data.isiKertasSekuritiModels.find((el) => el.status === 'Hilang') || {}
-
-          this.data = {
-            id: this.id,
-            triwulan: res.data.triwulan,
-            jumlahAwal: res.data.jumlahAwal,
-            isiKertasSekuritiModels: [
-              {
-                id: penambahan.id,
-                status: 'Penambahan',
-                nomorKertasSekuriti: penambahan.nomorKertasSekuriti,
-                nomorRisalahLelang: penambahan.nomorRisalahLelang,
-                nomorLotRisalahLelang: penambahan.nomorLotRisalahLelang,
-                tanggalMutasi: penambahan.tanggalMutasi.split('T')[0],
-                jumlahMutasi: penambahan.jumlahMutasi,
-              },
-              {
-                id: penggunaan.id,
-                status: 'Penggunaan',
-                nomorKertasSekuriti: penggunaan.nomorKertasSekuriti,
-                nomorRisalahLelang: penggunaan.nomorRisalahLelang,
-                nomorLotRisalahLelang: penggunaan.nomorLotRisalahLelang,
-                tanggalMutasi: penggunaan.tanggalMutasi.split('T')[0],
-                jumlahMutasi: penggunaan.jumlahMutasi,
-              },
-              {
-                id: kutipanPengganti.id,
-                status: 'Kutipan Pengganti',
-                nomorKertasSekuriti: kutipanPengganti.nomorKertasSekuriti,
-                nomorRisalahLelang: kutipanPengganti.nomorRisalahLelang,
-                nomorLotRisalahLelang: kutipanPengganti.nomorLotRisalahLelang,
-                tanggalMutasi: kutipanPengganti.tanggalMutasi.split('T')[0],
-                jumlahMutasi: kutipanPengganti.jumlahMutasi,
-              },
-              {
-                id: rusak.id,
-                status: 'Rusak',
-                nomorKertasSekuriti: rusak.nomorKertasSekuriti,
-                nomorRisalahLelang: rusak.nomorRisalahLelang,
-                nomorLotRisalahLelang: rusak.nomorLotRisalahLelang,
-                tanggalMutasi: rusak.tanggalMutasi.split('T')[0],
-                jumlahMutasi: rusak.jumlahMutasi,
-              },
-              {
-                id: hilang.id,
-                status: 'Hilang',
-                nomorKertasSekuriti: hilang.nomorKertasSekuriti,
-                nomorRisalahLelang: hilang.nomorRisalahLelang,
-                nomorLotRisalahLelang: hilang.nomorLotRisalahLelang,
-                tanggalMutasi: hilang.tanggalMutasi.split('T')[0],
-                jumlahMutasi: hilang.jumlahMutasi,
-              },
-            ],
-          }
-          console.log(this.data)
-        })
-      }
-    })
+        this.data = {
+          id: this.id,
+          triwulan: res.data.triwulan,
+          jumlahAwal: res.data.jumlahAwal,
+          isiKertasSekuritiModels: [
+            {
+              id: penambahan.id || (Guid.newGuid() as any).StringGuid,
+              status: 'Penambahan',
+              nomorKertasSekuriti: penambahan.nomorKertasSekuriti,
+              nomorRisalahLelang: penambahan.nomorRisalahLelang,
+              nomorLotRisalahLelang: penambahan.nomorLotRisalahLelang,
+              tanggalMutasi: penambahan.tanggalMutasi?.split('T')[0] || null,
+              jumlahMutasi: penambahan.jumlahMutasi || 0,
+            },
+            {
+              id: penggunaan.id || (Guid.newGuid() as any).StringGuid,
+              status: 'Penggunaan',
+              nomorKertasSekuriti: penggunaan.nomorKertasSekuriti,
+              nomorRisalahLelang: penggunaan.nomorRisalahLelang,
+              nomorLotRisalahLelang: penggunaan.nomorLotRisalahLelang,
+              tanggalMutasi: penggunaan.tanggalMutasi?.split('T')[0] || null,
+              jumlahMutasi: penggunaan.jumlahMutasi || 0,
+            },
+            {
+              id: kutipanPengganti.id || (Guid.newGuid() as any).StringGuid,
+              status: 'Kutipan Pengganti',
+              nomorKertasSekuriti: kutipanPengganti.nomorKertasSekuriti,
+              nomorRisalahLelang: kutipanPengganti.nomorRisalahLelang,
+              nomorLotRisalahLelang: kutipanPengganti.nomorLotRisalahLelang,
+              tanggalMutasi: kutipanPengganti.tanggalMutasi?.split('T')[0] || null,
+              jumlahMutasi: kutipanPengganti.jumlahMutasi || 0,
+            },
+            {
+              id: rusak.id || (Guid.newGuid() as any).StringGuid,
+              status: 'Rusak',
+              nomorKertasSekuriti: rusak.nomorKertasSekuriti,
+              nomorRisalahLelang: rusak.nomorRisalahLelang,
+              nomorLotRisalahLelang: rusak.nomorLotRisalahLelang,
+              tanggalMutasi: rusak.tanggalMutasi?.split('T')[0] || null,
+              jumlahMutasi: rusak.jumlahMutasi || 0,
+            },
+            {
+              id: hilang.id || (Guid.newGuid() as any).StringGuid,
+              status: 'Hilang',
+              nomorKertasSekuriti: hilang.nomorKertasSekuriti,
+              nomorRisalahLelang: hilang.nomorRisalahLelang,
+              nomorLotRisalahLelang: hilang.nomorLotRisalahLelang,
+              tanggalMutasi: hilang.tanggalMutasi?.split('T')[0] || null,
+              jumlahMutasi: hilang.jumlahMutasi || 0,
+            },
+          ],
+        }
+      })
+    }
   }
 
   onBack() {
@@ -225,13 +209,28 @@ export class KsaddComponent implements OnInit {
     if (confirm('Apakah anda sudah mengisi data dengan lengkap dan benar?')) {
       const method = this.isEditMode ? 'put' : 'post'
       const url = this.isEditMode ? `api/KertasSekuriti/${this.id}` : 'api/KertasSekuriti'
+
+      const getModifiedKertas = (isiKertasSekuritiModels: any[]) => {
+        return isiKertasSekuritiModels
+          .filter((el) => !!el.nomorKertasSekuriti)
+          .map((el) => ({ ...el, jumlahMutasi: Number(el.jumlahMutasi) }))
+      }
+
+      const modifiedData = {
+        ...this.data,
+        isiKertasSekuritiModels: getModifiedKertas(this.data.isiKertasSekuritiModels),
+      }
+
+      if (!getModifiedKertas(this.data.isiKertasSekuritiModels).length) {
+        return this.toastr.error('Harap masukan data dengan benar')
+      }
+
       this.http[method](
         this.config.apiBaseUrl + url,
-        { ...this.data, jumlahAkhir: this.sisa },
+        { ...modifiedData, jumlahAkhir: this.sisa },
         this.api.generateHeader()
       ).subscribe(
         (data) => {
-          console.log('post ressult ', data)
           this.toastr.info('Data Tersimpan')
           this.onBack()
         },
@@ -250,7 +249,26 @@ export class KsaddComponent implements OnInit {
   onSelectTriwulan(value) {
     this.data.triwulan = value
     if (value > 1) {
-      this.data.jumlahAwal = this.dataKertas[value - 1].sisa
+      if (this.dataKertas[value - 1].sisa !== null) {
+        this.data.jumlahAwal = this.dataKertas[value - 1].sisa
+      } else {
+        const {
+          jumlahAwal = 0,
+          penambahan = 0,
+          penggunaan = 0,
+          kutipanPengganti = 0,
+          rusak = 0,
+          hilang = 0,
+        } = this.dataKertas[value - 1]
+        this.data.jumlahAwal = this.sisaFromParams({
+          jumlahAwal,
+          penambahan,
+          penggunaan,
+          kutipanPengganti,
+          rusak,
+          hilang,
+        })
+      }
     } else {
       this.data.jumlahAwal = 0
     }
@@ -264,6 +282,17 @@ export class KsaddComponent implements OnInit {
       Number(this.data.isiKertasSekuritiModels[2].jumlahMutasi) -
       Number(this.data.isiKertasSekuritiModels[3].jumlahMutasi) -
       Number(this.data.isiKertasSekuritiModels[4].jumlahMutasi)
+    )
+  }
+
+  sisaFromParams({ jumlahAwal = 0, penambahan = 0, penggunaan = 0, kutipanPengganti = 0, rusak = 0, hilang = 0 }) {
+    return (
+      Number(jumlahAwal || 0) +
+      Number(penambahan || 0) -
+      Number(penggunaan || 0) -
+      Number(kutipanPengganti || 0) -
+      Number(rusak || 0) -
+      Number(hilang || 0)
     )
   }
 }

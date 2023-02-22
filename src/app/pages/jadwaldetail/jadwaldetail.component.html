@@ -120,7 +120,7 @@
                 <td>{{ data.nomorSuratPenetapanJadwalLelang }}</td>
                 <td>{{ data.tanggalSuratPenetapanJadwalLelang.split('T')[0] }}</td>
                 <td>{{ formatStatus(data.statusPengiriman) }}</td>
-                <td>{{ data.recInsert.split('T')[0] }}</td>
+                <td>{{ data.tanggalKirimBO ? data.tanggalKirimBO.split('T')[0] : '-' }}</td>
                 <td *ngIf="!isWillDownload">
                   <a
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"

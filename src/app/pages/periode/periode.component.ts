@@ -27,7 +27,7 @@ export class PeriodeComponent implements OnInit {
 
     let years = []
     for (let i = 0; i < yearAfter - yearBefore; i += 1) {
-        years.push(yearBefore + i)
+      years.push(yearBefore + i)
     }
     this.listYear = years
 
@@ -54,6 +54,7 @@ export class PeriodeComponent implements OnInit {
     return JSON.parse(localStorage.getItem('periode'))
   }
   saveperiode() {
+    console.log(this.periodeForm.value)
     this.periodeLaporan = this.periodeForm.value
 
     //this.listPeriode.push(this.periodeLaporan)

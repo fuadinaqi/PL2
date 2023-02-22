@@ -79,7 +79,15 @@
                     [queryParams]="{ tahun, bulan, idperiode, parentId }"
                     class="btn btn-s"
                   >
-                    <i class="fas fa-inbox"></i> Detail
+                    <button
+                      type="button"
+                      class="btn btn-block"
+                      [class.btn-primary]="data.adaBPHTB"
+                      [class.btn-danger]="!data.adaBPHTB"
+                      [title]="data.adaBPHTB ? 'Sudah ada BPHTB' : 'Belum ada BPHTB'"
+                    >
+                      <i class="fa fa-info-circle"></i> Detail
+                    </button>
                   </a>
                 </td>
               </tr>

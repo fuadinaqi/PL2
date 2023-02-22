@@ -54,7 +54,7 @@ export class BoBphlandingComponent implements OnInit {
                 })
                 this.listTrans = result.data.filter((trans) => jadwalIds.indexOf(trans.jadwalLelangId) !== -1)
                 this.listTrans = this.listTrans.filter((trans) =>
-                  ['Tanah', 'Tanah dan Bangunan'].includes(trans.tipeBarang)
+                  ['Tanah', 'Tanah dan Bangunan', 'Apartemen atau Rusun'].includes(trans.tipeBarang)
                 )
                 this.listTrans = this.listTrans.filter((trans) =>
                   ['TAP', 'Laku', 'Ditahan', 'Wan Prestasi'].includes(trans.status)

@@ -82,7 +82,7 @@
             <tr *ngIf="isWillDownload">
               <th colspan="8">{{ excelTitle }}</th>
             </tr>
-            <tr>
+            <tr *ngIf="!isWillDownload">
               <th>No.</th>
               <th>Status</th>
               <th>Status Penyampaian</th>
@@ -91,7 +91,36 @@
               <th>Luas Tanah</th>
               <th>Luas Bangunan</th>
               <th>NJOP/NOP</th>
-              <th *ngIf="!isWillDownload">Aksi</th>
+              <th>Aksi</th>
+            </tr>
+            <tr *ngIf="isWillDownload">
+              <th>No.</th>
+              <th>Status</th>
+              <th>Status Penyampaian</th>
+              <th>Tgl. Penyampaian Risalah</th>
+              <th>Lot</th>
+              <th>Luas Tanah</th>
+              <th>Luas Bangunan</th>
+              <th>NJOP/NOP</th>
+
+              <th>Nomor Risalah Lelang</th>
+              <th>Tanggal Risalah Lelang</th>
+              <th>Longitude</th>
+              <th>Latitude</th>
+              <th>Pokok Lelang</th>
+              <th>Nilai SSB (BPHTB)</th>
+              <th>Tanggal SSB</th>
+              <th>Nilai SSP (PBB)</th>
+              <th>Tanggal SSP</th>
+              <th>Keterangan</th>
+              <th>Tanggal Kirim</th>
+
+              <th>Nama Penjual</th>
+              <th>Alamat Penjual</th>
+              <th>NPWP Penjual</th>
+              <th>Nama Pembeli</th>
+              <th>Alamat Pembeli</th>
+              <th>NPWP Pembeli</th>
             </tr>
           </thead>
           <tbody>
@@ -110,6 +139,27 @@
                 <td>{{ data.luasTanah }}</td>
                 <td>{{ data.luasBangunan }}</td>
                 <td>{{ data.njopnop }}</td>
+
+                <td *ngIf="isWillDownload">{{ data.nomorRisalahLelang }}</td>
+                <td *ngIf="isWillDownload">{{ data.tanggalRisalahLelang?.split('T')[0] || '' }}</td>
+                <td *ngIf="isWillDownload">{{ data.letaktanahBangunanLong }}</td>
+                <td *ngIf="isWillDownload">{{ data.letaktanahBangunanLat }}</td>
+                <td *ngIf="isWillDownload">{{ data.pokokLelang }}</td>
+                <td *ngIf="isWillDownload">{{ data.nomorSSB }}</td>
+                <td *ngIf="isWillDownload">{{ data.tanggalSSB?.split('T')[0] || '' }}</td>
+                <td *ngIf="isWillDownload">{{ data.nomorSSP }}</td>
+                <td *ngIf="isWillDownload">{{ data.tanggalSSP?.split('T')[0] || '' }}</td>
+                <td *ngIf="isWillDownload">{{ data.keterangan }}</td>
+                <td *ngIf="isWillDownload">{{ data.tanggalKirimBO?.split('T')[0] || '' }}</td>
+
+                <td *ngIf="isWillDownload">{{ data.namaPenjual }}</td>
+                <td *ngIf="isWillDownload">{{ data.alamatPenjual }}</td>
+                <td *ngIf="isWillDownload">{{ data.npwpPenjual }}</td>
+
+                <td *ngIf="isWillDownload">{{ data.namaPembeli }}</td>
+                <td *ngIf="isWillDownload">{{ data.alamatPembeli }}</td>
+                <td *ngIf="isWillDownload">{{ data.npwpPembeli }}</td>
+
                 <td *ngIf="!isWillDownload">
                   <a
                     *ngIf="data.statusPengiriman == 'Draft Permohonan'"

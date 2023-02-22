@@ -68,7 +68,7 @@ export class TransaksilistComponent implements OnInit, OnDestroy {
               results[indexR] = {
                 ...results[indexR],
                 jumlahLelang: results[indexR].jumlahLelang + el.jumlahLelang,
-                laporanTransaksi: results[indexR].laporanTransaksi + el.laporanTransaksi,
+                // laporanTransaksi: results[indexR].laporanTransaksi + el.laporanTransaksi,
                 lisan: results[indexR].lisan + el.lisan,
                 tertulis: results[indexR].tertulis + el.tertulis,
                 email: results[indexR].email + el.email,

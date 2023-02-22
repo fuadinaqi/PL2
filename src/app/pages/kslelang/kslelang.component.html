@@ -67,7 +67,20 @@
               <td>{{ data.kutipanPengganti }}</td>
               <td>{{ data.rusak }}</td>
               <td>{{ data.hilang }}</td>
-              <td>{{ data.sisa }}</td>
+              <td>
+                {{
+                  data.sisa !== null
+                    ? data.sisa
+                    : sisaFromParams({
+                        jumlahAwal: data.jumlahAwal,
+                        penambahan: data.penambahan,
+                        penggunaan: data.penggunaan,
+                        kutipanPengganti: data.kutipanPengganti,
+                        rusak: data.rusak,
+                        hilang: data.hilang
+                      })
+                }}
+              </td>
               <td class="text-right">
                 <button class="btn btn-sm btn-primary" (click)="clickDetail(data)">Detail</button>
               </td>

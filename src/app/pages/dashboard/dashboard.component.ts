@@ -27,12 +27,11 @@ export class DashboardComponent {
     }
 
     this.listPeriode = JSON.parse(localStorage.getItem('periode'))
-    console.log(this.listPeriode)
     if (!this.listPeriode) {
       this.listPeriode = []
     }
 
-    const url = this.isP2pk ? 'api/Dashboard' : 'api/PeriodePelaporan'
+    const url = this.isP2pk ? 'api/Dashboard' : 'api/PeriodePelaporan/dashboardUser'
 
     this.http.get(this.config.apiBaseUrl + url, this.api.generateHeader()).subscribe(
       (result: any) => {
@@ -43,6 +42,7 @@ export class DashboardComponent {
           }
         })
         this.listPeriode = arrListPeriode.sort(compareFromHighest('tahun'))
+        console.log(this.listPeriode)
       },
       (error) => {}
     )
