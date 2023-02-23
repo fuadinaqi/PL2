@@ -38,6 +38,8 @@ export class BeatambahComponent implements OnInit {
   public fileName: string
 
   public realPokokLelang = 0
+  public realBeaLelangPenjual = 0
+  public realBeaLelangPembeli = 0
 
   constructor(
     private toastr: ToastrService,
@@ -93,6 +95,8 @@ export class BeatambahComponent implements OnInit {
           console.log('bea', this.bea)
           this.idtrans = this.bea.transaksiLelangId
           this.realPokokLelang = this.bea.pokokLelang
+          this.realBeaLelangPenjual = this.bea.beaLelangPenjual
+          this.realBeaLelangPembeli = this.bea.beaLelangPembeli
           this.beaForm.patchValue({
             transaksiLelangId: this.bea.transaksiLelangId,
             pokokLelang: this.bea.pokokLelang,
@@ -126,13 +130,27 @@ export class BeatambahComponent implements OnInit {
     this.loadTrans()
 
     this.beaForm.get('jenisBeaLelang').valueChanges.subscribe((val) => {
-      if (val === 'Penjual' || val === 'Batal') {
+      if (val === 'Penjual') {
         this.beaForm.patchValue({
           pokokLelang: 0,
+          beaLelangPembeli: 0,
+          beaLelangPenjual: this.realBeaLelangPenjual
+        })
+      } else if (val === 'Batal') {
+        this.beaForm.patchValue({
+          pokokLelang: 0,
+        })
+      } else if (val === 'Pembeli') {
+        this.beaForm.patchValue({
+          pokokLelang: this.realPokokLelang,
+          beaLelangPenjual: 0,
+          beaLelangPembeli: this.realBeaLelangPembeli
         })
       } else {
         this.beaForm.patchValue({
           pokokLelang: this.realPokokLelang,
+          beaLelangPenjual: this.realBeaLelangPenjual,
+          beaLelangPembeli: this.realBeaLelangPembeli
         })
       }
     })
@@ -149,6 +167,8 @@ export class BeatambahComponent implements OnInit {
         (result: any) => {
           this.trans = result.data
           this.realPokokLelang = result.data.pokokLelang
+          this.realBeaLelangPenjual = result.data.beaLelangPenjual
+          this.realBeaLelangPembeli = result.data.beaLelangPembeli
           this.beaForm.patchValue({
             pokokLelang: result.data.pokokLelang,
             beaLelangPenjual: result.data.beaLelangPenjual,

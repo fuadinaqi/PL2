@@ -110,13 +110,13 @@
                 <td>{{ data.kodeMAP }}</td>
                 <td>{{ (data.jenisBeaLelang === 'Pembeli' ? data.pokokLelang : 0) | currency: 'Rp ' }}</td>
                 <ng-container *ngIf="data.jenisBeaLelang === 'Batal'">
-                  <td>-</td>
-                  <td>-</td>
+                  <td>{{ 0 | currency: 'Rp ' }}</td>
+                  <td>{{ 0 | currency: 'Rp ' }}</td>
                   <td>{{ (beaLelangBatal || data.beaLelangBatal) | currency: 'Rp ' }}</td>
                 </ng-container>
                 <ng-container *ngIf="data.jenisBeaLelang !== 'Batal'">
-                  <td>{{ data.beaLelangPenjual | currency: 'Rp ' }}</td>
-                  <td>{{ data.beaLelangPembeli | currency: 'Rp ' }}</td>
+                  <td>{{ (data.jenisBeaLelang === 'Penjual' ? data.beaLelangPenjual : 0) | currency: 'Rp ' }}</td>
+                  <td>{{ (data.jenisBeaLelang === 'Pembeli' ? data.beaLelangPembeli : 0) | currency: 'Rp ' }}</td>
                   <td *ngIf="beaLelangBatal">{{ beaLelangBatal | currency: 'Rp ' }}</td>
                   <td *ngIf="!beaLelangBatal">-</td>
                 </ng-container>

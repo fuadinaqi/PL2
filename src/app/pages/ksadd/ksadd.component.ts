@@ -215,10 +215,21 @@ export class KsaddComponent implements OnInit {
           .filter((el) => !!el.nomorKertasSekuriti)
           .map((el) => ({ ...el, jumlahMutasi: Number(el.jumlahMutasi) }))
       }
+      
+      const getIsi = (isiKertasSekuritiModels: any[]) => {
+        return isiKertasSekuritiModels
+          .map((el) => {
+            const result = { ...el, jumlahMutasi: Number(el.jumlahMutasi) }
+            Object.entries(result).forEach(([key, value]) => {
+              if (!value && typeof value !== 'number') delete result[key]
+            })
+            return result
+          })
+      }
 
       const modifiedData = {
         ...this.data,
-        isiKertasSekuritiModels: getModifiedKertas(this.data.isiKertasSekuritiModels),
+        isiKertasSekuritiModels: getIsi(this.data.isiKertasSekuritiModels),
       }
 
       if (!getModifiedKertas(this.data.isiKertasSekuritiModels).length) {
