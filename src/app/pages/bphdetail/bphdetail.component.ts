@@ -64,7 +64,7 @@ export class BphdetailComponent implements OnInit {
           .subscribe(
             (data) => {
               console.log('post ressult ', data)
-              this.toastr.info('BPHTB Terkirim ke Back Office PPPK')
+              this.toastr.info('BPHTB Terkirim ke PPPK')
               this.form.patchValue({
                 countRequest: this.form.value.countRequest + 1,
               })
@@ -143,7 +143,7 @@ export class BphdetailComponent implements OnInit {
       let url = this.isP2pk
         ? 'api/LaporanRisalahLelangPengenaanBPHTB/P2PK/BukaAkses'
         : 'api/LaporanRisalahLelangPengenaanBPHTB/Kirim'
-      let msg = this.isP2pk ? 'BPHTB Terkirim ke Pejabat Lelang II' : 'BPHTB Terkirim ke Back Office PPPK'
+      let msg = this.isP2pk ? 'BPHTB Terkirim ke Pejabat Lelang II' : 'BPHTB Terkirim ke PPPK'
       this.http.put(this.config.apiBaseUrl + url + '?id=' + idtrans, null, this.api.generateHeader()).subscribe(
         (data) => {
           console.log('post ressult ', data)

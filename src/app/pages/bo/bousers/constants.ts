@@ -82,6 +82,14 @@ export const TITLES: Record<string, TitleType> = {
   ],
   transaksiLelang: [
     {
+      key: 'namaLengkapTanpaGelar',
+      label: 'Nama PL II',
+    },
+    {
+      key: 'nomorIzin',
+      label: 'Nomor Izin',
+    },
+    {
       key: 'status',
       label: 'Status Lelang',
     },
@@ -238,6 +246,14 @@ export const TITLES: Record<string, TitleType> = {
   ],
   beaLelang: [
     {
+      key: 'namaLengkapTanpaGelar',
+      label: 'Nama PL II',
+    },
+    {
+      key: 'nomorIzin',
+      label: 'Nomor Izin',
+    },
+    {
       key: 'nomorRisalahLelang',
       label: 'No. Risalah',
     },
@@ -293,6 +309,14 @@ export const TITLES: Record<string, TitleType> = {
     },
   ],
   bphtb: [
+    {
+      key: 'namaLengkapTanpaGelar',
+      label: 'Nama PL II',
+    },
+    {
+      key: 'nomorIzin',
+      label: 'Nomor Izin',
+    },
     {
       key: 'statusHakAtasTanah',
       label: 'Status',
@@ -397,6 +421,14 @@ export const TITLES: Record<string, TitleType> = {
     },
   ],
   ks: [
+    {
+      key: 'namaLengkapTanpaGelar',
+      label: 'Nama PL II',
+    },
+    {
+      key: 'nomorIzin',
+      label: 'Nomor Izin',
+    },
     {
       key: 'triwulan',
       label: 'Triwulan',

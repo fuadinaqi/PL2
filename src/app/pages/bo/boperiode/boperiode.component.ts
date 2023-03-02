@@ -63,7 +63,7 @@ export class BoperiodeComponent implements OnInit {
         .subscribe(
           (data) => {
             console.log('post ressult ', data)
-            this.toastr.info('Transaksi Terkirim ke Back Office PPPK')
+            this.toastr.info('Transaksi Terkirim ke PPPK')
             this.loadTransaction()
           },
           (error) => {

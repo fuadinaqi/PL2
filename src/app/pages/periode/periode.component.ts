@@ -22,8 +22,8 @@ export class PeriodeComponent implements OnInit {
   listYear = []
 
   ngOnInit(): void {
-    const yearBefore = new Date().getFullYear() - 5
-    const yearAfter = new Date().getFullYear() + 5
+    const yearBefore = new Date().getFullYear()
+    const yearAfter = new Date().getFullYear() + 2
 
     let years = []
     for (let i = 0; i < yearAfter - yearBefore; i += 1) {

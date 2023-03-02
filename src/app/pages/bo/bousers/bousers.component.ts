@@ -17,7 +17,6 @@ import { ToastrService } from 'ngx-toastr'
 export class BoUsersComponent {
   public tahun = this.activatedRoute.snapshot.queryParams.tahun
   public type = this.activatedRoute.snapshot.params.type
-  public title = ''
   public listPeriode: Array<any>
   dtOptions: DataTables.Settings = {}
   dtTrigger: Subject<any> = new Subject<any>()
@@ -47,6 +46,29 @@ export class BoUsersComponent {
         },
         (error) => {}
       )
+  }
+
+  get title(): string {
+    switch (this.type) {
+      case 'bojadwal': {
+        return `Jadwal Lelang per User Periode ${this.tahun}`
+      }
+      case 'botrans': {
+        return `Transaksi Lelang per User Periode ${this.tahun}`
+      }
+      case 'bobea': {
+        return `Bea Lelang per User Periode ${this.tahun}`
+      }
+      case 'bobph': {
+        return `BPHTB Lelang per User Periode ${this.tahun}`
+      }
+      case 'boks': {
+        return `Kertas Sekuriti per User Periode ${this.tahun}`
+      }
+      default: {
+        return ''
+      }
+    }
   }
 
   clickDetail(tahun: any, userId: string) {

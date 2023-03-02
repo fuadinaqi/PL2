@@ -126,7 +126,7 @@ export class KsdetailComponent implements OnInit, OnDestroy {
     if (confirm('Apakah anda yakin ingin mengirim data?')) {
       console.log(idtrans)
       let url = this.isP2pk ? 'api/KertasSekuriti/P2PK/BukaAkses' : 'api/KertasSekuriti/Kirim'
-      let msg = this.isP2pk ? 'Transaksi Terkirim ke Pejabat Lelang II' : 'Transaksi Terkirim ke Back Office PPPK'
+      let msg = this.isP2pk ? 'Transaksi Terkirim ke Pejabat Lelang II' : 'Transaksi Terkirim ke PPPK'
       this.http.put(this.config.apiBaseUrl + url + '?id=' + idtrans, null, this.api.generateHeader()).subscribe(
         (data) => {
           console.log('post ressult ', data)
