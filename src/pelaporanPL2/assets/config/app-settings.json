@@ -1,5 +1,5 @@
 {
-  "apiBaseUrl": "https://pelaporanpliiapi.azurewebsites.net/",
+  "apiBaseUrl": "http://10.242.227.196/",
   "apiBaseUrlStaging": "https://pelaporanpliiapi.azurewebsites.net/",
   "apiContohKemenkeuTidakTerpakaiHanyaUntukLihatIPNya": "http://10.242.227.196/"
 }

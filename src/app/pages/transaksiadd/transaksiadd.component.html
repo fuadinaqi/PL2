@@ -105,6 +105,13 @@
                     <option value="Batal">Batal</option>
                   </select>
                 </div>
+                <div
+                  *ngIf="transaksiForm.get('status').value && transaksiForm.get('status').value !== 'Batal'"
+                  class="form-group col-xl-6"
+                >
+                  <label for="exampleInputEmail1">Nomor Lot</label>
+                  <input type="number" class="form-control" formControlName="nomorLot" />
+                </div>
               </div>
               <div class="row">
                 <div class="form-group col-xl-6">
