@@ -92,6 +92,7 @@
               <!-- <th >Tanggal Penyerahan Kutipan Risalah Lelang</th> -->
               <th>Tgl. Setor</th>
               <th>Tgl. Lelang</th>
+              <th>Tgl. Kirim</th>
               <th>Keterangan</th>
               <th *ngIf="!isWillDownload">Aksi</th>
             </tr>
@@ -126,6 +127,7 @@
                 <!-- <td >{{ data.tanggalPenyerahanKutipanRisalahLelang.split('T')[0] }}</td> -->
                 <td>{{ data.tanggalPenyetoran.split('T')[0] }}</td>
                 <td>{{ data.tanggalLelang.split('T')[0] }}</td>
+                <td>{{ data.tanggalKirimBO?.split('T')[0] || '' }}</td>
                 <td>{{ data.keterangan }}</td>
                 <td *ngIf="!isWillDownload">
                   <a
