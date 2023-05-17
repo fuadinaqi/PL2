@@ -51,7 +51,6 @@
                 type="checkbox"
                 id="tempNihil"
                 [checked]="tempNihil"
-                [disabled]="nihil"
                 (change)="onChangeNihil($event)"
               />
               <label for="tempNihil" class="pointer user-select-none mb-0 ml-1"> Nihil </label>
@@ -60,17 +59,24 @@
           <div class="card-title ml-2">
             <button
               type="button"
-              class="btn btn-block"
-              [class.btn-info]="!nihil"
-              [class.btn-secondary]="nihil"
-              [disabled]="nihil || !tempNihil"
-              (click)="!nihil ? onSubmitNihil() : null"
+              class="btn btn-block btn-info"
+              [disabled]="nihil === tempNihil"
+              (click)="nihil !== tempNihil ? onSubmitNihil() : null"
             >
-              <i class="fa" [class.fa-paper-plane]="!nihil" [class.fa-check]="nihil"></i>
-              {{ nihil ? 'Terkirim' : 'Kirim' }}
+              <i class="fa fa-paper-plane"></i>
+              Kirim
             </button>
           </div>
-          <div class="card-title ml-2 mt-2" *ngIf="tanggalNihil">Tanggal Kirim : {{ tanggalNihil }}</div>
+
+          <ng-container *ngIf="tanggalNihil">
+            <div class="card-title ml-2">
+              <button type="button" class="btn btn-block btn-secondary" disabled>
+                <i class="fa fa-check"></i>
+                Terkirim
+              </button>
+            </div>
+            <div class="card-title ml-2 mt-2">Tanggal Kirim : {{ tanggalNihil }}</div>
+          </ng-container>
         </ng-container>
 
         <ng-container *ngIf="isP2pk && !listJadwal?.length && nihil">
