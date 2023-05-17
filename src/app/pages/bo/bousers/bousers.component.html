@@ -32,12 +32,18 @@
       </div>
 
       <div class="card-body table-responsive p-0">
-        <table datatable [dtOptions]="dtOptions" [dtTrigger]="dtTrigger" class="table table-hover text-nowrap" id="table-download">
+        <table
+          datatable
+          [dtOptions]="dtOptions"
+          [dtTrigger]="dtTrigger"
+          class="table table-hover text-nowrap"
+          id="table-download"
+        >
           <ng-container *ngIf="isWillDownload">
             <thead>
               <tr>
                 <th [colSpan]="17">
-                  {{ excelTitle}}   
+                  {{ excelTitle }}
                 </th>
               </tr>
               <tr>
@@ -50,10 +56,13 @@
                 <td>{{ i + 1 }}</td>
                 <td *ngFor="let el of titleListDownload">
                   {{
-                    !data[el.key] ? '-'
-                      : el.fn ? el.fn(data[el.key])
-                        : el.type === 'date' ? data[el.key].split('T')[0]
-                          : data[el.key]
+                    !data[el.key]
+                      ? '-'
+                      : el.fn
+                      ? el.fn(data[el.key])
+                      : el.type === 'date'
+                      ? data[el.key].split('T')[0]
+                      : data[el.key]
                   }}
                 </td>
               </tr>
@@ -73,7 +82,11 @@
                 <td>{{ data.namaLengkapTanpaGelar }}</td>
                 <td class="text-right">
                   <button class="btn btn-sm btn-primary" (click)="clickDetail(data.tahun, data.userId)">Detail</button>
-                  <button type="button" class="btn btn-sm btn-primary ml-1" (click)="exportExcel({ namaLengkapTanpaGelar: data.namaLengkapTanpaGelar, userId: data.userId })">
+                  <button
+                    type="button"
+                    class="btn btn-sm btn-primary ml-1"
+                    (click)="exportExcel({ namaLengkapTanpaGelar: data.namaLengkapTanpaGelar, userId: data.userId })"
+                  >
                     <i class="fa fa-download"></i> Download
                   </button>
                 </td>

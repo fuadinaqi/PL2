@@ -130,6 +130,7 @@ export class AuthService {
   public logout() {
     localStorage.removeItem('token')
     localStorage.removeItem('gatekeeper_token')
+    localStorage.removeItem('usersx')
     this.user = null
     this.router.navigate(['/login'])
   }

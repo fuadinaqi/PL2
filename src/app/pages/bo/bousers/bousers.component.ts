@@ -9,6 +9,7 @@ import { Subject } from 'rxjs'
 import * as XLSX from 'xlsx'
 import { TITLES, type TitleType } from './constants'
 import { ToastrService } from 'ngx-toastr'
+import { UserService } from '@services/user.service'
 
 @Component({
   selector: 'app-bousers',
@@ -35,6 +36,8 @@ export class BoUsersComponent {
     this.listPeriode = JSON.parse(localStorage.getItem('periode'))
     if (!this.listPeriode) {
       this.listPeriode = []
+      this.user.users = []
+      localStorage.setItem('usersx', '[]')
     }
 
     this.http
@@ -42,6 +45,8 @@ export class BoUsersComponent {
       .subscribe(
         (result: any) => {
           this.listPeriode = result.data
+          this.user.users = result.data
+          localStorage.setItem('usersx', JSON.stringify(result.data))
           this.dtTrigger.next()
         },
         (error) => {}
@@ -353,6 +358,7 @@ export class BoUsersComponent {
     private http: HttpClient,
     private api: ApiService,
     private config: AppConfigService,
-    private toastr: ToastrService
+    private toastr: ToastrService,
+    private user: UserService
   ) {}
 }
