@@ -4,7 +4,7 @@
     <div class="row mb-2">
       <div class="col-sm-6">
         <h1>Tambah Kertas Sekuriti</h1>
-        <h5>Periode: {{ tahun }}</h5>
+        <h5>Periode: {{ tahun }} <app-text-user></app-text-user></h5>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -55,7 +55,12 @@
                 </div>
                 <div class="form-group col-xl-6">
                   <label for="">Jumlah Awal</label>
-                  <input [disabled]="isPreview || data.triwulan > 1" type="text" class="form-control" [(ngModel)]="data.jumlahAwal" />
+                  <input
+                    [disabled]="isPreview || data.triwulan > 1"
+                    type="text"
+                    class="form-control"
+                    [(ngModel)]="data.jumlahAwal"
+                  />
                 </div>
               </div>
             </div>
@@ -97,7 +102,12 @@
 
               <div class="row">
                 <div class="form-group col-xl-12">
-                  <label for="exampleInputEmail1">No. Kertas Sekuriti Mulai <span class="text-danger">(beri tanda ";" antar kertas sekuriti. contoh: 1234;1235 dst)</span></label>
+                  <label for="exampleInputEmail1"
+                    >No. Kertas Sekuriti Mulai
+                    <span class="text-danger"
+                      >(beri tanda ";" antar kertas sekuriti. contoh: 1234;1235 dst)</span
+                    ></label
+                  >
                   <input [disabled]="isPreview" type="text" class="form-control" [(ngModel)]="d.nomorKertasSekuriti" />
                 </div>
                 <div class="form-group col-xl-6">
@@ -113,8 +123,7 @@
                   <input [disabled]="isPreview" type="text" class="form-control" [(ngModel)]="d.jumlahMutasi" />
                 </div>
               </div>
-              <div class="row">
-              </div>
+              <div class="row"></div>
             </div>
             <div class="row">
               <div class="form-group col-xl-6">

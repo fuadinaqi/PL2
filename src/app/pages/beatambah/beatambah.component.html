@@ -3,7 +3,7 @@
   <div class="container-fluid">
     <div class="row mb-2">
       <div class="col-sm-6">
-        <h1>Tambah Bea Lelang : {{ bulan | numberToMonth }} {{ tahun }}</h1>
+        <h1>Tambah Bea Lelang : {{ bulan | numberToMonth }} {{ tahun }} <app-text-user></app-text-user></h1>
       </div>
       <div class="col-sm-6">
         <ol class="breadcrumb float-sm-right">
@@ -76,12 +76,7 @@
             </div>
             <!-- </div> -->
             <!-- <div class="row"> -->
-            <div
-              *ngIf="
-                beaForm.get('jenisBeaLelang').value !== 'Batal'
-              "
-              class="form-group col-xl-6"
-            >
+            <div *ngIf="beaForm.get('jenisBeaLelang').value !== 'Batal'" class="form-group col-xl-6">
               <label for="exampleInputEmail1">Bea Lelang Penjual </label>
               <input
                 currencyMask
@@ -97,12 +92,7 @@
                 id="tglsuratttp"
               />
             </div>
-            <div
-              *ngIf="
-                beaForm.get('jenisBeaLelang').value !== 'Batal'
-              "
-              class="form-group col-xl-6"
-            >
+            <div *ngIf="beaForm.get('jenisBeaLelang').value !== 'Batal'" class="form-group col-xl-6">
               <label for="exampleInputEmail1">Bea Lelang Pembeli </label>
               <input
                 currencyMask
