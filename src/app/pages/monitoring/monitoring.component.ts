@@ -4,7 +4,7 @@ import { Periode } from '@/type/periode'
 import { ApiService } from '@services/api.service'
 import { AppConfigService } from '@/app-config.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import { compareFromHighest } from '@/helpers/compare'
+import { compareFromHighest, compareFromLowest } from '@/helpers/compare'
 import { Subject } from 'rxjs'
 import * as XLSX from 'xlsx'
 import { getMonthByNumber } from '@/helpers/date'
@@ -19,57 +19,68 @@ export class MonitoringComponent {
   public listPeriode: Array<any> = []
   public listMonth = [
     {
+      value: 0,
+      label: 'All',
+    },
+    {
       value: 1,
-      label: 'Januari'
+      label: 'Januari',
     },
     {
       value: 2,
-      label: 'Februari'
+      label: 'Februari',
     },
     {
       value: 3,
-      label: 'Maret'
+      label: 'Maret',
     },
     {
       value: 4,
-      label: 'April'
+      label: 'April',
     },
     {
       value: 5,
-      label: 'Mei'
+      label: 'Mei',
     },
     {
       value: 6,
-      label: 'Juni'
+      label: 'Juni',
     },
     {
       value: 7,
-      label: 'Juli'
+      label: 'Juli',
     },
     {
       value: 8,
-      label: 'Agustus'
+      label: 'Agustus',
     },
     {
       value: 9,
-      label: 'September'
+      label: 'September',
     },
     {
       value: 10,
-      label: 'Oktober'
+      label: 'Oktober',
     },
     {
       value: 11,
-      label: 'November'
+      label: 'November',
     },
     {
       value: 12,
-      label: 'Desember'
+      label: 'Desember',
     },
   ]
-  month = 1
+  month = 0
   onChangeMonth(val) {
+    this.user = ''
     this.month = val
+    this.initData()
+  }
+
+  user = ''
+  onChangeUser(val) {
+    this.user = val
     this.initData()
   }
 
@@ -86,39 +97,54 @@ export class MonitoringComponent {
   ngOnInit(): void {
     this.dtOptions = {
       pagingType: 'full_numbers',
-      pageLength: 10,
+      pageLength: 200,
     }
 
-    this.http
-      .get(this.config.apiBaseUrl + 'api/Monitoring/getAllFO', this.api.generateHeader())
-      .subscribe(
-        (resultAllFO: any) => {
-          this.http
+    this.http.get(this.config.apiBaseUrl + 'api/Monitoring/getAllFO', this.api.generateHeader()).subscribe(
+      (resultAllFO: any) => {
+        this.http
           .get(this.config.apiBaseUrl + `api/Monitoring/index/${this.tahun}`, this.api.generateHeader())
           .subscribe((resultData: any) => {
-              this.masterFO = resultAllFO.data.map(x => ({
-                ...x,
-                nomorIzin: Math.round(Math.random() * 72324),
-                nomorKMK: `KMK-${Math.round(Math.random() * 72324)}`
-              }))
-              this.masterData = resultData.data
-              this.initData()
-              this.dtTrigger.next()
-            })
-        },
-        (error) => {}
-      )
+            this.masterFO = resultAllFO.data.map((x) => ({
+              ...x,
+              nomorIzin: Math.round(Math.random() * 72324),
+              nomorKMK: `KMK-${Math.round(Math.random() * 72324)}`,
+            }))
+            this.masterData = resultData.data
+            this.initData()
+            this.dtTrigger.next()
+          })
+      },
+      (error) => {}
+    )
+  }
+
+  get listUser() {
+    if (!this?.masterFO?.length) return []
+    return [
+      { value: '', label: 'All' },
+      ...this.masterFO.map((el) => ({ value: el.id, label: el.namaLengkapTanpaGelar })),
+    ]
   }
 
   initData() {
     const getFilteredMapByBulanByUserId = (userId) => {
-      return this.masterData.find(d => d.userId === userId && d.bulan == this.month) || {}
+      return this.masterData.find((d) => d.userId === userId && d.bulan == this.month) || {}
     }
 
-    this.data = this.masterFO.map(el => ({
-      ...el,
-      ...getFilteredMapByBulanByUserId(el.id)
-    }))
+    if (this.month == 0) {
+      // ALL months
+      if (!this.user) {
+        this.data = this.masterData.sort(compareFromLowest('bulan'))
+      } else {
+        this.data = this.masterData.sort(compareFromLowest('bulan')).filter((el) => el.userId === this.user)
+      }
+    } else {
+      this.data = this.masterFO.map((el) => ({
+        ...el,
+        ...getFilteredMapByBulanByUserId(el.id),
+      }))
+    }
   }
 
   exportExcel(): void {
