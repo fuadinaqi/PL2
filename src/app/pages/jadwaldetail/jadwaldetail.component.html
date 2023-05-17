@@ -46,15 +46,41 @@
         <ng-container *ngIf="!isP2pk && !listJadwal?.length">
           <div class="card-title ml-4 mt-1">
             <div class="d-flex align-items-center">
-              <input class="pointer" type="checkbox" id="nihil" [checked]="nihil" (change)="onChangeNihil($event)" />
-              <label for="nihil" class="pointer user-select-none mb-0 ml-1"> Nihil </label>
+              <input
+                class="pointer"
+                type="checkbox"
+                id="tempNihil"
+                [checked]="tempNihil"
+                [disabled]="nihil"
+                (change)="onChangeNihil($event)"
+              />
+              <label for="tempNihil" class="pointer user-select-none mb-0 ml-1"> Nihil </label>
             </div>
           </div>
           <div class="card-title ml-2">
-            <button type="button" class="btn btn-info btn-block" (click)="onSubmitNihil()">
-              <i class="fa fa-paper-plane"></i> Kirim
+            <button
+              type="button"
+              class="btn btn-block"
+              [class.btn-info]="!nihil"
+              [class.btn-secondary]="nihil"
+              [disabled]="nihil || !tempNihil"
+              (click)="!nihil ? onSubmitNihil() : null"
+            >
+              <i class="fa" [class.fa-paper-plane]="!nihil" [class.fa-check]="nihil"></i>
+              {{ nihil ? 'Terkirim' : 'Kirim' }}
             </button>
           </div>
+          <div class="card-title ml-2 mt-2" *ngIf="tanggalNihil">Tanggal Kirim : {{ tanggalNihil }}</div>
+        </ng-container>
+
+        <ng-container *ngIf="isP2pk && !listJadwal?.length && nihil">
+          <!-- <div class="card-title ml-2">
+            <button type="button" class="btn btn-block btn-info" (click)="onBukaAksesNihil()">
+              <i class="fa fa-paper-plane"></i>
+              Buka Akses
+            </button>
+          </div> -->
+          <div class="card-title ml-2 mt-2" *ngIf="tanggalNihil">Tanggal Kirim : {{ tanggalNihil }}</div>
         </ng-container>
 
         <div class="card-title ml-2 float-right" *ngIf="!isP2pk && drafts.length">

@@ -25,7 +25,9 @@ export class JadwalDetailComponent {
   public listJadwal: Array<any>
   public idperiode: String
   public isempty: boolean = true
-  public nihil: boolean = false
+  public tempNihil: boolean = true
+  public nihil: boolean = true
+  public tanggalNihil: string = ''
   public isP2pk: boolean = false
 
   dtOptions: DataTables.Settings = {}
@@ -102,6 +104,9 @@ export class JadwalDetailComponent {
                 periodeIds.push(x.id)
               })
               this.nihil = r.data?.[0]?.nihil || false
+              this.tempNihil = r.data?.[0]?.nihil || false
+              this.tanggalNihil = r.data?.[0]?.tanggalNihil ? r.data?.[0]?.tanggalNihil?.split('T')[0] : ''
+              this.idperiode = r.data?.[0]?.id || ''
               this.listJadwal = result.data.filter((jadwal) => periodeIds.indexOf(jadwal.periodeLaporanId) !== -1)
               if (this.listJadwal.length > 0) {
                 this.isempty = false
@@ -127,6 +132,8 @@ export class JadwalDetailComponent {
           (result: any) => {
             this.tahun = result.data.tahun
             this.nihil = result.data.nihil
+            this.tempNihil = result.data.nihil
+            this.tanggalNihil = result.data.tanggalNihil ? result.data.tanggalNihil.split('T')[0] : ''
           },
           (error) => {}
         )
@@ -210,15 +217,15 @@ export class JadwalDetailComponent {
   }
 
   onChangeNihil(event) {
-    this.nihil = event.target.checked
+    this.tempNihil = event.target.checked
   }
 
   onSubmitNihil() {
-    const CONFIRM_MSG = this.nihil
+    const CONFIRM_MSG = this.tempNihil
       ? 'Apakah Anda yakin ingin membuat periode ini Nihil?'
       : 'Apakah Anda yakin ingin membuat periode ini tidak Nihil?'
     if (confirm(CONFIRM_MSG)) {
-      const bodyreq = { id: this.idperiode, nihil: this.nihil }
+      const bodyreq = { id: this.idperiode, nihil: this.tempNihil }
       this.http
         .post(
           this.config.apiBaseUrl + 'api/PeriodePelaporan/nihil',
@@ -226,7 +233,25 @@ export class JadwalDetailComponent {
           this.api.generateHeaderWithParams(bodyreq)
         )
         .subscribe((data) => {
-          const SUCCESS_MSG = this.nihil ? 'Berhasil membuat periode Nihil' : 'Berhasil membuat periode tidak Nihil'
+          const SUCCESS_MSG = this.tempNihil ? 'Berhasil membuat periode Nihil' : 'Berhasil membuat periode tidak Nihil'
+          this.toastr.info(SUCCESS_MSG)
+          this.onLoadSamePage()
+          this.loadJadwal()
+        })
+    }
+  }
+
+  onBukaAksesNihil() {
+    if (confirm('Apakah anda yakin ingin Buka Akses?')) {
+      const bodyreq = { id: this.idperiode, nihil: false }
+      this.http
+        .post(
+          this.config.apiBaseUrl + 'api/PeriodePelaporan/nihil',
+          bodyreq,
+          this.api.generateHeaderWithParams(bodyreq)
+        )
+        .subscribe((data) => {
+          const SUCCESS_MSG = 'Berhasil membuat periode tidak Nihil'
           this.toastr.info(SUCCESS_MSG)
           this.onLoadSamePage()
           this.loadJadwal()
