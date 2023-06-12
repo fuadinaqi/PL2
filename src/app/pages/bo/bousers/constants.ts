@@ -559,7 +559,7 @@ export const TITLES: Record<string, TitleType> = {
       fn: formatStatus,
     },
     {
-      key: 'tanggalKirim',
+      key: 'tanggalKirimBO',
       label: 'Tanggal Kirim',
       type: 'date',
     },
