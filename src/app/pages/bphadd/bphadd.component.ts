@@ -198,6 +198,7 @@ export class BphaddComponent implements OnInit {
 
         this.bphForm.patchValue({
           pokokLelang: this.trans.pokokLelang,
+          lot: this.trans.nomorLot
         })
 
         this.alamatService.getAllProvinsi().subscribe((r: any) => {
@@ -240,7 +241,7 @@ export class BphaddComponent implements OnInit {
     let bodyreq = {
       id,
       transaksiLelangId: this.idtrans,
-      lot: parseInt(formValue.lot),
+      lot: Number(this.trans.nomorLot),
       letaktanahBangunanLong: formValue.letaktanahBangunanLong,
       letaktanahBangunanLat: formValue.letaktanahBangunanLat,
       statusHakAtasTanah: formValue.statusHakAtasTanah,
