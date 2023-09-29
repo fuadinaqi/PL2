@@ -85,6 +85,7 @@ import { CustomDropdownComponent } from '@components/custom-dropdown/custom-drop
 import { CurrencyMaskModule } from 'ng2-currency-mask'
 import { MonitoringComponent } from '@pages/monitoring/monitoring.component'
 import { TextUserComponent } from '@components/text-user/text-user.component'
+import { RecaptchaModule } from 'ng-recaptcha'
 
 registerLocaleData(localeEn, 'en-EN')
 
@@ -189,6 +190,7 @@ registerLocaleData(localeEn, 'en-EN')
     }),
     DataTablesModule,
     CurrencyMaskModule,
+    RecaptchaModule,
   ],
   providers: [
     {

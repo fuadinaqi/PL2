@@ -1,5 +1,6 @@
 {
   "apiBaseUrl": "http://10.242.227.196/",
   "apiBaseUrlStaging": "https://pelaporanpliiapi.azurewebsites.net/",
-  "apiContohKemenkeuTidakTerpakaiHanyaUntukLihatIPNya": "http://10.242.227.196/"
+  "apiContohKemenkeuTidakTerpakaiHanyaUntukLihatIPNya": "http://10.242.227.196/",
+  "recaptchaSiteKey": "6Lepc14oAAAAAJMdMCNrj9g5wH7zxEmpJ1kG2pwY"
 }

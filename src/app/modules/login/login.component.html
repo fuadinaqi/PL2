@@ -22,6 +22,7 @@
           </div>
         </div>
       </div>
+      <re-captcha (resolved)="resolved($event)" [siteKey]="appConfigService.recaptchaSiteKey"></re-captcha>
       <div class="row">
         <div class="col-7">
           <div class="icheck-primary">
@@ -35,7 +36,7 @@
             [type]="'submit'"
             [block]="true"
             [loading]="isAuthLoading"
-            [disabled]="isFacebookLoading || isGoogleLoading"
+            [disabled]="isAuthLoading || !isCaptchaReady"
           >
             Masuk
           </app-button>
@@ -45,17 +46,38 @@
     </form>
 
     <div class="social-auth-links text-center mb-3">
-      <app-button class="mb-1" [block]="true" [loading]="isAuthLoading" (click)="loginByPerizinan()" [icon]="'blank'">
+      <app-button
+        class="mb-1"
+        [block]="true"
+        [loading]="isAuthLoading"
+        [disabled]="isAuthLoading || !isCaptchaReady"
+        (click)="loginByPerizinan()"
+        [icon]="'blank'"
+      >
         Masuk Via Perizinan
       </app-button>
     </div>
     <div class="social-auth-links text-center mb-3">
-      <app-button class="mb-1" [block]="true" [loading]="isAuthLoading" (click)="loginByPelaksana()" [icon]="'blank'">
+      <app-button
+        class="mb-1"
+        [block]="true"
+        [loading]="isAuthLoading"
+        [disabled]="isAuthLoading || !isCaptchaReady"
+        (click)="loginByPelaksana()"
+        [icon]="'blank'"
+      >
         Masuk Sebagai PPPK
       </app-button>
     </div>
     <div class="social-auth-links text-center mb-3">
-      <app-button class="mb-1" [block]="true" [loading]="isAuthLoading" (click)="loginByKemenkeu()" [icon]="'blank'">
+      <app-button
+        class="mb-1"
+        [block]="true"
+        [loading]="isAuthLoading"
+        [disabled]="isAuthLoading || !isCaptchaReady"
+        (click)="loginByKemenkeu()"
+        [icon]="'blank'"
+      >
         Masuk Bo Testing
       </app-button>
     </div>

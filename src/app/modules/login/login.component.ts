@@ -2,6 +2,7 @@ import { Component, OnInit, OnDestroy, Renderer2, HostBinding } from '@angular/c
 import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms'
 import { ToastrService } from 'ngx-toastr'
 import { AuthService } from '@services/auth.service'
+import { AppConfigService } from '@/app-config.service'
 
 @Component({
   selector: 'app-login',
@@ -14,8 +15,14 @@ export class LoginComponent implements OnInit, OnDestroy {
   public isAuthLoading = false
   public isGoogleLoading = false
   public isFacebookLoading = false
+  public isCaptchaReady = false
 
-  constructor(private renderer: Renderer2, private toastr: ToastrService, private AuthService: AuthService) {}
+  constructor(
+    private renderer: Renderer2,
+    private toastr: ToastrService,
+    private AuthService: AuthService,
+    public appConfigService: AppConfigService
+  ) {}
 
   ngOnInit() {
     this.renderer.addClass(document.querySelector('app-root'), 'login-page')
@@ -23,6 +30,10 @@ export class LoginComponent implements OnInit, OnDestroy {
       email: new UntypedFormControl(null, Validators.required),
       password: new UntypedFormControl(null, Validators.required),
     })
+  }
+
+  resolved(captchaResponse: string) {
+    this.isCaptchaReady = true
   }
 
   async loginByAuth() {

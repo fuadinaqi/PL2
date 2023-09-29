@@ -24,4 +24,8 @@ export class AppConfigService {
   get apiBaseUrl(): string {
     return this.appConfig.apiBaseUrl
   }
+
+  get recaptchaSiteKey(): string {
+    return this.appConfig.recaptchaSiteKey
+  }
 }
